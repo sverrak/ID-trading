@@ -1,0 +1,1859 @@
+
+Gurobi 7.5.2 (mac64, Python) logging started Tue Jan 30 09:46:51 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 34 rows, 36 columns and 129 nonzeros
+Coefficient statistics:
+  Matrix range     [5e-02, 1e+02]
+  Objective range  [2e+00, 7e+00]
+  Bounds range     [5e+02, 3e+04]
+  RHS range        [8e+03, 4e+04]
+Presolve removed 18 rows and 14 columns
+Presolve time: 0.01s
+Presolved: 16 rows, 22 columns, 72 nonzeros
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+       0    1.1887574e+06   6.045565e+04   0.000000e+00      0s
+      14    2.1136513e+05   0.000000e+00   0.000000e+00      0s
+
+Solved in 14 iterations and 0.02 seconds
+Optimal objective  2.113651348e+05
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:16:24 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:17:32 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:17:39 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:23:00 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:24:16 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:25:06 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:25:35 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:27:33 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:28:28 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:38:04 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:38:37 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:39:07 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:40:22 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:41:56 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:42:19 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:54:09 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:58:08 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:58:20 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:59:41 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 10:59:56 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:00:55 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:01:53 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:02:20 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:03:00 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:03:39 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:03:49 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:04:27 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:05:04 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:16:20 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:17:16 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:17:45 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:18:18 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:19:09 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:19:47 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:19:56 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:20:17 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:29:11 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:29:52 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:30:13 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:31:41 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:31:57 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Wed Jan 31 11:32:15 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 10:55:18 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:03:05 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:04:31 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:04:58 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:06:58 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:07:07 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:09:33 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:10:07 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:10:26 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:10:41 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:10:47 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:14:14 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:14:31 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:15:01 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:16:10 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:16:46 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:17:00 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:17:28 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:26:38 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:27:13 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 11:29:30 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 13:41:03 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 13:42:00 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 13:43:04 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 13:45:14 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 13:46:32 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 355 rows, 657 columns and 2034 nonzeros
+Model has 144 quadratic objective terms
+Variable types: 459 continuous, 198 integer (198 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 8e+01]
+  Objective range  [0e+00, 0e+00]
+  QObjective range [2e+00, 2e+00]
+  Bounds range     [1e+00, 1e+02]
+  RHS range        [4e+01, 8e+01]
+Found heuristic solution: objective 0.0000000
+Presolve removed 355 rows and 657 columns
+Presolve time: 0.01s
+Presolve: All rows and columns removed
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 1: 0 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Warning: variables 47 and 157 have the same name "residual_volume_110"
+Warning: default variable names used to write solution file
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 13:48:40 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 13:49:25 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 13:49:41 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 13:50:05 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 355 rows, 657 columns and 2034 nonzeros
+Model has 144 quadratic objective terms
+Variable types: 459 continuous, 198 integer (198 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 8e+01]
+  Objective range  [0e+00, 0e+00]
+  QObjective range [2e+00, 2e+00]
+  Bounds range     [1e+00, 1e+02]
+  RHS range        [4e+01, 8e+01]
+Found heuristic solution: objective 0.0000000
+Presolve removed 355 rows and 657 columns
+Presolve time: 0.00s
+Presolve: All rows and columns removed
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 1: 0 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Warning: variables 47 and 157 have the same name "residual_volume_110"
+Warning: default variable names used to write solution file
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 13:50:45 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 16:16:23 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 16:16:48 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 355 rows, 657 columns and 2034 nonzeros
+Model has 144 quadratic objective terms
+Variable types: 459 continuous, 198 integer (198 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 8e+01]
+  Objective range  [0e+00, 0e+00]
+  QObjective range [2e+00, 2e+00]
+  Bounds range     [1e+00, 1e+02]
+  RHS range        [4e+01, 8e+01]
+Found heuristic solution: objective 0.0000000
+Presolve removed 355 rows and 657 columns
+Presolve time: 0.01s
+Presolve: All rows and columns removed
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 1: 0 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 0.000000000000e+00, best bound 0.000000000000e+00, gap 0.0000%
+Warning: variables 47 and 157 have the same name "residual_volume_110"
+Warning: default variable names used to write solution file
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 16:16:58 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 355 rows, 657 columns and 2034 nonzeros
+Model has 144 quadratic objective terms
+Variable types: 459 continuous, 198 integer (198 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 8e+01]
+  Objective range  [1e-02, 1e-02]
+  QObjective range [2e+00, 2e+00]
+  Bounds range     [1e+00, 1e+02]
+  RHS range        [4e+01, 8e+01]
+Found heuristic solution: objective 0.0000000
+Presolve removed 355 rows and 657 columns
+Presolve time: 0.00s
+Presolve: All rows and columns removed
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 2: -144 0 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective -1.440000000000e+02, best bound -1.440000000000e+02, gap 0.0000%
+Warning: variables 47 and 157 have the same name "residual_volume_110"
+Warning: default variable names used to write solution file
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 16:17:16 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 355 rows, 657 columns and 2034 nonzeros
+Model has 144 quadratic objective terms
+Variable types: 459 continuous, 198 integer (198 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 8e+01]
+  Objective range  [1e-02, 4e+01]
+  QObjective range [2e+00, 2e+00]
+  Bounds range     [1e+00, 1e+02]
+  RHS range        [4e+01, 8e+01]
+Found heuristic solution: objective -1400.000000
+Presolve removed 355 rows and 657 columns
+Presolve time: 0.00s
+Presolve: All rows and columns removed
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 2: -4144 -1400 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective -4.144000000000e+03, best bound -4.144000000000e+03, gap 0.0000%
+Warning: variables 47 and 157 have the same name "residual_volume_110"
+Warning: default variable names used to write solution file
+
+Gurobi 7.5.2 (mac64, Python) logging started Thu Feb  1 16:18:10 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 355 rows, 657 columns and 2034 nonzeros
+Model has 144 quadratic objective terms
+Variable types: 459 continuous, 198 integer (198 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 8e+01]
+  Objective range  [1e-02, 1e+04]
+  QObjective range [2e+00, 2e+00]
+  Bounds range     [1e+00, 1e+02]
+  RHS range        [4e+01, 8e+01]
+Found heuristic solution: objective -1400.000000
+Presolve removed 355 rows and 369 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 1: -1400 
+
+Best objective -1.400000000000e+03, best bound -, gap -
+
+Gurobi 7.5.2 (mac64, Python) logging started Fri Feb  2 12:23:18 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 355 rows, 657 columns and 2034 nonzeros
+Model has 144 quadratic objective terms
+Variable types: 459 continuous, 198 integer (198 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 8e+01]
+  Objective range  [1e-02, 1e+04]
+  QObjective range [2e+00, 2e+00]
+  Bounds range     [1e+00, 1e+02]
+  RHS range        [4e+01, 8e+01]
+Found heuristic solution: objective -1400.000000
+Presolve removed 355 rows and 369 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.02 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 1: -1400 
+
+Best objective -1.400000000000e+03, best bound -, gap -
+
+Gurobi 7.5.2 (mac64, Python) logging started Fri Feb  2 12:27:15 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 367 rows, 657 columns and 2190 nonzeros
+Model has 144 quadratic objective terms
+Variable types: 459 continuous, 198 integer (198 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 8e+01]
+  Objective range  [1e-02, 1e+04]
+  QObjective range [2e+00, 2e+00]
+  Bounds range     [1e+00, 1e+02]
+  RHS range        [4e+01, 8e+01]
+Found heuristic solution: objective -1400.000000
+Presolve removed 367 rows and 369 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 1: -1400 
+
+Best objective -1.400000000000e+03, best bound -, gap -
+
+Gurobi 7.5.2 (mac64, Python) logging started Fri Feb  2 12:43:34 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 367 rows, 513 columns and 1110 nonzeros
+Variable types: 315 continuous, 198 integer (198 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 8e+01]
+  Objective range  [1e+00, 1e+04]
+  Bounds range     [1e+00, 1e+02]
+  RHS range        [1e+00, 2e+02]
+Found heuristic solution: objective 1.440000e+32
+Presolve removed 66 rows and 12 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 1: 1.44e+32 
+No other solutions better than 0
+
+Model is unbounded
+Best objective 1.440000000000e+32, best bound -, gap -
+Warning: variables 47 and 157 have the same name "residual_volume_110"
+Warning: default variable names used to write solution file
+
+Gurobi 7.5.2 (mac64, Python) logging started Sat Feb  3 13:57:47 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 367 rows, 513 columns and 1110 nonzeros
+Variable types: 315 continuous, 198 integer (198 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 8e+01]
+  Objective range  [1e+00, 1e+04]
+  Bounds range     [1e+00, 1e+02]
+  RHS range        [1e+00, 2e+02]
+Found heuristic solution: objective 1.440000e+32
+Presolve removed 66 rows and 12 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 1: 1.44e+32 
+No other solutions better than 0
+
+Model is unbounded
+Best objective 1.440000000000e+32, best bound -, gap -
+Warning: variables 47 and 157 have the same name "residual_volume_110"
+Warning: default variable names used to write solution file
+
+Gurobi 7.5.2 (mac64, Python) logging started Sat Feb  3 14:02:17 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 367 rows, 513 columns and 1110 nonzeros
+Variable types: 315 continuous, 198 integer (198 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 8e+01]
+  Objective range  [1e+00, 1e+04]
+  Bounds range     [1e+00, 1e+02]
+  RHS range        [1e+00, 2e+02]
+Found heuristic solution: objective 1.440000e+32
+Presolve removed 66 rows and 12 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 1: 1.44e+32 
+No other solutions better than 0
+
+Model is unbounded
+Best objective 1.440000000000e+32, best bound -, gap -
+
+Gurobi 7.5.2 (mac64, Python) logging started Sun Feb 11 21:58:50 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 367 rows, 513 columns and 1110 nonzeros
+Variable types: 315 continuous, 198 integer (198 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 8e+01]
+  Objective range  [1e+00, 1e+04]
+  Bounds range     [1e+00, 1e+02]
+  RHS range        [1e+00, 2e+02]
+Found heuristic solution: objective 1.440000e+32
+Presolve removed 66 rows and 12 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 1: 1.44e+32 
+No other solutions better than 0
+
+Model is unbounded
+Best objective 1.440000000000e+32, best bound -, gap -
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 13:46:07 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 13:46:17 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 13:46:28 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 13:46:34 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 13:59:58 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:00:03 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:00:20 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:15:48 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:16:16 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:17:42 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:17:50 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:18:53 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:19:23 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:20:10 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:30:46 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:31:52 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:32:37 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:32:51 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:32:52 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:33:17 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:34:02 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:34:45 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:34:54 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:35:00 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:35:11 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:35:30 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:36:28 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:37:06 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:37:07 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:37:27 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:37:40 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:37:41 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:37:50 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:37:51 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:38:16 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:38:17 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:38:23 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:38:29 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:38:33 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:38:44 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:39:00 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:39:19 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:39:32 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:39:34 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:40:07 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:40:25 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:41:19 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:41:23 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:41:38 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:41:57 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:42:12 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:43:11 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:44:12 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:46:23 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:46:32 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:47:52 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:48:45 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:49:17 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:50:13 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:50:25 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:50:36 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:50:59 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:51:21 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:51:31 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:51:42 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:51:56 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:53:43 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:54:12 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:55:32 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:56:09 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:56:27 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:58:11 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:58:39 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:58:39 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:58:40 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:58:40 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:58:41 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 14:59:50 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 15:00:06 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 15:01:30 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 15:01:31 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 15:02:23 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 15:02:32 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 15:03:25 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 15:06:53 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 15:07:02 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 15:14:04 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 15:14:13 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 15:24:50 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 15:26:39 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:22:49 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:50:56 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:51:41 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:51:43 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:53:01 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 28 rows, 62 columns and 76 nonzeros
+Model has 16 quadratic constraints
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [0e+00, 0e+00]
+Presolve removed 28 rows and 62 columns
+Presolve time: 0.01s
+Presolve: All rows and columns removed
+
+Barrier solved model in 0 iterations and 0.01 seconds
+Optimal objective -0.00000000e+00
+Warning: variables 10 and 11 have the same name "production_quantity"
+Warning: default variable names used to write solution file
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:54:23 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:54:33 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:55:39 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:56:07 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 28 rows, 62 columns and 76 nonzeros
+Model has 16 quadratic constraints
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [0e+00, 0e+00]
+Presolve removed 28 rows and 62 columns
+Presolve time: 0.01s
+Presolve: All rows and columns removed
+
+Barrier solved model in 0 iterations and 0.01 seconds
+Optimal objective -0.00000000e+00
+Warning: variables 10 and 11 have the same name "production_quantity"
+Warning: default variable names used to write solution file
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:57:10 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 28 rows, 62 columns and 76 nonzeros
+Model has 16 quadratic constraints
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [0e+00, 0e+00]
+Presolve removed 28 rows and 62 columns
+Presolve time: 0.01s
+Presolve: All rows and columns removed
+
+Barrier solved model in 0 iterations and 0.01 seconds
+Optimal objective -0.00000000e+00
+Warning: variables 10 and 11 have the same name "production_quantity"
+Warning: default variable names used to write solution file
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:57:22 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 28 rows, 62 columns and 76 nonzeros
+Model has 16 quadratic constraints
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [0e+00, 0e+00]
+Presolve removed 28 rows and 62 columns
+Presolve time: 0.00s
+Presolve: All rows and columns removed
+
+Barrier solved model in 0 iterations and 0.00 seconds
+Optimal objective -0.00000000e+00
+Warning: variables 10 and 11 have the same name "production_quantity"
+Warning: default variable names used to write solution file
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:58:23 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:58:48 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 28 rows, 62 columns and 76 nonzeros
+Model has 16 quadratic constraints
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [0e+00, 0e+00]
+Presolve removed 28 rows and 62 columns
+Presolve time: 0.01s
+Presolve: All rows and columns removed
+
+Barrier solved model in 0 iterations and 0.01 seconds
+Optimal objective -0.00000000e+00
+Warning: variables 14 and 18 have the same name "p_c_0_0"
+Warning: default variable names used to write solution file
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:59:07 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 28 rows, 62 columns and 76 nonzeros
+Model has 16 quadratic constraints
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [0e+00, 0e+00]
+Presolve removed 28 rows and 62 columns
+Presolve time: 0.00s
+Presolve: All rows and columns removed
+
+Barrier solved model in 0 iterations and 0.00 seconds
+Optimal objective -0.00000000e+00
+Warning: variables 30 and 34 have the same name "v_c_0_0"
+Warning: default variable names used to write solution file
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 17:59:19 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 28 rows, 62 columns and 76 nonzeros
+Model has 16 quadratic constraints
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [0e+00, 0e+00]
+Presolve removed 28 rows and 62 columns
+Presolve time: 0.00s
+Presolve: All rows and columns removed
+
+Barrier solved model in 0 iterations and 0.00 seconds
+Optimal objective -0.00000000e+00
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:03:43 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 36 rows, 62 columns and 76 nonzeros
+Model has 16 quadratic constraints
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [1e+00, 1e+00]
+Presolve time: 0.01s
+
+Barrier solved model in 0 iterations and 0.01 seconds
+Model is infeasible or unbounded
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:05:16 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:05:21 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:05:35 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 36 rows, 62 columns and 76 nonzeros
+Model has 16 quadratic constraints
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [1e+00, 1e+00]
+Presolve time: 0.00s
+
+Barrier solved model in 0 iterations and 0.00 seconds
+Model is infeasible or unbounded
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:07:04 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 36 rows, 62 columns and 60 nonzeros
+Model has 16 quadratic constraints
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [1e+00, 5e+01]
+Presolve time: 0.00s
+
+Barrier solved model in 0 iterations and 0.00 seconds
+Model is infeasible or unbounded
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:09:14 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:09:25 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 44 rows, 62 columns and 68 nonzeros
+Model has 16 quadratic constraints
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [1e+00, 5e+01]
+Presolve time: 0.00s
+
+Barrier solved model in 0 iterations and 0.00 seconds
+Model is infeasible or unbounded
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:09:47 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 44 rows, 62 columns and 68 nonzeros
+Model has 16 quadratic constraints
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [1e+00, 5e+01]
+Presolve time: 0.00s
+
+Barrier solved model in 0 iterations and 0.00 seconds
+Model is infeasible or unbounded
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:14:24 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:14:50 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:15:44 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:15:50 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:16:17 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:17:02 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:17:04 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:17:11 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:17:12 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:17:42 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:19:11 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:19:43 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:20:03 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:20:23 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:20:36 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:20:46 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:23:21 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:23:58 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:24:06 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:24:22 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 44 rows, 86 columns and 92 nonzeros
+Model has 16 quadratic constraints
+Variable types: 62 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [1e+00, 4e+00]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 40 rows and 54 columns
+Presolve time: 0.01s
+Presolved: 20 rows, 32 columns, 48 nonzeros
+Variable types: 32 continuous, 0 integer (0 binary)
+Found heuristic solution: objective 170.0000000
+
+Explored 1 nodes (0 simplex iterations) in 0.02 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 170 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.700000000000e+02, best bound 1.700000000000e+02, gap 0.0000%
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:26:40 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:27:28 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:27:36 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:27:48 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:27:57 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:28:21 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:28:22 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:28:40 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:29:16 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:29:23 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:29:33 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 44 rows, 86 columns and 92 nonzeros
+Model has 16 quadratic constraints
+Variable types: 62 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 40 rows and 50 columns
+Presolve time: 0.01s
+Presolved: 20 rows, 36 columns, 52 nonzeros
+Variable types: 36 continuous, 0 integer (0 binary)
+
+Root relaxation: objective 1.700000e+03, 4 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+*    0     0               0    1700.0000000 1700.00000  0.00%     -    0s
+
+Explored 0 nodes (4 simplex iterations) in 0.03 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 1700 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.700000000000e+03, best bound 1.700000000000e+03, gap 0.0000%
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:30:31 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 44 rows, 86 columns and 116 nonzeros
+Model has 16 quadratic constraints
+Variable types: 62 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 20 rows and 34 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:32:50 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 38 rows, 86 columns and 92 nonzeros
+Model has 16 quadratic constraints
+Variable types: 62 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 17 rows and 34 columns
+Presolve time: 0.01s
+
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:33:10 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 38 rows, 86 columns and 92 nonzeros
+Model has 16 quadratic constraints
+Variable types: 62 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 17 rows and 34 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:33:30 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 38 rows, 86 columns and 92 nonzeros
+Model has 16 quadratic constraints
+Variable types: 62 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 17 rows and 34 columns
+Presolve time: 0.00s
+
+Explored 0 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 1 (of 4 available processors)
+
+Solution count 0
+
+Model is infeasible or unbounded
+Best objective -, best bound -, gap -
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:33:51 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 38 rows, 86 columns and 92 nonzeros
+Model has 16 quadratic constraints
+Variable types: 62 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 37 rows and 54 columns
+Presolve time: 0.01s
+Presolved: 17 rows, 32 columns, 48 nonzeros
+Variable types: 32 continuous, 0 integer (0 binary)
+Found heuristic solution: objective 500.0000000
+
+Explored 1 nodes (0 simplex iterations) in 0.04 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 500 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 5.000000000000e+02, best bound 5.000000000000e+02, gap 0.0000%
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:35:39 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 44 rows, 86 columns and 92 nonzeros
+Model has 16 quadratic constraints
+Variable types: 62 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 40 rows and 54 columns
+Presolve time: 0.02s
+Presolved: 20 rows, 32 columns, 48 nonzeros
+Variable types: 32 continuous, 0 integer (0 binary)
+Found heuristic solution: objective 1700.0000000
+
+Explored 1 nodes (0 simplex iterations) in 0.04 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 1700 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.700000000000e+03, best bound 1.700000000000e+03, gap 0.0000%
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:39:35 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:39:57 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:40:05 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:40:19 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:42:09 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:43:04 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:43:23 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 52 rows, 92 columns and 116 nonzeros
+Model has 16 quadratic constraints
+Variable types: 68 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 4e+01]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 2e-01]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 48 rows and 60 columns
+Presolve time: 0.01s
+Presolved: 20 rows, 32 columns, 48 nonzeros
+Variable types: 32 continuous, 0 integer (0 binary)
+Found heuristic solution: objective 1700.0000000
+
+Explored 1 nodes (0 simplex iterations) in 0.03 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 1700 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.700000000000e+03, best bound 1.700000000000e+03, gap 0.0000%
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:46:52 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:47:03 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:47:14 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:47:22 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:47:45 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:48:31 2018
+
+Academic license - for non-commercial use only
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:48:47 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 52 rows, 92 columns and 116 nonzeros
+Model has 16 quadratic constraints
+Variable types: 68 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 4e+01]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 9e+00]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 48 rows and 60 columns
+Presolve time: 0.01s
+Presolved: 20 rows, 32 columns, 48 nonzeros
+Variable types: 32 continuous, 0 integer (0 binary)
+Found heuristic solution: objective 300.0000000
+
+Explored 1 nodes (0 simplex iterations) in 0.02 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 300 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.000000000000e+02, best bound 3.000000000000e+02, gap 0.0000%
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:51:05 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 52 rows, 92 columns and 116 nonzeros
+Model has 16 quadratic constraints
+Variable types: 68 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 4e+01]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 9e+00]
+  Bounds range     [1e+00, 3e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 48 rows and 60 columns
+Presolve time: 0.01s
+Presolved: 20 rows, 32 columns, 48 nonzeros
+Variable types: 32 continuous, 0 integer (0 binary)
+Found heuristic solution: objective 225.0000000
+
+Explored 1 nodes (0 simplex iterations) in 0.03 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 225 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.250000000000e+02, best bound 2.250000000000e+02, gap 0.0000%
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:51:32 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 52 rows, 92 columns and 116 nonzeros
+Model has 16 quadratic constraints
+Variable types: 68 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 4e+01]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 9e+00]
+  Bounds range     [1e+00, 2e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 48 rows and 60 columns
+Presolve time: 0.00s
+Presolved: 20 rows, 32 columns, 48 nonzeros
+Variable types: 32 continuous, 0 integer (0 binary)
+Found heuristic solution: objective 150.0000000
+
+Explored 1 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 150 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.500000000000e+02, best bound 1.500000000000e+02, gap 0.0000%
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:51:39 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 52 rows, 92 columns and 116 nonzeros
+Model has 16 quadratic constraints
+Variable types: 68 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 4e+01]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 9e+00]
+  Bounds range     [1e+00, 2e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 48 rows and 60 columns
+Presolve time: 0.00s
+Presolved: 20 rows, 32 columns, 48 nonzeros
+Variable types: 32 continuous, 0 integer (0 binary)
+Found heuristic solution: objective 142.5000000
+
+Explored 1 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 142.5 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.425000000000e+02, best bound 1.425000000000e+02, gap 0.0000%
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:51:49 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 52 rows, 92 columns and 116 nonzeros
+Model has 16 quadratic constraints
+Variable types: 68 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 4e+01]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 9e+00]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 48 rows and 60 columns
+Presolve time: 0.00s
+Presolved: 20 rows, 32 columns, 48 nonzeros
+Variable types: 32 continuous, 0 integer (0 binary)
+Found heuristic solution: objective 300.0000000
+
+Explored 1 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 300 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.000000000000e+02, best bound 3.000000000000e+02, gap 0.0000%
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:53:18 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 52 rows, 92 columns and 116 nonzeros
+Model has 16 quadratic constraints
+Variable types: 68 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 4e+01]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 1e+01]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 48 rows and 60 columns
+Presolve time: 0.02s
+Presolved: 20 rows, 32 columns, 48 nonzeros
+Variable types: 32 continuous, 0 integer (0 binary)
+Found heuristic solution: objective -0.0000000
+
+Explored 1 nodes (0 simplex iterations) in 0.04 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: -0 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective -0.000000000000e+00, best bound -0.000000000000e+00, gap 0.0000%
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:54:24 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 52 rows, 92 columns and 116 nonzeros
+Model has 16 quadratic constraints
+Variable types: 68 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 4e+01]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 1e+01]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 48 rows and 60 columns
+Presolve time: 0.00s
+Presolved: 20 rows, 32 columns, 48 nonzeros
+Variable types: 32 continuous, 0 integer (0 binary)
+Found heuristic solution: objective 10.0000000
+
+Explored 1 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 10 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.000000000000e+01, best bound 1.000000000000e+01, gap 0.0000%
+
+Gurobi 7.5.2 (mac64, Python) logging started Mon Feb 12 18:54:38 2018
+
+Academic license - for non-commercial use only
+Optimize a model with 52 rows, 92 columns and 116 nonzeros
+Model has 16 quadratic constraints
+Variable types: 68 continuous, 24 integer (24 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 4e+01]
+  QMatrix range    [1e+00, 1e+00]
+  QLMatrix range   [1e+00, 1e+00]
+  Objective range  [2e-01, 1e+01]
+  Bounds range     [1e+00, 4e+01]
+  RHS range        [1e+00, 5e+01]
+Presolve removed 48 rows and 60 columns
+Presolve time: 0.00s
+Presolved: 20 rows, 32 columns, 48 nonzeros
+Variable types: 32 continuous, 0 integer (0 binary)
+Found heuristic solution: objective 70.0000000
+
+Explored 1 nodes (0 simplex iterations) in 0.00 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 70 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 7.000000000000e+01, best bound 7.000000000000e+01, gap 0.0000%
