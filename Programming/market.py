@@ -19,7 +19,7 @@ print_output 					= True
 default_parameters 				= False
 start_time 						= time.time()
 folder 							= "Data/"
-bid_file_tag 					= "dp12d1"
+bid_ie_tag 					= "dp12d1"
 customer_bid_file_tag 			= "dp12d1cc"
 	
 time_lag 						= 0.0

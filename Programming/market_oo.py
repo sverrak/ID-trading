@@ -17,7 +17,7 @@ import xlsxwriter
 class Market(object):
 
 	"""docstring for Market"""
-	def __init__(self, dp, bid_file_tag, customer_bid_file_tag, write_transactions_to_file=False, printing_mode=False):
+	def __init__(self, dp, bid_file_tag, customer_bid_file_tag, write_transactions_to_file=False, printing_mode=False, stages=136):
 		super(Market, self).__init__()
 		print("Got hre")
 		self.delivery_product 			= dp
@@ -37,11 +37,8 @@ class Market(object):
 		#self.customer_bid_file_tag 			= "dp12d1cc"
 			
 		self.time_lag 						= 0.0
-		self.length_of_timestep 			= 10 						# Number of minutes per timestep
 
 		# Documentation parameters
-		
-		
 		self.transaction_file_name 			= "transactions" + bid_file_tag + ".xlsx"
 
 
@@ -71,6 +68,12 @@ class Market(object):
 			# Trading window parameters
 			self.trading_start_time 		= self.delivery_product - datetime.timedelta(days=1) + datetime.timedelta(hours=13) - datetime.timedelta(hours=self.delivery_product.hour, minutes=self.delivery_product.minute)
 			self.trading_end_time 			= self.delivery_product - datetime.timedelta(minutes=self.time_from_gc_to_d)
+
+			if(stages == 136):
+				self.length_of_timestep 	= 10 						# Number of minutes per timestep
+			else:
+				self.length_of_timestep		= datetime.timedelta(self.trading_end_time, self.trading_start_time) / stages
+
 
 		# Data structure initialization
 		self.data = [] 										# All bids in /filename

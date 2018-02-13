@@ -1,5 +1,5 @@
 # Status: 
-# Description: Initial implementation of the hydropower producer's trading problem
+# Description: Initial implementation of the multiasset hydropower producer's trading problem
  
 ### ----------- External Packages -----------
 from gurobipy import *
@@ -12,7 +12,7 @@ model = Model('hydro')
 ### ----------- System Parameters -----------
 print_output = True
 default_parameters = True
-parameter_file = "Data/hydro_parameters.txt"
+parameter_file = "Data/hydro_multiasset_parameters.txt"
 
 
 ### ----------- Model Parameters -----------
@@ -28,8 +28,9 @@ if (default_parameters == True):
   	index_of_scenario_probabilities = [3,6]
   	index_of_scenarios = [index_of_scenario_probabilities[i]+1 for i in range(len(index_of_scenario_probabilities))]
   	index_of_transaction_costs = 9
-  	index_of_production_costs = 10
-  	index_of_cpr = 11
+  	index_of_cpr = 10
+  	index_of_production_quantities = 12
+  	index_of_production_costs = 13
   	
   
   	# Parameters to be set in input file
@@ -52,6 +53,8 @@ def read_parameters(parameter_file):
 	# File handling
 	with open(parameter_file) as f:
 	    data = f.readlines()
+
+	print("hello",data[index_of_q_bounds])
 	#print(list(data[index_of_q_bounds].strip().split("\t")))
 	volume_options = [float(i) for i in data[index_of_actions].strip().split("\t")]
 	q_array = (list(data[index_of_q_bounds].strip().split("\t")))
@@ -61,18 +64,26 @@ def read_parameters(parameter_file):
 		scenario_probabilities.append([float(i) for i in data[index_of_scenario_probabilities[t]].split()])
 		scenarios.append([float(i) for i in data[index_of_scenarios[t]].split("\t")])
 	transaction_cost = float(data[index_of_transaction_costs])
-	production_cost = float(data[index_of_production_costs])
+	#print(data[index_of_production_costs])
+	
+	production_cost = [float(i) for i in data[index_of_production_costs].strip().split("\t")]
+	production_capacities = [float(i) for i in data[index_of_production_quantities].strip().split("\t")]
 	cpr = float(data[index_of_cpr])
 
 	#print(scenarios)
 	print("Time: " + str(int(10*time.time()-10*start)/10) + " seconds")
 
-	return volume_options, min_q, max_q, scenario_probabilities, scenarios, transaction_cost, production_cost, cpr
+	return volume_options, min_q, max_q, scenario_probabilities, scenarios, transaction_cost, production_cost, production_capacities, cpr
 
-volume_options, min_q, max_q, scenario_probabilities, scenarios, transaction_cost, production_cost, cpr = (read_parameters(parameter_file))
+volume_options, min_q, max_q, scenario_probabilities, scenarios, transaction_cost, production_cost, production_capacities, cpr = (read_parameters(parameter_file))
 
 ### ----------- Datastructures -----------
-
+print("Capacity")
+print(production_capacities)
+print("Production cost")
+print(production_cost)
+print("Maxq")
+print(max_q)
 
 ### ----------- Variables -----------
 bid_volume = [[0 for j in range(number_of_trading_stages)] for i in range(len(scenario_probabilities[1]))]
@@ -82,53 +93,54 @@ transaction_prices = [[[0 for k in range(number_of_trading_stages)] for j in ran
 transaction_volumes = [[[0 for k in range(number_of_trading_stages)] for j in range(number_of_trading_stages)] for i in range(len(scenario_probabilities[1]))]    # Total transaction volume
 transaction_profits = [[[0 for k in range(number_of_trading_stages)] for j in range(number_of_trading_stages)] for i in range(len(scenario_probabilities[1]))]    # Total transaction volume
 
-production_quantities = [model.addVar(vtype=GRB.CONTINUOUS,lb=min_q,ub=max_q, name="production_quantity_"+str(s)) for s in range(len(scenario_probabilities[1]))]    # Production quantity
-
+production_quantities = [[model.addVar(vtype=GRB.CONTINUOUS,lb=min_q,ub=max_q, name="production_quantity_"+str(s)+"_"+str(j)) for j in range(len(production_capacities))] for s in range(len(scenario_probabilities[1]))]    # Production quantity
 
 for s in range(len(scenario_probabilities[1])):
 	for i in range(number_of_trading_stages):
-		bid_volume[s][i] = model.addVar(vtype=GRB.CONTINUOUS,                              # Transaction price
+		bid_volume[s][i] = model.addVar(vtype=GRB.CONTINUOUS,                              					# Transaction price
 	                                    name=str("b_v_"+str(str(s)+"_"+str(i))))
 
 for s in range(len(scenario_probabilities[1])):
 	for i in range(number_of_trading_stages):
 		for j in range(len(volume_options)):
-			bid_option_decision[s][i][j] = model.addVar(vtype=GRB.BINARY,                              # Transaction price
+			bid_option_decision[s][i][j] = model.addVar(vtype=GRB.BINARY,      	                        	# Transaction price
                         name=str("delta_b_"+str(str(s)+"_"+str(i)+"_"+str(j))))
 
 for s in range(len(scenario_probabilities[1])):
 	for i in range(number_of_trading_stages):
 		for j in range(number_of_trading_stages):
-			transaction_prices[s][i][j] = model.addVar(vtype=GRB.CONTINUOUS,                              # Transaction price
+			transaction_prices[s][i][j] = model.addVar(vtype=GRB.CONTINUOUS,		                        # Transaction price
 	                                    name=str("p_c_"+str(str(s)+"_"+str(i)+"_"+str(j))))
 
 for s in range(len(scenario_probabilities[1])):
 	for i in range(number_of_trading_stages):
 		for j in range(number_of_trading_stages):
-			transaction_volumes[s][i][j] = model.addVar(vtype=GRB.CONTINUOUS,                              # Transaction price
+			transaction_volumes[s][i][j] = model.addVar(vtype=GRB.CONTINUOUS,			                    # Transaction price
 	                                    name=str("v_c_"+str(str(s)+"_"+str(i)+"_"+str(j))))
 
 for s in range(len(scenario_probabilities[1])):
 	for i in range(number_of_trading_stages):
 		for j in range(number_of_trading_stages):
-			transaction_profits[s][i][j] = model.addVar(vtype=GRB.CONTINUOUS,                              # Transaction price
+			transaction_profits[s][i][j] = model.addVar(vtype=GRB.CONTINUOUS,          	                    # Transaction price
 	                                    name=str("pi_c_"+str(str(s)+"_"+str(i)+"_"+str(j))))
 
 
 ### ----------- Constraints -----------
 #model.addConstr(sum(sum(x) for x in v_c) 
 #                  + v_bm_neg - v_bm_pos - q == -v_da, "sold_equals_generated")
+print(production_quantities[0][0])
+print(transaction_volumes[0][0][0])
 for s in range(len(scenario_probabilities[1])):
-	model.addConstr((production_quantities[s] - sum(transaction_volumes[s][i][j] for j in range(number_of_trading_stages) for i in range(number_of_trading_stages)) == 0), "q=v_c_"+str(s))
+	model.addConstr((sum(production_quantities[s][x] for x in range(len(production_quantities[s]))) - sum(transaction_volumes[s][i][j] for j in range(number_of_trading_stages) for i in range(number_of_trading_stages)) == 0), "q=v_c_"+str(s))
 
 for s in range(len(scenario_probabilities[1])):
 	for i in range(number_of_trading_stages):
-		model.addConstr((sum(transaction_volumes[s][i][j] for j in range(number_of_trading_stages)) <= bid_volume[s][i]), "v_c<=b_v " + str(s) +" "+ str(i))
+		model.addConstr((sum(transaction_volumes[s][i][j] for j in range(number_of_trading_stages)) <= bid_volume[s][i]), "v_c<=b_v " + str(i))
 
 for s in range(len(scenario_probabilities[1])):
 	for i in range(number_of_trading_stages):
 		#print(sum(bid_option_decision[s][i] for j in range(len(volume_options))))
-		model.addConstr((sum(bid_option_decision[s][i][j] for j in range(len(volume_options))) == 1), "bid_option_choose_one"+str(s)+" "+str(i))
+		model.addConstr((sum(bid_option_decision[s][i][j] for j in range(len(volume_options))) == 1), "bid_option_choose_one")
 
 for s in range(len(scenario_probabilities[1])):
 	for i in range(number_of_trading_stages):
@@ -148,9 +160,16 @@ for s in range(len(scenario_probabilities[1])):
 	model.addConstr(sum(production_quantities[s]) <= max_q, "max_q")
 	model.addConstr(sum(production_quantities[s]) >= min_q, "max_q")
 
+for s in range(len(scenario_probabilities[1])):
+	for i in range(len(production_capacities)):
+		print(s,i,production_capacities[i])
+		model.addConstr((production_quantities[s][i]) <= production_capacities[i], "production_capacities")
+
+
 ### ----------- Objective Function -----------
 
-model.setObjective((sum(scenario_probabilities[1][s]*transaction_profits[s][i][j] for j in range(number_of_trading_stages) for i in range(number_of_trading_stages) for s in range(len(scenario_probabilities[1]))) - (production_cost * sum(scenario_probabilities[1][s] * production_quantities[s] for s in range(len(scenario_probabilities[1]))))), GRB.MAXIMIZE)
+#model.setObjective((sum(scenario_probabilities[1][s]*transaction_profits[s][i][j] for j in range(number_of_trading_stages) for i in range(number_of_trading_stages) for s in range(len(scenario_probabilities[1]))) - (production_cost[x] * sum(scenario_probabilities[1][s] * production_quantities[s][x] for s in range(len(scenario_probabilities[1]))) for x in range(len(production_cost)))), GRB.MAXIMIZE)
+model.setObjective((sum(scenario_probabilities[1][s]*transaction_profits[s][i][j] for j in range(number_of_trading_stages) for i in range(number_of_trading_stages) for s in range(len(scenario_probabilities[1]))) - sum(production_cost[x]*scenario_probabilities[1][s] * production_quantities[s][x] for x in range(len(production_cost)) for s in range(len(scenario_probabilities[1])))), GRB.MAXIMIZE)
 
 
 ### ----------- Optimization -----------
