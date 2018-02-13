@@ -123,7 +123,7 @@ for s in range(len(scenario_probabilities[1])):
 
 for s in range(len(scenario_probabilities[1])):
 	for i in range(number_of_trading_stages):
-		model.addConstr((sum(transaction_volumes[s][i][j] for j in range(number_of_trading_stages)) <= bid_volume[s][i]), "v_c<=b_v " + str(s) +" "+ str(i))
+		model.addConstr((transaction_volumes[s][i][i]) == bid_volume[s][i]), "v_c<=b_v " + str(s) +" "+ str(i))
 
 for s in range(len(scenario_probabilities[1])):
 	for i in range(number_of_trading_stages):
@@ -147,6 +147,11 @@ for s in range(len(scenario_probabilities[1])):
 for s in range(len(scenario_probabilities[1])):
 	model.addConstr(sum(production_quantities[s]) <= max_q, "max_q")
 	model.addConstr(sum(production_quantities[s]) >= min_q, "max_q")
+
+print("**********************" for j in range(0,1+1))
+for s in range(len(scenario_probabilities[1])):
+	for i in range(number_of_trading_stages):
+		model.addConstr(sum(transaction_volumes[s][i][j] for j in range(0, i)) == 0, "no_transaction_before_placement")
 
 ### ----------- Objective Function -----------
 
