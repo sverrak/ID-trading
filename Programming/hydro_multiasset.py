@@ -59,11 +59,7 @@ def read_parameters(parameter_file):
 	volume_options = [float(i) for i in data[index_of_actions].strip().split("\t")]
 	q_array = (list(data[index_of_q_bounds].strip().split("\t")))
 	min_q, max_q = float(q_array[0]), float(q_array[1])
-	for t in range(len(index_of_scenario_probabilities)):
-		#print(data[index_of_scenarios[t]].split("\t"))
-		scenario_probabilities.append([float(i) for i in data[index_of_scenario_probabilities[t]].split()])
-		scenarios.append([float(i) for i in data[index_of_scenarios[t]].split("\t")])
-
+	
 	scenarios[0] = [scenarios[0][0] for i in range(len(scenarios[1]))]
 	transaction_cost = float(data[index_of_transaction_costs])
 	#print(data[index_of_production_costs])
@@ -205,7 +201,7 @@ for v in model.getVars():
     
     print("%s %f" % (v.Varname, v.X))
 
-model.write("Output/hydro_output.sol")
+model.write("Output/hydro_multiasset_output.sol")
 
 ### ----------- Support Functions -----------
 
