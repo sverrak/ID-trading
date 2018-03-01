@@ -352,6 +352,10 @@ class Market(object):
 
 			time.sleep(self.time_lag)
 
+			# ****** YOUR CODE HERE ******
+			
+			# ****** YOUR CODE HERE ******
+
 	def get_customer_transactions(self):
 		customer_transactions = []
 		for t in self.transactions:

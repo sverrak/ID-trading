@@ -42,7 +42,7 @@ class Gurobi_Runner(object):
 			tts 		= [i for i in range(2, int(20*x), 6)][::-1]
 		else:
 			dps 		= [5]
-			ss 			= [10]
+			ss 			= [100]
 			pus 		= [3]
 			tts 		= [3]
 

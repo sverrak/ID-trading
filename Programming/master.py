@@ -38,17 +38,15 @@ def learn_strategy(mode=None):
 
 # Call market
 def evaluate_strategy(strategy, mode=None):
-	print("Got here")
 	for dp in dp_timeslots:
 		# Run a market sequence with all the bids of the corresponding dp
-		strdp = str(dp) if dp>9 else "0"+str(dp)
-		bid_file_tag = "dp" + strdp + "d1"
-		customer_bid_file_tag = "dp" + strdp + "d1cc"
-		delivery_product = initiate_dps([dp])[0]
-		market = Market(delivery_product, bid_file_tag, customer_bid_file_tag, printing_mode=True)
-		print(market)
+		strdp 					= str(dp) if dp>9 else "0"+str(dp)
+		bid_file_tag 			= "dp" + strdp + "d1"
+		customer_bid_file_tag 	= "dp" + strdp + "d1cc"
+		delivery_product 		= initiate_dps([dp])[0]
+		market 					= Market(delivery_product, bid_file_tag, customer_bid_file_tag, printing_mode=True)
 		market.main()
-		#market.initandrun()
+		
 
 
 	return 0
@@ -62,11 +60,9 @@ def initiate_dps(timeslots):
 
 
 
-def main():
-	delivery_products = initiate_dps(dp_timeslots)
-
-	strategy = learn_strategy()
-	evaluate_strategy(strategy)
-
 if __name__ == '__main__':
-	main()
+	delivery_products 	= initiate_dps(dp_timeslots)
+
+	strategy 			= learn_strategy()
+	
+	evaluate_strategy(strategy)

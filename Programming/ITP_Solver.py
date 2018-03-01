@@ -19,7 +19,7 @@ class ITP_Solver(object):
 
 		### ----------- Model Initialization -----------
 		self.model 									= Model('itp')
-		self.model.setParam('OutputFlag', 1 if output_solutions else 0)
+		self.model.setParam('OutputFlag', 			1 if output_solutions else 0)
 		self.model.params.threads 					= 1 
 		self.model.update()
 
@@ -130,9 +130,9 @@ class ITP_Solver(object):
 		self.index_of_transaction_costs				= self.index_of_bm_multiplier + 1
 
 		### Fetch entities from file
-		temp_list 									   = (self.data[self.index_of_model_params].strip().split("\t"))
+		temp_list									= (self.data[self.index_of_model_params].strip().split("\t"))
 		self.number_of_dps 							= int(temp_list[0])
-		self.number_of_production_units			= int(temp_list[1])
+		self.number_of_production_units				= int(temp_list[1])
 		self.number_of_trading_stages 				= int(temp_list[2])
 		self.number_of_scenarios 					= int(temp_list[3])
 		self.bm_upper_bound							= int(temp_list[4])
@@ -146,7 +146,7 @@ class ITP_Solver(object):
 		self.production_capacity_lower_bound		= float(self.data[self.index_of_production_capacity_bounds].split("\t")[0])
 		self.production_capacity_upper_bound		= float(self.data[self.index_of_production_capacity_bounds].split("\t")[1])
 		self.initial_storage 						= float(self.data[self.index_of_storage_bounds].split("\t")[2])
-		self.storage_bounds                      = [float(self.data[self.index_of_storage_bounds].split("\t")[i]) for i in range(2)]
+		self.storage_bounds                     	= [float(self.data[self.index_of_storage_bounds].split("\t")[i]) for i in range(2)]
 		self.volume_bounds 							= [float(self.data[self.index_of_bid_volume_bounds].split("\t")[i]) for i in range(2)]
 		self.price_level_bounds 					= [float(self.data[self.index_of_price_level_bounds].split("\t")[i]) for i in range(2)]
 		self.volume_level_bounds 					= [float(self.data[self.index_of_volume_level_bounds].split("\t")[i]) for i in range(2)]
@@ -157,16 +157,23 @@ class ITP_Solver(object):
 	def setup_non_anticipativity_sets(self):
 		self.non_anticipativity_sets				= [[{} for t in range(self.number_of_trading_stages)] for d in range(self.number_of_dps)]
 		for dp in range(self.number_of_dps):
-			for t in range(1, self.number_of_trading_stages):
-				print("\n")
+			for t in range(1, self.number_of_trading_stages+1):
+				#print(dp,t)
 				for s in range(self.number_of_scenarios):
-					scenario_string = self.generate_scenario_NA_string2(dp,s,t) 			# Scenario_string is a textual representation of the scenario variables up until time t
-					if(scenario_string in self.non_anticipativity_sets[dp][t].keys()): 		# If all scenario specific entities equal to those of existing non_anticipativity_set:
+					#print("\n",dp,t,s)	
+					scenario_string = self.generate_scenario_NA_string2(dp,s,t) 				# Scenario_string is a textual representation of the scenario variables up until time t
+					#print(scenario_string)
+					if(scenario_string in self.non_anticipativity_sets[dp][t-1].keys()): 		# If all scenario specific entities equal to those of existing non_anticipativity_set:
 						
-						self.non_anticipativity_sets[dp][t][scenario_string].append(s)		# Append the scenario to the list of equal scenarios
+						self.non_anticipativity_sets[dp][t-1][scenario_string].append(s)		# Append the scenario to the list of equal scenarios
 					else:	
-						self.non_anticipativity_sets[dp][t][scenario_string] = [s]			# Otherwise: create a new list including the scenario_string
-            print(len(self.non_anticipativity_sets[dp][t]))
+						self.non_anticipativity_sets[dp][t-1][scenario_string] = [s]			# Otherwise: create a new list including the scenario_string
+
+				for k in self.non_anticipativity_sets[dp][t-1]:
+					print(t-1, len(self.non_anticipativity_sets[dp][t-1][k]), self.non_anticipativity_sets[dp][t-1][k])
+
+			#for t in range(self.number_of_trading_stages):
+			#	print(dp, t, len(self.non_anticipativity_sets[dp][t].keys()))
 	
 	# Check if scenario can be placed in a non-anticipativity set for timestep t. The only trading time dependent scenario variables are the price and volume levels
 	def generate_scenario_NA_string(self, s, t):
@@ -176,8 +183,8 @@ class ITP_Solver(object):
 		
 		volume_levels_string				 		= str(itphelper.get_sublist(self.volume_levels, 1, t, s))
 		scenario_string 							+= price_levels_string + volume_levels_string
-		#print(scenario_string)
 		return scenario_string
+
 	def generate_scenario_NA_string2(self, dp, s, t):
 		scenario_string 							= ""
 		price_levels_string				 			= str(itphelper.get_sublist(self.price_levels[dp], 0, t, s))
@@ -191,7 +198,7 @@ class ITP_Solver(object):
 	def instantiate_datastructures(self):
 		### Generate random variables
 		if (self.generate_random_variables == True):
-			random_variables 				= [[numpy.random.uniform(low=0, high=1.0) for k in range(200)] for i in range(self.number_of_scenarios)]
+			random_variables 				= [[numpy.random.uniform(low=0, high=1.0) for k in range(200)] for i in range(self.number_of_scenarios * self.number_of_dps * self.number_of_trading_stages * self.number_of_price_levels)]
 			itphelper.write_matrix_to_file(random_variables, self.random_variable_file_name)
 
 		else:
@@ -242,18 +249,18 @@ class ITP_Solver(object):
 							if (p == 0):
 								if(t <= anticipativity_threshold):
 									
-									self.price_levels[dp][t][p][s] 		= int(self.price_level_bounds[0] 	+ (self.price_level_bounds[1] 		- self.price_level_bounds[0]) 	* random_variables[s - (s % int(float(self.number_of_scenarios) / 2.0**t) if int(float(self.number_of_scenarios) / 2.0**t) > 0 else self.number_of_scenarios)][0])
-									self.volume_levels[dp][t][p][s]		= int(self.volume_level_bounds[0] 	+ (self.volume_level_bounds[1] 		- self.volume_level_bounds[0]) 	* random_variables[s - (s % int(float(self.number_of_scenarios) / 2.0**t) if int(float(self.number_of_scenarios) / 2.0**t) > 0 else self.number_of_scenarios)][1])
+									self.price_levels[dp][t][p][s] 		= int(self.price_level_bounds[0] 	+ (self.price_level_bounds[1] 		- self.price_level_bounds[0]) 	* random_variables[dp * self.number_of_trading_stages * self.number_of_scenarios * self.number_of_price_levels + t * self.number_of_scenarios * self.number_of_price_levels + p * self.number_of_scenarios + s - (s % int(float(self.number_of_scenarios) / 2.0**t) if int(float(self.number_of_scenarios) / 2.0**t) > 0 else self.number_of_scenarios)][0])
+									self.volume_levels[dp][t][p][s]		= int(self.volume_level_bounds[0] 	+ (self.volume_level_bounds[1] 		- self.volume_level_bounds[0]) 	* random_variables[dp * self.number_of_trading_stages * self.number_of_scenarios * self.number_of_price_levels + t * self.number_of_scenarios * self.number_of_price_levels + p * self.number_of_scenarios + s - (s % int(float(self.number_of_scenarios) / 2.0**t) if int(float(self.number_of_scenarios) / 2.0**t) > 0 else self.number_of_scenarios)][1])
 								else:
-									self.price_levels[dp][t][p][s] 		= int(self.price_level_bounds[0] 	+ (self.price_level_bounds[1] 		- self.price_level_bounds[0]) 	* random_variables[s][0])
-									self.volume_levels[dp][t][p][s]		= int(self.volume_level_bounds[0] 	+ (self.volume_level_bounds[1] 		- self.volume_level_bounds[0]) 	* random_variables[s][1])
+									self.price_levels[dp][t][p][s] 		= int(self.price_level_bounds[0] 	+ (self.price_level_bounds[1] 		- self.price_level_bounds[0]) 	* random_variables[dp * self.number_of_trading_stages * self.number_of_scenarios * self.number_of_price_levels + t * self.number_of_scenarios * self.number_of_price_levels + p * self.number_of_scenarios + s][0])
+									self.volume_levels[dp][t][p][s]		= int(self.volume_level_bounds[0] 	+ (self.volume_level_bounds[1] 		- self.volume_level_bounds[0]) 	* random_variables[dp * self.number_of_trading_stages * self.number_of_scenarios * self.number_of_price_levels + t * self.number_of_scenarios * self.number_of_price_levels + p * self.number_of_scenarios + s][1])
 							else:
 								if(t <= anticipativity_threshold):
-									self.price_levels[dp][t][p][s] 		= int(self.price_level_bounds[0] 	+ (self.price_levels[dp][t][p-1][s]	- self.price_level_bounds[0]) 	* random_variables[s - (s % int(float(self.number_of_scenarios) / 2.0**t) if int(float(self.number_of_scenarios) / 2.0**t) > 0 else self.number_of_scenarios)][0])
-									self.volume_levels[dp][t][p][s]		= int(self.volume_level_bounds[0] 	+ (self.volume_level_bounds[1] 		- self.volume_level_bounds[0]) 	* random_variables[s - (s % int(float(self.number_of_scenarios) / 2.0**t) if int(float(self.number_of_scenarios) / 2.0**t) > 0 else self.number_of_scenarios)][1])
+									self.price_levels[dp][t][p][s] 		= int(self.price_level_bounds[0] 	+ (self.price_levels[dp][t][p-1][s]	- self.price_level_bounds[0]) 	* random_variables[dp * self.number_of_trading_stages * self.number_of_scenarios * self.number_of_price_levels + t * self.number_of_scenarios * self.number_of_price_levels + p * self.number_of_scenarios + s - (s % int(float(self.number_of_scenarios) / 2.0**t) if int(float(self.number_of_scenarios) / 2.0**t) > 0 else self.number_of_scenarios)][0])
+									self.volume_levels[dp][t][p][s]		= int(self.volume_level_bounds[0] 	+ (self.volume_level_bounds[1] 		- self.volume_level_bounds[0]) 	* random_variables[dp * self.number_of_trading_stages * self.number_of_scenarios * self.number_of_price_levels + t * self.number_of_scenarios * self.number_of_price_levels + p * self.number_of_scenarios + s - (s % int(float(self.number_of_scenarios) / 2.0**t) if int(float(self.number_of_scenarios) / 2.0**t) > 0 else self.number_of_scenarios)][1])
 								else:
-									self.price_levels[dp][t][p][s] 		= int(self.price_level_bounds[0] 	+ (self.price_levels[dp][t][p-1][s] - self.price_level_bounds[0]) 	* random_variables[s][0])
-									self.volume_levels[dp][t][p][s]		= int(self.volume_level_bounds[0] 	+ (self.volume_level_bounds[1] 		- self.volume_level_bounds[0]) 	* random_variables[s][1])
+									self.price_levels[dp][t][p][s] 		= int(self.price_level_bounds[0] 	+ (self.price_levels[dp][t][p-1][s] - self.price_level_bounds[0]) 	* random_variables[dp * self.number_of_trading_stages * self.number_of_scenarios * self.number_of_price_levels + t * self.number_of_scenarios * self.number_of_price_levels + p * self.number_of_scenarios + s][0])
+									self.volume_levels[dp][t][p][s]		= int(self.volume_level_bounds[0] 	+ (self.volume_level_bounds[1] 		- self.volume_level_bounds[0]) 	* random_variables[dp * self.number_of_trading_stages * self.number_of_scenarios * self.number_of_price_levels + t * self.number_of_scenarios * self.number_of_price_levels + p * self.number_of_scenarios + s][1])
 			
 			### Instantiate the inflows and the imbalance prices
 			for s in range(self.number_of_scenarios):
@@ -338,7 +345,6 @@ class ITP_Solver(object):
 
 		self.allow_overflow = True if str(self.data[self.index_of_overflow]).strip() == "1" else False
 		self.setup_non_anticipativity_sets()
-		#print(self.number_of_dps, self.number_of_scenarios, self.number_of_trading_stages, self.number_of_production_units, self.number_of_price_levels)
 	
 	### ----------- Validating The Given Parameters ----------- 
 	def validate_parameters(self):
@@ -354,7 +360,7 @@ class ITP_Solver(object):
 		self.imbalance_volume						= [[self.model.addVar(name="imbalance_volume_X_X_X_"+str(dp)+"_"+str(s)) for s in range(self.number_of_scenarios)] for dp in range(self.number_of_dps)]
 
 		if(self.allow_overflow):
-			self.overflow	 							= [[self.model.addVar(name="overflow_X_X_"+str(dp)+"_"+str(s),vtype=GRB.CONTINUOUS, lb=0.0) for s in range(self.number_of_scenarios)] for dp in range(self.number_of_dps)]
+			self.overflow	 						= [[self.model.addVar(name="overflow_X_X_"+str(dp)+"_"+str(s),vtype=GRB.CONTINUOUS, lb=0.0) for s in range(self.number_of_scenarios)] for dp in range(self.number_of_dps)]
 
 		# The rest are created in the following loops. This could probably have been omitted, but is unlikely to affect performance significantly.
 		self.bid_volume 							= [[[[0 for p in range(self.number_of_price_levels)] for j in range(self.number_of_trading_stages)] for i in range(self.number_of_scenarios)] for dp in range(self.number_of_dps)]
@@ -365,14 +371,14 @@ class ITP_Solver(object):
 			for s in range(self.number_of_scenarios):
 				for i in range(self.number_of_trading_stages):
 					for p in range(self.number_of_price_levels):
-						self.bid_volume[dp][s][i][p] 				= self.model.addVar(vtype=GRB.CONTINUOUS, lb=self.volume_bounds[0], ub=self.volume_bounds[1],		# Bid volume
+						self.bid_volume[dp][s][i][p] 					= self.model.addVar(vtype=GRB.CONTINUOUS, lb=self.volume_bounds[0], ub=self.volume_bounds[1],		# Bid volume
 					                                    name=str("b_v_X_"+str(dp)+"_"+str(s)+"_"+str(i)+"_"+str(p)))
 					for j in range(self.number_of_trading_stages):
 						for p in range(self.number_of_price_levels):
 							self.transaction_prices[dp][s][i][j][p] 	= self.model.addVar(vtype=GRB.CONTINUOUS,		                        				# Transaction price
 					                                    name=str("p_c_"+str(str(dp)+"_"+str(s)+"_"+str(i)+"_"+str(j)+"_"+str(p))))
 							
-							self.transaction_volumes[dp][s][i][j][p] = self.model.addVar(vtype=GRB.CONTINUOUS, lb=self.volume_bounds[0], ub=self.volume_bounds[1],		# Transaction volume
+							self.transaction_volumes[dp][s][i][j][p] 	= self.model.addVar(vtype=GRB.CONTINUOUS, lb=self.volume_bounds[0], ub=self.volume_bounds[1],		# Transaction volume
 					                                    name=str("v_c_"+str(str(dp)+"_"+str(s)+"_"+str(i)+"_"+str(j)+"_"+str(p))))
 
 	### ----------- Constraints -----------
@@ -409,7 +415,6 @@ class ITP_Solver(object):
 		for dp in range(self.number_of_dps):
 			for s in range(self.number_of_scenarios):
 				for i in range(self.number_of_production_units):
-					#print(s,i,production_capacities[i])
 					self.model.addConstr((self.production_quantities[dp][s][i]) 	<= self.scenario_production_capacities[i][s], "production_capacities")
 
 		# Production equal to transaction volumes ++
@@ -465,19 +470,19 @@ class ITP_Solver(object):
 		for dp in range(self.number_of_dps):
 			for t in range(self.number_of_trading_stages):
 				# NA_set is the sets of non_anticipative(?) scenarios in trading timeslot t
-				NA_set = self.non_anticipativity_sets[dp][t-1]
+				NA_set = self.non_anticipativity_sets[dp][t]
 
 				for key in NA_set.keys():
-					#print(NA_set[key])
+					print(dp, t, len(NA_set.keys()), len(NA_set[key]), (NA_set[key]))
 					# If there are more than one scenario having a certain scenario key, we must create NA constraints!
 					if(len(NA_set[key]) > 1):
-
 						# Now, loop through all the scenarios sharing this scenario key and force them to have identical bid volumes in the given trading timeslot
-						for i,s in enumerate(NA_set[key][:-1]):
+						for i,s in enumerate(NA_set[key][0:-1]):
 							for p in range(self.number_of_price_levels):
+								print("Creating NAC: ", dp, s, t, p, " == ", dp, NA_set[key][i+1], t, p)
 								self.model.addConstr(self.bid_volume[dp][s][t][p] == self.bid_volume[dp][NA_set[key][i+1]][t][p], "non_anticipativity")
 								na_counter += 1
-					print((str(t) + " " + str(len(NA_set.keys())) + " " + str(len(NA_set[key]))))
+					#print((str(t) + " " + str(len(NA_set.keys())) + " " + str(len(NA_set[key]))))
 			
 		if(self.printing_mode):
 			print("Number of NA constraints: " + str(na_counter))
@@ -536,5 +541,12 @@ class ITP_Solver(object):
 			for s in range(self.number_of_scenarios):
 				sheet.write(counter, 0, "Inflow_X_X_X_X_"+str(dp)+"_"+str(s)+ " " + str(self.scenario_inflows[dp][s]))
 				counter += 1
+
+		for dp in range(self.number_of_dps):
+			for t in range(self.number_of_trading_stages):
+				for p in range(self.number_of_price_levels):
+					for s in range(self.number_of_scenarios):
+						sheet.write(counter, 0, "Price_level_"+str(dp)+"_"+str(t)+"_"+str(p)+"_"+str(s)+ " "+ str(self.price_levels[dp][t][p][s]))
+						counter += 1
 		book.close()
 
