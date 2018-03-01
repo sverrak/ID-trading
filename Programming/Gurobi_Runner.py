@@ -50,6 +50,7 @@ class Gurobi_Runner(object):
 			for s in ss:
 				for pu in pus:
 					for tt in tts:
+						print("Parameters",dp,s,pu,tt)
 						self.start = time.time()
 						list = self.do_one_run(dp,s,pu,tt)
 						self.elapsed_time = time.time() - self.start
