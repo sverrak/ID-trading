@@ -1,0 +1,4 @@
+|['Model', 'DPs', 'Scenarios', 'Production_units', 'Trading_timeslots', 'Elapsed_time', 'Number_of_variables', 'Number_of_linear_constraints', 'Number_of_SOS_constraints', 'Number_of_quadratic_constraints', 'Number_of_non-zero_coefficients_in_the_constraint_matrix', 'Number_of_non-zero_quadratic_objective_terms', 'Number_of_non-zero_terms_in_quadratic_constraints', 'Number_of_integer_variables', 'Number_of_binary_variables', 'Number_of_variables_with_piecewise-linear_objective_functions.', 'Model_name', 'Model_sense_(minimization_or_maximization)', 'Constant_offset_for_objective_function', 'Objective_value_for_current_solution']|
+|<class 'list'>|
+|[2, 5, 100, 3, 3, 5.5857908725738525, 34000, 31895, 0, 0, 59690, 0, 0, 0, 0, 0, 'itp', -1, 0.0, 288882.25288766855]|
+|[3, 6, 100, 3, 3, 7.971119165420532, 40800, 38274, 0, 0, 71648, 0, 0, 0, 0, 0, 'itp', -1, 0.0, 368636.5180588943]|

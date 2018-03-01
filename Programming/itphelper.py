@@ -1,14 +1,24 @@
+# Description: This file contains several support functions for the Gurobi_Runner and ITP_Solver classes. 
+
 import time
 import numpy
 import xlsxwriter
 import csv
 
 def write_matrix_to_file(matrix, file_name):
+	try:
 		with open(file_name, 'w', newline='') as csvfile:
 		    csv_writer = csv.writer(csvfile, delimiter=' ',
 		                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
 		    for r in matrix:
 		    	csv_writer.writerow(r)
+	except:
+	   	with open(file_name, 'w', newline='') as csvfile:
+		    csv_writer = csv.writer(csvfile, delimiter=' ',
+		                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+		    #for r in matrix:
+		    #	csv_writer.writerow(r)
+		    csv_writer.writerows(map(lambda x: [x], matrix))
 
 def get_sublist(my_list, time_index, time, s):
 	if(time_index == 0):
