@@ -54,12 +54,13 @@ class Gurobi_Runner(object):
 						list = self.do_one_run(dp,s,pu,tt)
 						self.elapsed_time = time.time() - self.start
 						model_iterator += 1
+                
 						self.result_table.append([model_iterator, dp, s, pu, tt, self.elapsed_time] + list)
 						del self.itp_solver
 						
 						if(model_iterator % 20 == 0):
 							
-							print("Model " + str(model_iterator) + " ( " + str(int(100*model_iterator/number_of_models)) + " %) ")
+							print("\n\n\n***** Model " + str(model_iterator) + " ( " + str(int(100*model_iterator/number_of_models)) + " %) *****")
 
 	def print_solution(self):
 		for r in self.result_table:
@@ -103,7 +104,7 @@ if __name__ == "__main__":
 		gr3 = Gurobi_Runner()
 		# Parameter set 3
 		dps 		= [24]
-		ss 			= [10,100,200,500]
+		ss 			= [10,100,200,500,1000]
 		pus 		= [2,3]
 		tts 		= [2,10,100]
 		
