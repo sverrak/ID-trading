@@ -96,8 +96,10 @@ class ITP_Solver(object):
 			print("Done reading data.")
 		return self.data
 
+	# Actually a set function. As of now, the ITP_Solver objects are instantiated with one set of parameters. 
+	# When calling ITP_Solver objects from Gurobi_Runner, the parameters must be "reset" after this initial instantiation. 
+	# Can probably be omitted
 	def reset_parameters(self, dps, scenarios, production_units, trading_stages):
-		print("Parameters: ", dps, scenarios, production_units, trading_stages)
 		self.number_of_dps = dps
 		self.number_of_scenarios = scenarios
 		self.number_of_production_units = production_units
@@ -158,40 +160,35 @@ class ITP_Solver(object):
 		self.non_anticipativity_sets				= [[{} for t in range(self.number_of_trading_stages)] for d in range(self.number_of_dps)]
 		for dp in range(self.number_of_dps):
 			for t in range(1, self.number_of_trading_stages+1):
-				#print(dp,t)
 				for s in range(self.number_of_scenarios):
-					#print("\n",dp,t,s)	
 					scenario_string = self.generate_scenario_NA_string2(dp,s,t) 				# Scenario_string is a textual representation of the scenario variables up until time t
-					#print(scenario_string)
+					
 					if(scenario_string in self.non_anticipativity_sets[dp][t-1].keys()): 		# If all scenario specific entities equal to those of existing non_anticipativity_set:
 						
 						self.non_anticipativity_sets[dp][t-1][scenario_string].append(s)		# Append the scenario to the list of equal scenarios
-					else:	
+					else:
+
 						self.non_anticipativity_sets[dp][t-1][scenario_string] = [s]			# Otherwise: create a new list including the scenario_string
-
-				for k in self.non_anticipativity_sets[dp][t-1]:
-					print(t-1, len(self.non_anticipativity_sets[dp][t-1][k]), self.non_anticipativity_sets[dp][t-1][k])
-
-			#for t in range(self.number_of_trading_stages):
-			#	print(dp, t, len(self.non_anticipativity_sets[dp][t].keys()))
 	
 	# Check if scenario can be placed in a non-anticipativity set for timestep t. The only trading time dependent scenario variables are the price and volume levels
 	def generate_scenario_NA_string(self, s, t):
 		scenario_string 							= ""
 		
 		price_levels_string				 			= str(itphelper.get_sublist(self.price_levels, 1, t, s))
-		
 		volume_levels_string				 		= str(itphelper.get_sublist(self.volume_levels, 1, t, s))
+		
 		scenario_string 							+= price_levels_string + volume_levels_string
+		
 		return scenario_string
 
 	def generate_scenario_NA_string2(self, dp, s, t):
 		scenario_string 							= ""
-		price_levels_string				 			= str(itphelper.get_sublist(self.price_levels[dp], 0, t, s))
 		
+		price_levels_string				 			= str(itphelper.get_sublist(self.price_levels[dp], 0, t, s))
 		volume_levels_string				 		= str(itphelper.get_sublist(self.volume_levels[dp], 0, t, s))
+		
 		scenario_string 							+= price_levels_string + volume_levels_string
-		#print(scenario_string)
+		
 		return scenario_string
 
 
@@ -473,16 +470,15 @@ class ITP_Solver(object):
 				NA_set = self.non_anticipativity_sets[dp][t]
 
 				for key in NA_set.keys():
-					print(dp, t, len(NA_set.keys()), len(NA_set[key]), (NA_set[key]))
+					
 					# If there are more than one scenario having a certain scenario key, we must create NA constraints!
 					if(len(NA_set[key]) > 1):
 						# Now, loop through all the scenarios sharing this scenario key and force them to have identical bid volumes in the given trading timeslot
 						for i,s in enumerate(NA_set[key][0:-1]):
 							for p in range(self.number_of_price_levels):
-								print("Creating NAC: ", dp, s, t, p, " == ", dp, NA_set[key][i+1], t, p)
 								self.model.addConstr(self.bid_volume[dp][s][t][p] == self.bid_volume[dp][NA_set[key][i+1]][t][p], "non_anticipativity")
 								na_counter += 1
-					#print((str(t) + " " + str(len(NA_set.keys())) + " " + str(len(NA_set[key]))))
+					
 			
 		if(self.printing_mode):
 			print("Number of NA constraints: " + str(na_counter))
