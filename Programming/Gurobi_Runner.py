@@ -13,11 +13,11 @@ class Gurobi_Runner(object):
 		self.result_table = [["Model", "DPs", "Scenarios", "Production_units", "Trading_timeslots", "Elapsed_time", "Number_of_variables","Number_of_linear_constraints","Number_of_SOS_constraints","Number_of_quadratic_constraints","Number_of_non-zero_coefficients_in_the_constraint_matrix","Number_of_non-zero_quadratic_objective_terms","Number_of_non-zero_terms_in_quadratic_constraints","Number_of_integer_variables","Number_of_binary_variables","Number_of_variables_with_piecewise-linear_objective_functions.","Model_name","Model_sense_(minimization_or_maximization)","Constant_offset_for_objective_function","Objective_value_for_current_solution"]]
 
 	def do_one_run(self, dp, s, pu, tt):
-		self.itp_solver = ITP_Solver(generate_scenarios=False, generate_random_variables=True, printing_output=False)
+		self.itp_solver = ITP_Solver(generate_scenarios=True, generate_random_variables=True, printing_output=False)
 		# Fetch and setup the parameters
+		self.itp_solver.reset_parameters(dp, s, pu, tt)
 		
-		#self.itp_solver.reset_parameters(dp, s, pu, tt)
-		# Setup variables, constraints and objective function
+        # Setup variables, constraints and objective function
 		self.itp_solver.setup_variables()
 		self.itp_solver.setup_constraints()
 		self.itp_solver.setup_objective_function()
@@ -44,7 +44,7 @@ class Gurobi_Runner(object):
 			dps 		= [5]
 			ss 			= [10]
 			pus 		= [3]
-			tts 		= [2]
+			tts 		= [3]
 
 		model_iterator = 1
 		for dp in dps:
