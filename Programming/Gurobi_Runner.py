@@ -41,7 +41,7 @@ class Gurobi_Runner(object):
 			pus 		= [i for i in range(2, int(4*x), 1)][::-1]
 			tts 		= [i for i in range(2, int(20*x), 6)][::-1]
 		else:
-			dps 		= [5]
+			dps 		= [5,10]
 			ss 			= [100]
 			pus 		= [3]
 			tts 		= [3]
@@ -75,12 +75,13 @@ if __name__ == "__main__":
 		gr = Gurobi_Runner()
 		#gr.do_one_run(10,100,1,10)
 		#list = gr.do_one_run(2,10,1,2)
-		#gr.result_table.append(list)
+		gr.result_table.append(list)
 		gr.do_multiple_runs()
-		gr.print_solution()
-		#gr.itp_solver.write_variables_to_file()
+		#gr.print_solution()
+		gr.write_results_to_file()
 	else:
-		# Testing environment
+		
+        # Testing environment
 		mylist = [[[20*i+5*j+k for k in range(5)] for j in range(4)] for i in range(3)]
 		print(mylist)
 		print(itphelper.get_sublist(mylist, 2, 2))
