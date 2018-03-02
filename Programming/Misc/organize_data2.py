@@ -126,7 +126,8 @@ def create_file(folder, date, orders, is_xlsx=False):
 						for c in r:
 							temp_string = temp_string + c + "\t" 
 						string = string + temp_string + "\n"
-					f.write(string) 
+					f.write(string)
+					del string
 				elif(len(out_data[dp]) == 1):
 					#str_to_print = "\t".join(str(out_data[dp][0]))
 					str_to_print = (str(out_data[dp][0]))
@@ -170,6 +171,7 @@ if __name__ == '__main__':
 		x = key[2]
 		
 		data = read_data(orderbooks[key], actual_run=True)
+		print(key, data)
 		
 		if(len(data) > 0):
 			if(x == 0):
@@ -186,5 +188,6 @@ if __name__ == '__main__':
 			for i,day in enumerate(splitted_data.keys()):
 				print(day, "Progression:", float(i)/len(splitted_data.keys()))
 				create_file(y, day, splitted_data[day])
+		del data
 		
 	print("Total running time: ", time.time() - program_starting_time)
