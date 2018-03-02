@@ -56,7 +56,10 @@ def split_data(data, date_range):
 		date_str				= str(line_list[index_of_dp][0:10])
 		# If the line (order) is not a quarterly delivery product, we carry the order forward
 		if(str(date_str[14:16]) not in [15, 30, 45]):
-			out_data[date_str].append(line_list)
+			try:
+				out_data[date_str].append(line_list)
+			except:
+				print("KeyError line 59: ", date_str, " not in out_data. Example string: ", out_data[0])
 
 	return out_data
 
