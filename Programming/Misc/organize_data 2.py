@@ -102,7 +102,7 @@ if __name__ == '__main__':
 		orderbooks 						= {}
 
 		# Generate orderbook URLs
-		if(False):
+		if(True):
 			for y in years:
 				for i,m in enumerate(months):
 					if(int(y) < 2016 and int(m) < 10):
@@ -117,20 +117,22 @@ if __name__ == '__main__':
 			y = key[0]
 			m = key[1]
 			x = key[2]
-			
-			data = read_data(orderbooks[key], actual_run=True)
-			if(x == 0):
-				date_range = [y + "-" + m + "-" + "01", y + "-" + m + "-" + str(days_of_months[int(m)])]
-			elif(x == 1):
-				date_range = [y + "-" + m + "-" + "01", y + "-" + m + "-15"]
-			else:
-				date_range = [y + "-" + m + "-" + "16", y + "-" + m + "-" + str(days_of_months[int(m)])]
-			
-			print("\n\n***** SPLITTING PHASE *****")
-			splitted_data = split_data(data, date_range)
-			
+			try:
+				data = read_data(orderbooks[key], actual_run=True)
+				if(x == 0):
+					date_range = [y + "-" + m + "-" + "01", y + "-" + m + "-" + str(days_of_months[int(m)])]
+				elif(x == 1):
+					date_range = [y + "-" + m + "-" + "01", y + "-" + m + "-15"]
+				else:
+					date_range = [y + "-" + m + "-" + "16", y + "-" + m + "-" + str(days_of_months[int(m)])]
+				
+				print("\n\n***** SPLITTING PHASE *****")
+				splitted_data = split_data(data, date_range)
+				
 
-			for i,day in enumerate(splitted_data.keys()):
-				print(day, "Progression:", float(i)/len(splitted_data.keys()))
-				create_file(y, day, splitted_data[day])
+				for i,day in enumerate(splitted_data.keys()):
+					print(day, "Progression:", float(i)/len(splitted_data.keys()))
+					create_file(y, day, splitted_data[day])
+			except:
+				print("Could not find ", orderbooks[key], key)
 	print("Total running time: ", time.time() - program_starting_time)
