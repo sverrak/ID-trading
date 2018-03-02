@@ -52,9 +52,10 @@ def split_data(data, date_range):
 	for i,line in enumerate(data):
 		if(i % 1000 == 0):
 			print("\t* Progression (splitting): ", int(float(i)/float(len(data))*1000)/100, " %")
-		line_list 				= line.split("\t")
-		print("Line", len(line), "Line list", len(line_list))
+		line_list 				= [i for i in line.split("\t")]
+		
 		date_str				= str(list(line_list)[index_of_dp][0:10])
+		print("Line", len(line), "Line list", len(line_list), "date_str" + date_str)
 		# If the line (order) is not a quarterly delivery product, we carry the order forward
 		if(str(date_str[14:16]) not in [15, 30, 45]):
 			try:
