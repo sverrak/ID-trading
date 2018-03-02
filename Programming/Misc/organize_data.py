@@ -23,14 +23,10 @@ def read_data(file_name, actual_run=False):
 	print("Reading data. ")
 
 	if(actual_run):
-		try:
-			with open(file_name) as f:
-			    data = f.readlines()
-			print("Elapsed time: " + str(time.time() - start))
-			return data
-		except:
-			print("Could not find ", file_name)
-			return []
+		with open(file_name) as f:
+		    data = f.readlines()
+		print("Elapsed time: " + str(time.time() - start))
+		return data
 	else:
 		return [[i for i in range(20)] for j in range(30)]
 
@@ -106,7 +102,7 @@ if __name__ == '__main__':
 		orderbooks 						= {}
 
 		# Generate orderbook URLs
-		if(True):
+		if(False):
 			for y in years:
 				for i,m in enumerate(months):
 					if(int(y) < 2016 and int(m) < 10):
@@ -137,5 +133,4 @@ if __name__ == '__main__':
 			for i,day in enumerate(splitted_data.keys()):
 				print(day, "Progression:", float(i)/len(splitted_data.keys()))
 				create_file(y, day, splitted_data[day])
-		
 	print("Total running time: ", time.time() - program_starting_time)
