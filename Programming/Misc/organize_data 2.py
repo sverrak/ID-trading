@@ -59,7 +59,7 @@ def split_data(data, date_range):
 			try:
 				out_data[date_str].append(line_list)
 			except:
-				print("KeyError line 59: ", date_str, " not in out_data. Example string: ", out_data[0])
+				print("KeyError line 59: ", date_str, " not in out_data (should be a date).")
 
 	return out_data
 
@@ -98,34 +98,38 @@ def create_file(folder, date, orders):
 	book.close()
 	print("File created for date ", date, ".")
 
-
+# Organize data
 if __name__ == '__main__':
 	program_starting_time = time.time()
-	# Organize data
-	if(True):
-		years 							= ["2014","2015","2016","2017"]
-		months 							= [str(i) if i>9 else "0"+str(i) for i in range(1,13)]
-		days_of_months					= [0,31,28,31,30,31,30,31,31,30,31,30,31]
-		orderbooks 						= {}
+	
+	# Datastructure instantiation. Used to 
+	years 							= ["2014","2015","2016","2017"]
+	months 							= [str(i) if i>9 else "0"+str(i) for i in range(1,13)]
+	days_of_months					= [0,31,28,31,30,31,30,31,31,30,31,30,31]
+	orderbooks 						= {}
 
-		# Generate orderbook URLs
-		if(True):
-			for y in years:
-				for i,m in enumerate(months):
-					if(int(y) < 2016 and int(m) < 10):
-						orderbooks[(y,m,0)] = ("ComXervOrderbooks_" + y + "_" + m + ".txt")
-					else:
-						orderbooks[(y,m,1)] = ("ComXervOrderbooks_" + y + "_" + m + "_01-" + y + "_" + m + "_15"".txt")
-						orderbooks[(y,m,2)] = ("ComXervOrderbooks_" + y + "_" + m + "_16-" + y + "_" + m + "_"+str(days_of_months[int(m)])+".txt")
-		else:
-			orderbooks[("2014","02",0)] = "ComXervOrderbooks_2014_02.txt"
-		# Fetch and split data
-		for key in orderbooks.keys():
-			y = key[0]
-			m = key[1]
-			x = key[2]
-			
-			data = read_data(orderbooks[key], actual_run=True)
+	# Generate orderbook URLs
+	if(True):
+		for y in years:
+			for i,m in enumerate(months):
+				if(int(y) < 2016 and int(m) < 10):
+					orderbooks[(y,m,0)] = ("ComXervOrderbooks_" + y + "_" + m + ".txt")
+				else:
+					orderbooks[(y,m,1)] = ("ComXervOrderbooks_" + y + "_" + m + "_01-" + y + "_" + m + "_15"".txt")
+					orderbooks[(y,m,2)] = ("ComXervOrderbooks_" + y + "_" + m + "_16-" + y + "_" + m + "_"+str(days_of_months[int(m)])+".txt")
+	# Custom orderbook URL
+	else:
+		orderbooks[("2014","02",0)] = "ComXervOrderbooks_2014_02.txt"
+	
+	# Fetch and split data
+	for key in orderbooks.keys():
+		y = key[0]
+		m = key[1]
+		x = key[2]
+		
+		data = read_data(orderbooks[key], actual_run=True)
+		
+		if(len(data) > 0):
 			if(x == 0):
 				date_range = [y + "-" + m + "-" + "01", y + "-" + m + "-" + str(days_of_months[int(m)])]
 			elif(x == 1):
