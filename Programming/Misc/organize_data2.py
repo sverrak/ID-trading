@@ -53,52 +53,92 @@ def split_data(data, date_range):
 		if(i % 1000 == 0):
 			print("\t* Progression (splitting): ", int(float(i)/float(len(data))*1000)/100, " %")
 		line_list 				= [i for i in line.split("\t")]
-		
-		date_str				= str(list(line_list)[index_of_dp][0:10])
-		print("Line", len(line), "Line list", len(line_list), "date_str", date_str)
-		# If the line (order) is not a quarterly delivery product, we carry the order forward
-		if(str(date_str[14:16]) not in [15, 30, 45]):
-			try:
-				out_data[date_str].append(line_list)
-			except:
-				print("KeyError line 59: ", date_str, " not in out_data (should be a date).")
+		try:
+			date_str			= str(list(line_list)[index_of_dp][0:10])
+			#print("Line", len(line), "Line list", len(line_list), "date_str", date_str)
+			# If the line (order) is not a quarterly delivery product, we carry the order forward
+			if(str(date_str[14:16]) not in [15, 30, 45]):
+				try:
+					out_data[date_str].append(line_list)
+				except:
+					print("KeyError line 59: ", date_str, " not in out_data (should be a date).")
+		except:
+			print("Something happened.")
 
 	return out_data
 
 
 # Creates a file in the folder 'folder' for date 'date' containing all orders organized by their delivery products.
-def create_file(folder, date, orders):
+def create_file(folder, date, orders, is_xlsx=False):
 	book 								= xlsxwriter.Workbook(folder + "/" + date+".xlsx")						# .xlsx file in folder 'folder' with date as file name
 	hours 								= [str(i) if i>9 else "0"+str(i) for i in range(0,24)]					# hours of the day. Sheet names
 	dps 								= [(str(date) + " " + hh + ":00:00") for hh in hours]					# Delivery products
 	out_data 							= {}																	# Dictionary containing all orders on a per-DP level
 	index_of_dp							= 18																	# The index of the dp in the order list
-	
-	# Create keys in dictionary (delivery products)
-	for dp in dps:
-		out_data[dp] 					= []
+		
+	if(is_xlsx):
+		# Create keys in dictionary (delivery products)
+		for dp in dps:
+			out_data[dp] 					= []
 
-	# Loop through all orders and append order to its proper value list
-	for i,order_str in enumerate(orders):
-		if(i % 1000 == 0):
-			print("\t* Progression (organizing): ", int(float(i)/float(len(data))*1000)/100, " %")
-		order_list = order_str
-		try:
-			out_data[order_list[index_of_dp][:19]].append(order_list)
-		except:
-			print("Key error: ", order_list[index_of_dp][:19])
+		# Loop through all orders and append order to its proper value list
+		for i,order_str in enumerate(orders):
+			if(i % 1000 == 0):
+				print("\t* Progression (organizing): ", int(float(i)/float(len(data))*1000)/100, " %")
+			order_list = order_str
+			try:
+				out_data[order_list[index_of_dp][:19]].append(order_list)
+			except:
+				print("Key error: ", order_list[index_of_dp][:19])
 
-	# For each dp, create a new sheet in the book and add all orders for that dp to the list
-	for dp in (out_data.keys()):
-		print("Creating sheet for: ", date, dp)
-		sheet = book.add_worksheet(str(dp)[11:13])
-		for i,order in enumerate(out_data[dp]):
-			for j,attr in enumerate(order):
-				sheet.write(i, j, attr)
+		# For each dp, create a new sheet in the book and add all orders for that dp to the list
+		for dp in (out_data.keys()):
+			print("Creating sheet for: ", date, dp)
+			sheet = book.add_worksheet(str(dp)[11:13])
+			for i,order in enumerate(out_data[dp]):
+				for j,attr in enumerate(order):
+					sheet.write(i, j, attr)
 
-	# Finishing the process
-	book.close()
-	print("File created for date ", date, ".")
+		# Finishing the process
+		book.close()
+		print("File created for date ", date, ".")
+	else:
+		# Create keys in dictionary (delivery products)
+		for dp in dps:
+			out_data[dp] 					= []
+
+		# Loop through all orders and append order to its proper value list
+		for i,order_str in enumerate(orders):
+			if(i % 1000 == 0):
+				print("\t* Progression (organizing): ", int(float(i)/float(len(data))*1000)/100, " %")
+			order_list = order_str
+			try:
+				out_data[order_list[index_of_dp][:19]].append(order_list)
+			except:
+				print("Key error: ", order_list[index_of_dp][:19])
+
+		for dp in (out_data.keys()):
+			with open("Data/" + dt.strftime(dt.strptime(dp, '%Y-%m-%d %H:%M:%S'), '%Y-%m-%d_%H-%M-%S') + ".txt", "w") as f:
+				if(len(out_data[dp]) >= 1):
+					string = ""
+					for r in out_data[dp]:
+						temp_string = ""
+						for c in r:
+							temp_string = temp_string + c + "\t" 
+						string = string + temp_string + "\n"
+					f.write(string) 
+				elif(len(out_data[dp]) == 1):
+					#str_to_print = "\t".join(str(out_data[dp][0]))
+					str_to_print = (str(out_data[dp][0]))
+					string = ""
+					for r in out_data[dp]:
+						temp_string = ""
+						for c in r:
+							temp_string = temp_string + c + "\t" 
+						string = string + temp_string + "\n"
+					print(string)
+					f.write(string) 
+
 
 # Organize data
 if __name__ == '__main__':
@@ -121,7 +161,7 @@ if __name__ == '__main__':
 					orderbooks[(y,m,2)] = ("ComXervOrderbooks_" + y + "_" + m + "_16-" + y + "_" + m + "_"+str(days_of_months[int(m)])+".txt")
 	# Custom orderbook URL
 	else:
-		orderbooks[("2014","02",0)] = "ComXervOrderbooks_2014_02.txt"
+		orderbooks[("2014","07",0)] = "ComXervOrderbooks_2014_07_lite.txt"
 	
 	# Fetch and split data
 	for key in orderbooks.keys():
@@ -140,7 +180,7 @@ if __name__ == '__main__':
 				date_range = [y + "-" + m + "-" + "16", y + "-" + m + "-" + str(days_of_months[int(m)])]
 			
 			print("\n\n***** SPLITTING PHASE *****")
-			splitted_data = split_data(data, date_range)
+			splitted_data = split_data(data[0:300], date_range)
 			
 
 			for i,day in enumerate(splitted_data.keys()):
