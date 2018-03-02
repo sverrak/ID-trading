@@ -1,4 +1,5 @@
 # Bid class 
+import datetime
 
 class Bid(object):
 	"""docstring for Bid"""
@@ -12,7 +13,8 @@ class Bid(object):
 		self.order_id = order_id
 		self.isCustomer = isCustomer
 
-
+	def compute_maturity(self, now):
+		return datetime.timedelta(now, self.timestamp)
 
 	def reduce_volume(self, volume):
 		if(self.volume > volume):
