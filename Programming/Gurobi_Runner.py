@@ -12,8 +12,11 @@ class Gurobi_Runner(object):
 		super(Gurobi_Runner, self).__init__()
 		self.result_table = [["Model", "DPs", "Scenarios", "Production_units", "Trading_timeslots", "Elapsed_time", "Number_of_variables","Number_of_linear_constraints","Number_of_SOS_constraints","Number_of_quadratic_constraints","Number_of_non-zero_coefficients_in_the_constraint_matrix","Number_of_non-zero_quadratic_objective_terms","Number_of_non-zero_terms_in_quadratic_constraints","Number_of_integer_variables","Number_of_binary_variables","Number_of_variables_with_piecewise-linear_objective_functions.","Model_name","Model_sense_(minimization_or_maximization)","Constant_offset_for_objective_function","Objective_value_for_current_solution"]]
 
-	def do_one_run(self, dp, s, pu, tt):
-		self.itp_solver = ITP_Solver(generate_scenarios=True, generate_random_variables=True, printing_output=False)
+	def do_one_run(self, dp, s, pu, tt, generate_scenarios_arg=True, file_name=""):
+		if(file_name==""):
+            self.itp_solver = ITP_Solver(generate_scenarios=generate_scenarios_arg, generate_random_variables=True, printing_output=False)
+        else:
+            self.itp_solver = ITP_Solver(generate_scenarios=generate_scenarios_arg, generate_random_variables=True, printing_output=False, parameter_file_name=file_name)
 		# Fetch and setup the parameters
 		self.itp_solver.reset_parameters(dp, s, pu, tt)
 		
@@ -74,12 +77,10 @@ class Gurobi_Runner(object):
 
 if __name__ == "__main__":
 	t0 = time.time()
-	if(True):
+	if(False): # Multirun case
 		gr = Gurobi_Runner()
-		#gr.do_one_run(10,100,1,10)
-		#list = gr.do_one_run(2,10,1,2)
-		#gr.result_table.append(list)
-		# Parameter set 1
+		
+        # Parameter set 1
 		dps 		= [5,10,24]
 		ss 			= [10,40,70,100]
 		pus 		= [1,2,3,5]
@@ -114,13 +115,18 @@ if __name__ == "__main__":
 		
 		#gr.print_solution()
 		
-	else:
+	else: # Single run
+        gr = Gurobi_Runner()
+        
+        # Arguments: DP,S,PU,T,GenerateScenarios,ParameterFileName
+        # Your code here
+        gr.do_one_run(10,100,1,10, False, "") # Insert parameter file name in the ""
+        # Your code here
+        gr.result_table.append(list)
+        gr.write_results_to_file()
 		
-        # Testing environment
-		mylist = [[[20*i+5*j+k for k in range(5)] for j in range(4)] for i in range(3)]
-		print(mylist)
-		print(itphelper.get_sublist(mylist, 2, 2))
-		print(itphelper.get_sublist(mylist, 1, 1))
+		
+       
 	print("\n\nTotal running time: " + str(time.time() - t0))
 
 
