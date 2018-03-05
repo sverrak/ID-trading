@@ -4,6 +4,8 @@
 ### ----------- External Packages -----------
 from gurobipy import *
 import time
+import xlsxwriter
+import datetime
 
 ### ----------- Model Initialization -----------
 model = Model('hydro')
@@ -76,7 +78,8 @@ def read_parameters(parameter_file):
 		scenarios[dp] = [[] for j in range(number_of_trading_stages)]
 		for i in range(number_of_trading_stages):
 			scenarios[dp][i] = [float(j) for j in data[index_of_scenarios+i*number_of_dps+dp].split("\t")]
-	
+			print("INPUT")
+			print(index_of_scenarios+i*number_of_dps+dp)
 	#scenarios[0] = [scenarios[0][0] for i in range(len(scenarios[1]))]
 	transaction_cost = float(data[index_of_transaction_costs])
 	#print(data[index_of_production_costs])
@@ -86,7 +89,9 @@ def read_parameters(parameter_file):
 	cpr = float(data[index_of_cpr])
 
 	initial_storage = float(data[index_of_initial_storage])
-	storage_bounds = [float(i) for i in data[index_of_storage_bounds].split("\t")]
+	#print(data[index_of_storage_bounds])
+	#print(data[index_of_storage_bounds].strip().split("\t"))
+	storage_bounds = [float(i) for i in data[index_of_storage_bounds].strip().split("\t")]
 
 	#print(scenarios)
 	print("Time: " + str(int(10*time.time()-10*start)/10) + " seconds")
@@ -252,7 +257,19 @@ for dp in range(number_of_dps):
 model.write("Output/hydro_multiasset_multiproduct_continuous_output.sol")
 
 ### ----------- Support Functions -----------
+def write_variables_to_file():
+	book = xlsxwriter.Workbook("Output/"+datetime.datetime.strftime(datetime.datetime.now(),'%Y-%m-%d_%H.%M.%S')+"_hydro_multiasset_multiproduct_continuous.xlsx")
+	sheet = book.add_worksheet("Variables")
 
+	# Fill spreadsheet
+	counter = 0
+	#write variables
+	for v in model.getVars():
+		sheet.write(counter, 0, str(v.Varname) + " " + str(v.X))
+		counter += 1
+	book.close()
+	print("a")
+write_variables_to_file()
 
 
 
