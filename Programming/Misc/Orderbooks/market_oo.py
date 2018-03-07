@@ -150,9 +150,9 @@ class Market(object):
             if(bid_array_dp == self.delivery_product):
                 if(bid_array_is_buy == "1"):
                     #                         Price                  Volume                Timestamp            isBuy            Order ID     Placed by Customer
-                    self.bidsB.append(Bid(bid_array_price, float(bid_array_volume), bid_array_timestamp, bid_array_is_buy, bid_array_order_id, customer_bids))
+                    self.bidsB.append(Bid(float(bid_array_price), float(bid_array_volume), bid_array_timestamp, bid_array_is_buy, bid_array_order_id, customer_bids))
                 else:
-                    self.bidsS.append(Bid(bid_array_price, float(bid_array_volume), bid_array_timestamp, bid_array_is_buy, bid_array_order_id, customer_bids))
+                    self.bidsS.append(Bid(float(bid_array_price), float(bid_array_volume), bid_array_timestamp, bid_array_is_buy, bid_array_order_id, customer_bids))
 
         if(False and self.printing_mode):
             print("Number of buy bids: " + str(len(self.bidsB)))
@@ -420,35 +420,58 @@ class Market(object):
                 transaction_volume                = "N/A"
 
             if(len(self.open_buy_bids) > 0):
+                
                 self.open_buy_bids.sort(key=lambda x: x.price, reverse=True)
-                open_buy_bids_prices = [b.price for b in self.open_buy_bids[1:6]]
-                open_buy_bids_volumes = [b.volume for b in self.open_buy_bids[1:6]]
-                max_open_bid_order_price         = self.open_buy_bids[0]
+                
+                max_open_bid_order_price         = float(self.open_buy_bids[0].price)
                 open_buy_bid_volumes            = sum(b.volume                                     for b in self.open_buy_bids)
                 avg_buy_order_maturity            = sum(b.compute_maturity(timeslot).total_seconds()                 for b in self.open_buy_bids)    / len(self.open_buy_bids)
+                
+                open_buy_bids_prices = []
+                open_buy_bids_volumes = []
+                
+                for i in range(1,6):
+                    try:
+                        open_buy_bids_prices.append(self.open_buy_bids[i].price)
+                        open_buy_bids_volumes.append(self.open_buy_bids[i].volume)
+                    except:
+                        open_buy_bids_prices.append("N/A")
+                        open_buy_bids_volumes.append("N/A")
+                
             
             else:
                 max_open_bid_order_price        = "N/A"
                 open_buy_bid_volumes            = "N/A"
                 avg_buy_order_maturity            = "N/A"
-                open_buy_bids_prices = [0 for b in range(5)]
-                open_buy_bids_volumes = [0 for b in range(5)]
+                open_buy_bids_prices = ["N/A" for b in range(5)]
+                open_buy_bids_volumes = ["N/A" for b in range(5)]
                 
             if(len(self.open_sell_bids) > 0):
                 self.open_sell_bids.sort(key=lambda x: x.price, reverse=False)
                 
-                min_open_ask_order_price         = self.open_sell_bids[0]
-                open_sell_bids_prices = [b.price for b in self.open_sell_bids[1:6]]
-                open_sell_bids_volumes = [b.volume for b in self.open_sell_bids[1:6]]
+                min_open_ask_order_price         = float(self.open_sell_bids[0].price)
                 open_sell_bid_volumes            = sum(b.volume                                     for b in self.open_sell_bids)
                 avg_sell_order_maturity            = sum(b.compute_maturity(timeslot).total_seconds()                for b in self.open_sell_bids)     / len(self.open_sell_bids)
+                
+                open_sell_bids_prices = []
+                open_sell_bids_volumes = []
+                
+                for i in range(1,6):
+                    try:
+                        open_sell_bids_prices.append(self.open_sell_bids[i].price)
+                        open_sell_bids_volumes.append(self.open_sell_bids[i].volume)
+                    except:
+                        open_sell_bids_prices.append("N/A")
+                        open_sell_bids_volumes.append("N/A")
+                        
+                
             
             else:
                 min_open_ask_order_price        = "N/A"
                 open_sell_bid_volumes            = "N/A"
                 avg_sell_order_maturity            = "N/A"
-                open_sell_bids_prices = [0 for b in range(5)]
-                open_sell_bids_volumes = [0 for b in range(5)]
+                open_sell_bids_prices = ["N/A" for b in range(5)]
+                open_sell_bids_volumes = ["N/A" for b in range(5)]
 
             no_killed_buy_bids                    = len(killed_buy_bids)
             no_killed_sell_bids                    = len(killed_sell_bids)
@@ -478,9 +501,7 @@ class Market(object):
             if(self.visualization_mode == True):
                 time.sleep(self.time_lag)
 
-            # ****** YOUR CODE HERE ******
-            
-            # ****** YOUR CODE HERE ******
+
 
     def get_customer_transactions(self):
         customer_transactions = []
