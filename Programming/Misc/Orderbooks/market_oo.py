@@ -19,72 +19,65 @@ class Market(object):
     """docstring for Market"""
     def __init__(self, dp, bid_file_tag, customer_bid_file_tag, write_transactions_to_file=False, printing_mode=False, stages=136):
         super(Market, self).__init__()
-        self.delivery_product             = dp
-        self.bid_file_tag                 = bid_file_tag
-        self.customer_bid_file_tag         = customer_bid_file_tag
-        self.write_transactions_to_file = write_transactions_to_file
-        self.printing_mode                 = printing_mode
-        self.visualization_mode         = False
-        self.customer_mode                 = customer_bid_file_tag != "N/A"
+        self.delivery_product             			= dp
+        self.bid_file_tag                 			= bid_file_tag
+        self.customer_bid_file_tag         			= customer_bid_file_tag
+        self.write_transactions_to_file 			= write_transactions_to_file
+        self.printing_mode               			= printing_mode
+        self.visualization_mode       			  	= False
+        self.customer_mode                 			= customer_bid_file_tag != "N/A"
 
         ### ----------- System Parameters -----------
-        self.print_output                     = True
-        self.default_parameters             = False
-        self.start_time                     = time.time()
-        self.folder                         = "Data/"
-        #self.bid_file_tag                     = "dp12d1"
-        #self.customer_bid_file_tag         = "dp12d1cc"
-            
-        self.time_lag                         = 0.0
+        self.print_output                   		= True
+        self.default_parameters          			= False
+        self.start_time                 			= time.time()
+        self.folder                    				= "Data/"    
+        self.time_lag                         		= 0.0
+        
         # Documentation parameters
-        self.transaction_file_name             = "Output/Transactions/transactions" + bid_file_tag + ".xlsx"
-
-
-        #printing_mode = False
-
+        self.transaction_file_name             		= "Output/Transactions/transactions" + bid_file_tag + ".xlsx"
 
         ### ----------- Model Parameters -----------
         if (self.default_parameters == True):
               # Set model parameters
               self.params = 0
-              #number_of_trading_stages = 12
+              
 
         else:
-            self.share                         = 1.0 # Share of input orderbook to be considered
-            #self.delivery_product             = dt.strptime("2014-07-01 12:00:00", '%Y-%m-%d %H:%M:%S')
-            self.time_from_gc_to_d             = 30
-            self.stages                     = stages
+            self.share                         		= 1.0 # Share of input orderbook to be considered
+            self.time_from_gc_to_d        			= 30
+            self.stages                     		= stages
             
             # Indices
-            self.index_of_timestamp         = 8
-            self.index_of_isBuy             = 9
-            self.index_of_price             = 11
-            self.index_of_volume             = 12
-            self.index_of_order_id             = 13
-            self.index_of_delivery_product     = 18
+            self.index_of_timestamp         		= 8
+            self.index_of_isBuy            			= 9
+            self.index_of_price             		= 11
+            self.index_of_volume             		= 12
+            self.index_of_order_id            		= 13
+            self.index_of_delivery_product   		= 18
             
             
             # Trading window parameters
-            self.trading_start_time         = self.delivery_product - datetime.timedelta(days=1) + datetime.timedelta(hours=13) - datetime.timedelta(hours=self.delivery_product.hour, minutes=self.delivery_product.minute)
-            self.trading_end_time             = self.delivery_product - datetime.timedelta(minutes=self.time_from_gc_to_d)
+            self.trading_start_time         		= self.delivery_product - datetime.timedelta(days=1) + datetime.timedelta(hours=13) - datetime.timedelta(hours=self.delivery_product.hour, minutes=self.delivery_product.minute)
+            self.trading_end_time             		= self.delivery_product - datetime.timedelta(minutes=self.time_from_gc_to_d)
 
             if(self.stages == 136):
-                self.length_of_timestep     = 10                         # Number of minutes per timestep
+                self.length_of_timestep     		= 10                         # Number of minutes per timestep
             else:
-                self.length_of_timestep        = datetime.timedelta(self.trading_end_time, self.trading_start_time) / self.stages
+                self.length_of_timestep        		= datetime.timedelta(self.trading_end_time, self.trading_start_time) / self.stages
 
 
         # Data structure initialization
-        self.data = []                                                     # All bids in /filename
-        self.bidsB = []                                                 # List of buy bid objects of the delivery product described above
-        self.bidsS = []                                                 # List of sell bid objects of the delivery product described above
-        self.trading_timeslots = []                                     # List of timeslots
-        self.open_buy_bids = []                                         # Iteratively updated
-        self.open_sell_bids = []                                         # Iteratively updated
-        self.transactions = [[] for i in range(self.stages+100)]        # Iteratively updated
-        self.closed_buy_bids = []
-        self.closed_sell_bids = []
-        self.killed_bids = []
+        self.data 									= []                                        # All bids in /filename
+        self.bidsB 									= []                                        # List of buy bid objects of the delivery product described above
+        self.bidsS 									= []                                        # List of sell bid objects of the delivery product described above
+        self.trading_timeslots 						= []                                     	# List of timeslots
+        self.open_buy_bids 							= []                                        # Iteratively updated
+        self.open_sell_bids 						= []                                        # Iteratively updated
+        self.transactions 							= [[] for i in range(self.stages+100)]      # Iteratively updated
+        self.closed_buy_bids 						= []
+        self.closed_sell_bids 						= []
+        self.killed_bids 							= []
 
 
     def print_elapsed_time(self, start_time):
@@ -95,57 +88,67 @@ class Market(object):
     def read_data(self, tag):
         if(self.printing_mode == True):
             print("Reading data...")
+        
         filename = self.folder + tag + ".txt"
+        
         try:
             with open(filename) as f:
                 data = f.readlines()
-
+            
             processed_data = []
+            
             for b in data[:int(self.share*len(data))]:
                 processed_data.append(re.split(r'\t+', b))
 
             del data
+            
             if(self.printing_mode == True):
                 self.print_elapsed_time(self.start_time)
+
         except: # That is, if the data cannot be read
+
             print("Could not find file ", filename)
+
             processed_data = []
+
         return processed_data
 
     # Filter data
     def filter_data(self, data, customer_bids=False):
+
         if(self.printing_mode == True):
             print("Filter data...")
-        # If the timestamps were splitted, indices must be changed
-        
+
         for bid_array in data:
+        	# If the timestamps were splitted, indices must be changed
+        	# To do: Is this done correctly?
             if(len(bid_array) == 30):
                 # Indices
-                self.index_of_timestamp         = 10
-                self.index_of_isBuy             = 12
-                self.index_of_price             = 15
-                self.index_of_volume             = 16
-                self.index_of_order_id             = 17
-                self.index_of_delivery_product     = 23 
+                self.index_of_timestamp  						= 10
+                self.index_of_isBuy             				= 12
+                self.index_of_price            					= 15
+                self.index_of_volume             				= 16
+                self.index_of_order_id             				= 17
+                self.index_of_delivery_product     				= 23 
             elif(len(bid_array) == 31):
                 # Indices
-                self.index_of_timestamp         = 8
-                self.index_of_isBuy             = 10
-                self.index_of_price             = 16
-                self.index_of_volume             = 17
-                self.index_of_order_id             = 18
-                self.index_of_delivery_product     = 24
+                self.index_of_timestamp         				= 8
+                self.index_of_isBuy             				= 10
+                self.index_of_price             				= 16
+                self.index_of_volume             				= 17
+                self.index_of_order_id             				= 18
+                self.index_of_delivery_product     				= 24
 
 
-            bid_array_timestamp             = bid_array[self.index_of_timestamp] + " " + bid_array[self.index_of_timestamp + 1] 
-            bid_array_is_buy                 = bid_array[self.index_of_isBuy]
-            bid_array_price                 = bid_array[self.index_of_price]
-            bid_array_volume                 = bid_array[self.index_of_volume]
-            bid_array_order_id                 = bid_array[self.index_of_order_id]
-            bid_array_dp                     = bid_array[self.index_of_delivery_product] + " " + bid_array[self.index_of_delivery_product + 1] 
+            bid_array_timestamp             					= bid_array[self.index_of_timestamp] + " " + bid_array[self.index_of_timestamp + 1] 
+            bid_array_is_buy                 					= bid_array[self.index_of_isBuy]
+            bid_array_price                 					= bid_array[self.index_of_price]
+            bid_array_volume                 					= bid_array[self.index_of_volume]
+            bid_array_order_id                 					= bid_array[self.index_of_order_id]
+            bid_array_dp                     					= bid_array[self.index_of_delivery_product] + " " + bid_array[self.index_of_delivery_product + 1] 
             
-            bid_array_dp                     = dt.strptime(bid_array_dp.split(".")[0]        , '%Y-%m-%d %H:%M:%S')
-            bid_array_timestamp             = dt.strptime(bid_array_timestamp.split(".")[0]    , '%Y-%m-%d %H:%M:%S')
+            bid_array_dp                     					= dt.strptime(bid_array_dp.split(".")[0]        , '%Y-%m-%d %H:%M:%S')
+            bid_array_timestamp             					= dt.strptime(bid_array_timestamp.split(".")[0]    , '%Y-%m-%d %H:%M:%S')
             
             if(bid_array_dp == self.delivery_product):
                 if(bid_array_is_buy == "1"):
@@ -159,12 +162,6 @@ class Market(object):
             print("Number of sell bids: " + str(len(self.bidsS)))
             print("Total number of bids: " + str(len(self.bidsS)+(len(self.bidsB))))
 
-        tot_vol = 0.0
-        for i in range(len(self.bidsB)):
-            tot_vol += self.bidsB[i].volume
-        for i in range(len(self.bidsS)):
-            tot_vol += self.bidsS[i].volume
-        
         if(self.printing_mode == True):
             self.print_elapsed_time(self.start_time)
         
@@ -177,13 +174,16 @@ class Market(object):
         step_length = datetime.timedelta(minutes=length)
 
         while True:
+
             if(time_iterator + step_length > end + datetime.timedelta(minutes=self.length_of_timestep+60)):
                 break
             else:
                 timeslots.append(time_iterator)
                 time_iterator = time_iterator + step_length
+        
         if(self.printing_mode):
             print("Number of timeslots: " + str(len(timeslots)))
+
         return timeslots
 
     def create_bid_dictionary(self, bids, timeslots):
@@ -191,13 +191,16 @@ class Market(object):
 
         if(self.printing_mode):
             print("Number of bids before dict: " + str(len(bids)))
+        
         # Create keys
         bids_temp = bids[:]
 
         for timeslot in self.trading_timeslots:
+
             bid_dictionary[timeslot] = []
             for i,b in enumerate(bids_temp):
                 if (b.get_timestamp() < timeslot):
+
                     bid_dictionary[timeslot].append(b)
                     bids_temp.remove(b)
 
@@ -211,13 +214,7 @@ class Market(object):
     def get_stats(self):
         return self.stats
 
-
-    # Support Functions
-    def retrieve_new_bids(self, open_sell_bids, open_buy_bids, timeslot):
-        # To do: retrieve new bids
-        #open_sell_bids.append(bid_dictionary[timeslot])
-        #open_buy_bids.append(bid_dictionary[timeslot])
-        return open_sell_bids, open_buy_bids
+    ### Support Functions
 
     # This method can probably be improved by taking advantage of the fact that
     # the bid arrays are sorted by price. Not necessary to loop through the whole sets
@@ -226,11 +223,12 @@ class Market(object):
         open_sell_bids.sort(key=lambda x: x.price, reverse=True)
         open_buy_bids.sort(key=lambda x: x.price, reverse=True)
 
-        # Not taken into account yet:
+        # Assumptions/features: 
             # Assume bids only arrive in x min blocks
-            # Do not reduce volume of the same bid in other zones
-            # Who takes the spread
+            # Do reduce volume of the same bid in other zones
+            # Spread goes to the most recent bid
             # Only partial clearing
+            # Killing within the timeslot does not affect bid clearing. Not really a problem when timeslot size -> 0
         for s in open_sell_bids:
             buy_bid_iterator = 0
             while s.volume > 0 and buy_bid_iterator < len(open_buy_bids):
@@ -276,37 +274,42 @@ class Market(object):
 
                     # Increase iterator
                     buy_bid_iterator = buy_bid_iterator + 1
+
                 else:
                     break
 
-        # To do: create transactions
+        
         return open_sell_bids, open_buy_bids
 
+    # Not yet implemented.
     def print_bid_curves(self, buy_bids, sell_bids):
 
         return 0
-        x = np.arange(1, 7, 0.4)
-        y0 = np.sin(x)
-        y = y0.copy() + 2.5
+        # Inspiration
+        if(False):
+	        x = np.arange(1, 7, 0.4)
+	        y0 = np.sin(x)
+	        y = y0.copy() + 2.5
 
-        plt.step(x, y, label='pre (default)')
+	        plt.step(x, y, label='pre (default)')
 
-        y -= 0.5
-        plt.step(x, y, where='mid', label='mid')
+	        y -= 0.5
+	        plt.step(x, y, where='mid', label='mid')
 
-        y -= 0.5
-        plt.step(x, y, where='post', label='post')
+	        y -= 0.5
+	        plt.step(x, y, where='post', label='post')
 
-        y = ma.masked_where((y0 > -0.15) & (y0 < 0.15), y - 0.5)
-        plt.step(x, y, label='masked (pre)')
+	        y = ma.masked_where((y0 > -0.15) & (y0 < 0.15), y - 0.5)
+	        plt.step(x, y, label='masked (pre)')
 
-        plt.legend()
+	        plt.legend()
 
-        plt.xlim(0, 7)
-        plt.ylim(-0.5, 4)
+	        plt.xlim(0, 7)
+	        plt.ylim(-0.5, 4)
 
-        plt.show()
+	        plt.show()
 
+	# Removes the killed bids of a bid array
     def remove_killed_bids(self, bids):
         # For each bid with zero volume, remove all other bids with identical order id
         zero_volume_bids     = []
