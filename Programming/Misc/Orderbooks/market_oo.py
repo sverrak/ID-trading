@@ -36,7 +36,6 @@ class Market(object):
 		#self.customer_bid_file_tag 		= "dp12d1cc"
 			
 		self.time_lag 						= 0.0
-
 		# Documentation parameters
 		self.transaction_file_name 			= "transactions" + bid_file_tag + ".xlsx"
 
@@ -76,13 +75,13 @@ class Market(object):
 
 
 		# Data structure initialization
-		self.data = [] 										# All bids in /filename
-		self.bidsB = [] 									# List of buy bid objects of the delivery product described above
-		self.bidsS = [] 									# List of sell bid objects of the delivery product described above
-		self.trading_timeslots = [] 						# List of timeslots
-		self.open_buy_bids = [] 							# Iteratively updated
-		self.open_sell_bids = [] 							# Iteratively updated
-		self.transactions = [[] for i in range(self.stages)]# Iteratively updated
+		self.data = [] 													# All bids in /filename
+		self.bidsB = [] 												# List of buy bid objects of the delivery product described above
+		self.bidsS = [] 												# List of sell bid objects of the delivery product described above
+		self.trading_timeslots = [] 									# List of timeslots
+		self.open_buy_bids = [] 										# Iteratively updated
+		self.open_sell_bids = [] 										# Iteratively updated
+		self.transactions = [[] for i in range(self.stages+100)]		# Iteratively updated
 		self.closed_buy_bids = []
 		self.closed_sell_bids = []
 		self.killed_bids = []
@@ -96,25 +95,54 @@ class Market(object):
 	def read_data(self, tag):
 		print("Reading data...")
 		filename = self.folder + tag + ".txt"
-		with open(filename) as f:
-		    data = f.readlines()
+		try:
+			with open(filename) as f:
+			    data = f.readlines()
 
-		processed_data = []
-		for b in data[:int(self.share*len(data))]:
-			processed_data.append(re.split(r'\t+', b))
+			processed_data = []
+			for b in data[:int(self.share*len(data))]:
+				processed_data.append(re.split(r'\t+', b))
 
-		del data
-		self.print_elapsed_time(self.start_time)
-		
+			del data
+			self.print_elapsed_time(self.start_time)
+		except:
+			processed_data = []
 		return processed_data
 
 	# Filter data
 	def filter_data(self, data, customer_bids=False):
 		print("Filter data...")
-		print(len(data))
+		# If the timestamps were splitted, indices must be changed
+		
 		for bid_array in data:
-			bid_array_dp = dt.strptime(bid_array[self.index_of_delivery_product].split(".")[0], '%Y-%m-%d %H:%M:%S')
-			bid_array_timestamp = dt.strptime(bid_array[self.index_of_timestamp].split(".")[0], '%Y-%m-%d %H:%M:%S')
+			if(len(bid_array) == 30):
+				# Indices
+				self.index_of_timestamp 		= 10
+				self.index_of_isBuy 			= 12
+				self.index_of_price 			= 15
+				self.index_of_volume 			= 16
+				self.index_of_order_id 			= 17
+				self.index_of_delivery_product 	= 23 
+			elif(len(bid_array) == 31):
+				# Indices
+				self.index_of_timestamp 		= 8
+				self.index_of_isBuy 			= 10
+				self.index_of_price 			= 16
+				self.index_of_volume 			= 17
+				self.index_of_order_id 			= 18
+				self.index_of_delivery_product 	= 24
+
+
+			bid_array_timestamp 			= bid_array[self.index_of_timestamp] + " " + bid_array[self.index_of_timestamp + 1] 
+			bid_array_is_buy 				= bid_array[self.index_of_isBuy]
+			bid_array_price 				= bid_array[self.index_of_price]
+			bid_array_volume 				= bid_array[self.index_of_volume]
+			bid_array_order_id 				= bid_array[self.index_of_order_id]
+			bid_array_dp 					= bid_array[self.index_of_delivery_product] + " " + bid_array[self.index_of_delivery_product + 1] 
+			
+			bid_array_dp 					= dt.strptime(bid_array_dp.split(".")[0]		, '%Y-%m-%d %H:%M:%S')
+			bid_array_timestamp 			= dt.strptime(bid_array_timestamp.split(".")[0]	, '%Y-%m-%d %H:%M:%S')
+			
 			if(bid_array_dp == self.delivery_product):
 				if(bid_array[self.index_of_isBuy] == "1"):
 					# 						Price 							Volume 							Timestamp 				isBuy 						Order ID 				Placed by Customer
@@ -143,7 +171,7 @@ class Market(object):
 		step_length = datetime.timedelta(minutes=length)
 
 		while True:
-			if(time_iterator + step_length > end + datetime.timedelta(minutes=self.length_of_timestep)):
+			if(time_iterator + step_length > end + datetime.timedelta(minutes=self.length_of_timestep+60)):
 				break
 			else:
 				timeslots.append(time_iterator)
@@ -159,7 +187,7 @@ class Market(object):
 			print("Number of bids before dict: " + str(len(bids)))
 		# Create keys
 		bids_temp = bids[:]
-		print(self.trading_timeslots)
+
 		for timeslot in self.trading_timeslots:
 			bid_dictionary[timeslot] = []
 			for i,b in enumerate(bids_temp):
@@ -174,7 +202,6 @@ class Market(object):
 					break
 
 		print("Number of bids after dict: " + str(len(bids_temp)))
-		print(bid_dictionary.keys())
 		return bid_dictionary
 
 
@@ -189,7 +216,7 @@ class Market(object):
 		#open_buy_bids.append(bid_dictionary[timeslot])
 		return open_sell_bids, open_buy_bids
 
-	def create_transactions(self, open_sell_bids, open_buy_bids):
+	def create_transactions(self, open_sell_bids, open_buy_bids, time):
 		# Sort by price
 		open_sell_bids.sort(key=lambda x: x.price, reverse=True)
 		open_buy_bids.sort(key=lambda x: x.price, reverse=True)
@@ -199,22 +226,22 @@ class Market(object):
 			# Do not reduce volume of the same bid in other zones
 			# Who takes the spread
 			# Only partial clearing
-
 		for s in open_sell_bids:
 			buy_bid_iterator = 0
 			while s.volume > 0 and buy_bid_iterator < len(open_buy_bids):
 				if(open_buy_bids[buy_bid_iterator].price >= s.price):
 					if(self.printing_mode):
 						print("Transaction created!")
+					
 					# Create transaction
-					timestamp = s.timestamp if s.timestamp > open_buy_bids[buy_bid_iterator].timestamp else open_buy_bids[buy_bid_iterator].timestamp
-					transaction_volume = min(s.volume, open_buy_bids[buy_bid_iterator].volume)
-					self.transactions[t].append(Transaction(s, open_buy_bids[buy_bid_iterator], s.price, transaction_volume, timestamp))
+					timestamp 			= s.timestamp if s.timestamp > open_buy_bids[buy_bid_iterator].timestamp else open_buy_bids[buy_bid_iterator].timestamp
+					transaction_volume 	= min(s.volume, open_buy_bids[buy_bid_iterator].volume)
+					self.transactions[time].append(Transaction(s, open_buy_bids[buy_bid_iterator], s.price, transaction_volume, timestamp))
 					
 					# Identify all bids with same order id
 					identical_sell_bids = []
-					identical_buy_bids = []
-
+					identical_buy_bids 	= []
+					
 					# Reduce their volumes and remove them if no residual volume
 					for t in open_sell_bids:
 						if(t.order_id == s.order_id):
@@ -268,7 +295,8 @@ class Market(object):
 
 	def remove_killed_bids(self, bids):
 		# For each bid with zero volume, remove all other bids with identical order id
-		zero_volume_bids = []
+		zero_volume_bids 	= []
+		killed_bids 		= []
 		for b in bids:
 			if(b.volume == 0):
 				zero_volume_bids.append(b)
@@ -276,11 +304,10 @@ class Market(object):
 		for k in zero_volume_bids:
 			for b in bids:
 				if(k.order_id == b.order_id):
-					self.killed_bids.append(k)
+					killed_bids.append(k)
 					bids.remove(b)
 
-
-		return bids
+		return bids, killed_bids
 
 
 	def print_transactions(self, mode):
@@ -313,67 +340,106 @@ class Market(object):
 
 	def initandrun(self):
 		# Data structure instantiation
-		self.trading_timeslots = self.setup_timeslots(self.trading_start_time, self.trading_end_time, self.length_of_timestep)  # List of timeslots
-		data = self.read_data(self.bid_file_tag)
+		self.trading_timeslots 	= self.setup_timeslots(self.trading_start_time, self.trading_end_time, self.length_of_timestep)  # List of timeslots
+		data 					= self.read_data(self.bid_file_tag)
+		
 		if(self.customer_mode == True):
 			customer_bid_array = self.read_data(self.customer_bid_file_tag)
 		else:
-			customer_bid_array = []
+			customer_bid_array 	= []
 
 		# Create lists of bids
-		buy_bids, sell_bids = self.filter_data(data, False)
-		_, customer_bids = self.filter_data(customer_bid_array, True)
+		buy_bids, sell_bids 	= self.filter_data(data, False)
+		_, customer_bids 		= self.filter_data(customer_bid_array, True)
 
 		# Add customer's bids to list of bids
 		sell_bids += customer_bids
 
 		# Sort bids by their time blocks
-		sell_bid_dict = self.create_bid_dictionary(sell_bids, self.trading_timeslots)
-		buy_bid_dict = self.create_bid_dictionary(buy_bids, self.trading_timeslots)
+		sell_bid_dict 			= self.create_bid_dictionary(sell_bids, self.trading_timeslots)
+		buy_bid_dict 			= self.create_bid_dictionary(buy_bids, self.trading_timeslots)
 
-		# 
-		self.stats = [["Trading timeslot", "Avg transaction price", "Max transaction price", "Min transaction price", "Max open bid order price", "Min open ask order price", "Transaction volume", "Open bid volumes", "Open ask volumes", "Killed order volumes", "Number of transactions", "Number of unique bid orders in transactions", "Number of unique ask orders in transactions", "Average buy order maturity", "Average sell order maturity"]]
+		# Stats headers
+		self.stats 				= [["Trading timeslot", "Avg transaction price", "Max transaction price", "Min transaction price", "Max open bid order price", "Min open ask order price", "Transaction volume", "Open bid volumes", "Open ask volumes", "Killed buy order volumes", "Killed sell order volumes", "Number of transactions", "Number of unique bid orders in transactions", "Number of unique ask orders in transactions", "Average buy order maturity", "Average sell order maturity"]]
 
 		for t, timeslot in enumerate(self.trading_timeslots):
 			if(self.printing_mode):
 				print("\n\n\nTimeslot: " + str(timeslot) + " (Iteration " + str(t) + ")")
-			# Retrieve all incoming bids
-			#print("\n Number of incoming bids: " + str(len(sell_bid_dict[timeslot])))
+
+			### Retrieve all incoming bids
 			self.open_sell_bids += sell_bid_dict[timeslot]
 			self.open_buy_bids += buy_bid_dict[timeslot]
 
+			### Remove killed bids
 			self.open_sell_bids, killed_sell_bids 	= self.remove_killed_bids(self.open_sell_bids)
 			self.open_buy_bids, killed_buy_bids		= self.remove_killed_bids(self.open_buy_bids)
-
-			#print("Number of open bids (sell, buy): " + str(len(open_sell_bids)) + ", " + str(len(open_buy_bids)))
-			self.print_bid_curves(self.open_buy_bids, self.open_sell_bids)
-			#print_elapsed_time(start_time)
 			
-			# Create transactions and update bid portfolio
-			self.open_sell_bids, self.open_buy_bids = self.create_transactions(self.open_sell_bids, self.open_buy_bids)
+			print("ASODKM", len(killed_buy_bids))
+			### Print bid curves
+			self.print_bid_curves(self.open_buy_bids, self.open_sell_bids)
+			
+			### Create transactions and update bid portfolio
+			self.open_sell_bids, self.open_buy_bids = self.create_transactions(self.open_sell_bids, self.open_buy_bids, t)
 
-			# Print bid curves
+			
+			### Print bid curves
 			self.print_bid_curves(self.open_buy_bids, self.open_sell_bids)
 			if(self.printing_mode):
 				print("Timestep " + str(timeslot) + " bid order depth " + str(len(self.closed_sell_bids))+"/"+str(len(self.open_sell_bids)) +"-"+ str(len(self.closed_buy_bids))+"/"+str(len(self.open_buy_bids)))
 
-			# Collect data for table
-			avg_transaction_price				= sum(self.transactions[t][i].price 		for i in range(len(self.transactions[t]))) / len(transactions[t])
-			min_transaction_price				= min(self.transactions[t][i].price 		for i in range(len(self.transactions[t])))
-			max_transaction_price				= max(self.transactions[t][i].price 		for i in range(len(self.transactions[t])))
-			transaction_volume					= sum(self.transactions[t][i].volume 		for i in range(len(self.transactions[t])))
-			max_open_bid_order_price 			= max(self.open_buy_bids)
-			min_open_ask_order_price 			= min(self.open_sell_bids)
-			open_buy_bid_volumes				= sum(b.volume 								for b in self.open_buy_bids)
-			open_sell_bid_volumes				= sum(b.volume 								for b in self.open_sell_bids)
+			### Collect data for table
+			# If no transactions are created, set transaction attributes equal to N/A
+			if(len(self.transactions[t]) > 0):
+				avg_transaction_price			= sum(self.transactions[t][i].price 			for i in range(len(self.transactions[t]))) / len(self.transactions[t])
+				min_transaction_price			= min(self.transactions[t][i].price 			for i in range(len(self.transactions[t])))
+				max_transaction_price			= max(self.transactions[t][i].price 			for i in range(len(self.transactions[t])))
+				transaction_volume				= sum(self.transactions[t][i].volume 			for i in range(len(self.transactions[t])))
+				
+			else:
+				avg_transaction_price			= "N/A"
+				min_transaction_price			= "N/A"
+				max_transaction_price			= "N/A"
+				transaction_volume				= "N/A"
+
+			if(len(self.open_buy_bids) > 0):
+				max_open_bid_order_price 		= max(self.open_buy_bids[i].price 				for i in range(len(self.open_buy_bids)))
+				open_buy_bid_volumes			= sum(b.volume 									for b in self.open_buy_bids)
+				avg_buy_order_maturity			= sum(b.compute_maturity(timeslot).total_seconds()			 	for b in self.open_buy_bids)	/ len(self.open_buy_bids)
+			
+			else:
+				max_open_bid_order_price		= "N/A"
+				open_buy_bid_volumes			= "N/A"
+				avg_buy_order_maturity			= "N/A"
+
+			if(len(self.open_sell_bids) > 0):
+				min_open_ask_order_price 		= min(self.open_sell_bids[i].price 				for i in range(len(self.open_sell_bids)))
+				open_sell_bid_volumes			= sum(b.volume 									for b in self.open_sell_bids)
+				avg_sell_order_maturity			= sum(b.compute_maturity(timeslot).total_seconds()				for b in self.open_sell_bids) 	/ len(self.open_sell_bids)
+			
+			else:
+				min_open_ask_order_price		= "N/A"
+				open_sell_bid_volumes			= "N/A"
+				avg_sell_order_maturity			= "N/A"
+
 			no_killed_buy_bids					= len(killed_buy_bids)
 			no_killed_sell_bids					= len(killed_sell_bids)
-			killed_sell_volume					= sum(b.volume 								for b in killed_sell_bids)
-			killed_buy_volume 					= sum(b.volume 								for b in killed_buy_bids)
+			
+			if(no_killed_buy_bids > 0):
+				killed_buy_volume 				= sum(b.volume 									for b in killed_buy_bids)
+			
+			else:
+				killed_buy_volume				= 0
+
+			if(no_killed_sell_bids > 0):
+				killed_sell_volume				= sum(b.volume 									for b in killed_sell_bids)
+			
+			else:
+				killed_sell_volume 				= 0
+			
 			unique_buy_orders_in_transactions	= "???"
 			unique_sell_orders_in_transactions	= "???"
-			avg_sell_order_maturity				= sum(b.compute_maturity(datetime.now()) 	for b in self.open_sell_bids) 	/ len(self.open_sell_bids)
-			avg_buy_order_maturity				= sum(b.compute_maturity(datetime.now()) 	for b in self.open_buy_bids)	/ len(self.open_buy_bids)
+			
+			
 
 			self.stats.append([timeslot, avg_transaction_price, max_transaction_price, min_transaction_price, max_open_bid_order_price, min_open_ask_order_price, transaction_volume, open_buy_bid_volumes, open_sell_bid_volumes, killed_buy_volume, killed_sell_volume, len(self.transactions[t]), unique_buy_orders_in_transactions, unique_sell_orders_in_transactions, avg_buy_order_maturity, avg_sell_order_maturity])
 

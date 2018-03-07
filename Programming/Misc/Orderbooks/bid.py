@@ -14,7 +14,8 @@ class Bid(object):
 		self.isCustomer = isCustomer
 
 	def compute_maturity(self, now):
-		return datetime.timedelta(now, self.timestamp)
+		
+		return (now - self.timestamp)
 
 	def reduce_volume(self, volume):
 		if(self.volume > volume):
