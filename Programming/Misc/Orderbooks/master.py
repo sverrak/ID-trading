@@ -122,7 +122,7 @@ if __name__ == '__main__':
 
     # Delivery Product Statistics Mode
     if(running_mode == 2):
-        mr                          			= Market_Runner(["2016-09-01", "2016-09-15"], testing_mode=False)
+        mr                             = Market_Runner(["2016-09-01", "2016-09-01"], testing_mode=False)
         mr.run_multiple_markets()
         # Save the stats to a file
         mr.write_3d_matrix_to_file(mr.stats)
