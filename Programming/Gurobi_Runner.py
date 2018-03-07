@@ -1,5 +1,5 @@
 import itphelper
-from ITP_Solver import ITP_Solver 
+from ID101_ITP_Solver import ITP_Solver 
 import datetime
 import time
 import numpy
@@ -14,13 +14,15 @@ class Gurobi_Runner(object):
 
 	def do_one_run(self, dp, s, pu, tt, generate_scenarios_arg=True, file_name=""):
 		if(file_name==""):
-            self.itp_solver = ITP_Solver(generate_scenarios=generate_scenarios_arg, generate_random_variables=True, printing_output=False)
-        else:
-            self.itp_solver = ITP_Solver(generate_scenarios=generate_scenarios_arg, generate_random_variables=True, printing_output=False, parameter_file_name=file_name)
-		# Fetch and setup the parameters
-		self.itp_solver.reset_parameters(dp, s, pu, tt)
+			self.itp_solver = ITP_Solver(generate_scenarios=generate_scenarios_arg, generate_random_variables=True, printing_output=False)
+		else:
+			self.itp_solver = ITP_Solver(generate_scenarios=generate_scenarios_arg, generate_random_variables=True, printing_output=False, parameter_file_name=file_name)
 		
-        # Setup variables, constraints and objective function
+		# Fetch and setup the parameters
+		if(generate_scenarios_arg == True):
+			self.itp_solver.reset_parameters(dp, s, pu, tt)
+		
+		# Setup variables, constraints and objective function
 		self.itp_solver.setup_variables()
 		self.itp_solver.setup_constraints()
 		self.itp_solver.setup_objective_function()
@@ -77,10 +79,11 @@ class Gurobi_Runner(object):
 
 if __name__ == "__main__":
 	t0 = time.time()
-	if(False): # Multirun case
+	mode = 2
+
+	if(mode == 1): # Multirun case
 		gr = Gurobi_Runner()
-		
-        # Parameter set 1
+		 # Parameter set 1
 		dps 		= [5,10,24]
 		ss 			= [10,40,70,100]
 		pus 		= [1,2,3,5]
@@ -115,18 +118,15 @@ if __name__ == "__main__":
 		
 		#gr.print_solution()
 		
-	else: # Single run
-        gr = Gurobi_Runner()
-        
-        # Arguments: DP,S,PU,T,GenerateScenarios,ParameterFileName
-        # Your code here
-        gr.do_one_run(10,100,1,10, False, "") # Insert parameter file name in the ""
-        # Your code here
-        gr.result_table.append(list)
-        gr.write_results_to_file()
+	elif(mode == 2): # Single run
+		gr = Gurobi_Runner()
+		# Arguments: DP,S,PU,T,GenerateScenarios,ParameterFileName
+		gr.do_one_run(10,100,1,10, True, "") # Insert parameter file name in the ""
+		# Your code here
+		gr.result_table.append(list)
+		gr.write_results_to_file()
 		
 		
-       
 	print("\n\nTotal running time: " + str(time.time() - t0))
 
 
