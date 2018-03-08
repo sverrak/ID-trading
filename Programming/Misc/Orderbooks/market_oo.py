@@ -50,11 +50,13 @@ class Market(object):
             
             # Indices
             self.index_of_timestamp         		= 8
+            self.index_of_timestamp2         		= 10
             self.index_of_isBuy            			= 9
             self.index_of_price             		= 11
             self.index_of_volume             		= 12
             self.index_of_order_id            		= 13
             self.index_of_delivery_product   		= 18
+            self.index_of_zone                      = 3
             
             
             # Trading window parameters
@@ -119,43 +121,82 @@ class Market(object):
         if(self.printing_mode == True):
             print("Filter data...")
 
-        for bid_array in data:
-        	# If the timestamps were splitted, indices must be changed
-        	# To do: Is this done correctly?
+        for xx,bid_array in enumerate(data):
+            	# If the timestamps were splitted, indices must be changed
+            	# To do: Is this done correctly?
+            if(bid_array[-1] == "\n"):
+                bid_array = bid_array[:-1]
             if(len(bid_array) == 30):
                 # Indices
                 self.index_of_timestamp  						= 10
+                self.index_of_timestamp2                    = 13
                 self.index_of_isBuy             				= 12
                 self.index_of_price            					= 15
                 self.index_of_volume             				= 16
                 self.index_of_order_id             				= 17
-                self.index_of_delivery_product     				= 23 
+                self.index_of_delivery_product     				= 23
+                self.index_of_zone                          = 3
             elif(len(bid_array) == 31):
                 # Indices
                 self.index_of_timestamp         				= 8
+                self.index_of_timestamp2                    = 11
                 self.index_of_isBuy             				= 10
                 self.index_of_price             				= 16
                 self.index_of_volume             				= 17
                 self.index_of_order_id             				= 18
                 self.index_of_delivery_product     				= 24
+                self.index_of_zone                          = 3
 
-
+            # Check the length of bid array
+            if(len(bid_array) != 31 and len(bid_array) != 30    ):
+                print("NBNB: Bid array does not have a supported length.")
+                print(len(bid_array))
+                print(bid_array)
+                
+            #print(xx, bid_array)
             bid_array_timestamp             					= bid_array[self.index_of_timestamp] + " " + bid_array[self.index_of_timestamp + 1] 
+            bid_array_timestamp2                            = bid_array[self.index_of_timestamp2] + " " + bid_array[self.index_of_timestamp2 + 1]
             bid_array_is_buy                 					= bid_array[self.index_of_isBuy]
+            print(bid_array_)
             bid_array_price                 					= bid_array[self.index_of_price]
             bid_array_volume                 					= bid_array[self.index_of_volume]
             bid_array_order_id                 					= bid_array[self.index_of_order_id]
-            bid_array_dp                     					= bid_array[self.index_of_delivery_product] + " " + bid_array[self.index_of_delivery_product + 1] 
+            if(":" in bid_array[self.index_of_delivery_product + 1]):
+                bid_array_dp                     					= bid_array[self.index_of_delivery_product] + " " + bid_array[self.index_of_delivery_product + 1]
+                #print("Got A", len(bid_array_dp), bid_array_dp)
+            elif(":" in bid_array[self.index_of_delivery_product]):
+                bid_array_dp                     					= bid_array[self.index_of_delivery_product - 1] + " " + bid_array[self.index_of_delivery_product]
+                print("Got B", len(bid_array_dp), bid_array_dp)
+            else:
+                raise ValueError("Don't know where to find delivery product attribute")
+                
+            if(":" in bid_array[self.index_of_timestamp + 1]):
+                bid_array_timestamp                     					= bid_array[self.index_of_timestamp] + " " + bid_array[self.index_of_timestamp + 1]
+                #print("Got A", len(bid_array_dp), bid_array_dp)
+            elif(":" in bid_array[self.index_of_timestamp]):
+                bid_array_timestamp = bid_array[self.index_of_timestamp - 1] + " " + bid_array[self.index_of_timestamp]
+                print("Got B", len(bid_array_dp), bid_array_dp)
+            elif(":" in bid_array[self.index_of_timestamp + 1]):
+                bid_array_timestamp             					= bid_array[self.index_of_timestamp + 1] + " " + bid_array[self.index_of_timestamp + 2]
+            else:
+                print(bid_array)
+                raise ValueError("Don't know where to find timestamp attribute")
+                
             
-            bid_array_dp                     					= dt.strptime(bid_array_dp.split(".")[0]        , '%Y-%m-%d %H:%M:%S')
-            bid_array_timestamp             					= dt.strptime(bid_array_timestamp.split(".")[0]    , '%Y-%m-%d %H:%M:%S')
+            bid_array_zone                                  = bid_array[self.index_of_zone]
+            try:
+                bid_array_dp                     					= dt.strptime(bid_array_dp.split(".")[0]        , '%Y-%m-%d %H:%M:%S')
+                bid_array_timestamp             					= dt.strptime(bid_array_timestamp.split(".")[0]    , '%Y-%m-%d %H:%M:%S')
+            except:
+                bid_array_dp                     					= dt.strptime(bid_array_dp.split(".")[0]        , '%m/%d/%Y %H:%M:%S')
+                bid_array_timestamp             					= dt.strptime(bid_array_timestamp.split(".")[0]    , '%m/%d/%Y %H:%M:%S')
             
             if(bid_array_dp == self.delivery_product):
                 if(bid_array_is_buy == "1"):
-                    #                         Price                  Volume                Timestamp            isBuy            Order ID     Placed by Customer
-                    self.bidsB.append(Bid(float(bid_array_price), float(bid_array_volume), bid_array_timestamp, bid_array_is_buy, bid_array_order_id, customer_bids))
+                    #                         Price                  Volume                Timestamp              Timestamp2               isBuy            Order ID     Placed by Customer
+                    self.bidsB.append(Bid(float(bid_array_price), float(bid_array_volume), bid_array_timestamp, bid_array_timestamp2, bid_array_is_buy, bid_array_order_id, customer_bids, bid_array_zone))
                 else:
-                    self.bidsS.append(Bid(float(bid_array_price), float(bid_array_volume), bid_array_timestamp, bid_array_is_buy, bid_array_order_id, customer_bids))
+                    self.bidsS.append(Bid(float(bid_array_price), float(bid_array_volume), bid_array_timestamp, bid_array_timestamp2, bid_array_is_buy, bid_array_order_id, customer_bids, bid_array_zone))
 
         if(False and self.printing_mode):
             print("Number of buy bids: " + str(len(self.bidsB)))
@@ -220,63 +261,65 @@ class Market(object):
     # the bid arrays are sorted by price. Not necessary to loop through the whole sets
     def create_transactions(self, open_sell_bids, open_buy_bids, time):
         # Sort by price
-        open_sell_bids.sort(key=lambda x: x.price, reverse=True)
-        open_buy_bids.sort(key=lambda x: x.price, reverse=True)
-
+        open_sell_bids.sort(key=lambda x: x.timestamp, reverse=False)
+        open_buy_bids.sort(key=lambda x: x.timestamp, reverse=False)
+        
         # Assumptions/features: 
             # Assume bids only arrive in x min blocks
             # Do reduce volume of the same bid in other zones
             # Spread goes to the most recent bid
             # Only partial clearing
             # Killing within the timeslot does not affect bid clearing. Not really a problem when timeslot size -> 0
+        
         for s in open_sell_bids:
-            buy_bid_iterator = 0
-            while s.volume > 0 and buy_bid_iterator < len(open_buy_bids):
-                if(open_buy_bids[buy_bid_iterator].price >= s.price):
-                    if(False and self.printing_mode):
-                        print("Transaction created!")
-                    
-                    ### Create transaction
-                    # Transaction attributes are given as stated below:
-                    timestamp               = s.timestamp if s.timestamp > open_buy_bids[buy_bid_iterator].timestamp else open_buy_bids[buy_bid_iterator].timestamp # The transaction timestamp is equal to the timestamp of the most recent bid involved in the transaction
-                    transaction_volume      = min(s.volume, open_buy_bids[buy_bid_iterator].volume) # The transaction volume is equal to the smallest residual volume of the involved bids
-                    transaction_price       = float(s.price) if s.timestamp == timestamp else float(open_buy_bids[buy_bid_iterator].price) # Transaction price is equal to the price of the earliest placed bid
-                    
-                    # Add the new transaction to the list of transactions
-                    self.transactions[time].append(Transaction(s, open_buy_bids[buy_bid_iterator], transaction_price, transaction_volume, timestamp)) 
-                    
-                    # Identify all bids with same order id
-                    # Reduce their volumes and remove them if no residual volume
-                    # Hypothesis: Try except is needed as we might remove a bid before trying to access it.
-                    for t in open_sell_bids:
-                        try:
-                            if(t.order_id == s.order_id):
-                                t.reduce_volume(transaction_volume)
-                                if(t.volume == 0):
-                                    open_sell_bids.remove(t)
-                                    #closed_sell_bids.append(t)
-                        except: 
-                            continue
-
-                    for t in open_buy_bids:
-                        #print(buy_bid_iterator, len(open_buy_bids))
-                        try:
-                            if(open_buy_bids[buy_bid_iterator].order_id == t.order_id):
-                                t.reduce_volume(transaction_volume)
-                                
-                                if(t.volume == 0):
-                                    open_buy_bids.remove(t)
-                                    #closed_buy_bids.append(t)
-                                    # Necessary to decrease iterator?
-                                    #buy_bid_iterator -= 1
-                        except:
-                            continue
-
+            # To be absolutely sure that on cleared or killed bids appear in transactions
+            if(s.isOpen == True):
+                buy_bid_iterator = 0
+                while s.volume > 0 and buy_bid_iterator < len(open_buy_bids):
+                    if(open_buy_bids[buy_bid_iterator].isOpen == True and open_buy_bids[buy_bid_iterator].zone == s.zone and open_buy_bids[buy_bid_iterator].price >= s.price):
+                        if(False and self.printing_mode):
+                            print("Transaction created!")
+                        
+                        ### Create transaction
+                        # Transaction attributes are given as stated below:
+                        timestamp               = s.timestamp if s.timestamp > open_buy_bids[buy_bid_iterator].timestamp else open_buy_bids[buy_bid_iterator].timestamp # The transaction timestamp is equal to the timestamp of the most recent bid involved in the transaction
+                        transaction_volume      = min(s.volume, open_buy_bids[buy_bid_iterator].volume) # The transaction volume is equal to the smallest residual volume of the involved bids
+                        transaction_price       = float(s.price) if s.timestamp == timestamp else float(open_buy_bids[buy_bid_iterator].price) # Transaction price is equal to the price of the earliest placed bid
+                        
+                        # Add the new transaction to the list of transactions
+                        self.transactions[time].append(Transaction(s, open_buy_bids[buy_bid_iterator], transaction_price, transaction_volume, timestamp)) 
+                        
+                        # Identify all bids with same order id
+                        # Reduce their volumes and remove them if no residual volume
+                        # Hypothesis: Try except is needed as we might remove a bid before trying to access it.
+                        for t in open_sell_bids:
+                            try:
+                                if(t.order_id == s.order_id):
+                                    t.reduce_volume(transaction_volume)
+                                    if(t.volume == 0):
+                                        open_sell_bids.remove(t)
+                                        #closed_sell_bids.append(t)
+                            except: 
+                                continue
+    
+                        for t in open_buy_bids:
+                            #print(buy_bid_iterator, len(open_buy_bids))
+                            try:
+                                if(open_buy_bids[buy_bid_iterator].order_id == t.order_id):
+                                    t.reduce_volume(transaction_volume)
+                                    
+                                    if(t.volume == 0):
+                                        open_buy_bids.remove(t)
+                                        #closed_buy_bids.append(t)
+                                        # Necessary to decrease iterator?
+                                        #buy_bid_iterator -= 1
+                            except:
+                                continue
+    
                     # Increase iterator
                     buy_bid_iterator = buy_bid_iterator + 1
-
-                else:
-                    break
+    
+                    
 
         
         return open_sell_bids, open_buy_bids
@@ -310,7 +353,7 @@ class Market(object):
 	        plt.show()
 
 	# Removes the killed bids of a bid array
-    def remove_killed_bids(self, bids):
+    def remove_killed_bids(self, bids,timestamp):
         # For each bid with zero volume, remove all other bids with identical order id
         zero_volume_bids     = []
         killed_bids         = []
@@ -323,6 +366,7 @@ class Market(object):
                 if(k.order_id == b.order_id):
                     killed_bids.append(k)
                     bids.remove(b)
+                    b.kill_bid(timestamp)
 
         return bids, killed_bids
 
@@ -383,13 +427,23 @@ class Market(object):
             if(False and self.printing_mode):
                 print("\n\n\nTimeslot: " + str(timeslot) + " (Iteration " + str(t) + ")")
 
+            ### Count number of bids with equal oder id:
+            #counter = 0
+            #for s in self.open_sell_bids:
+            #    for sigma in sell_bid_dict[timeslot]:
+            #        if(str(s.order_id) == str(sigma.order_id)):
+            #            print(s.timestamp, s.timestamp2, s.price, s.volume)
+            #            print(sigma.timestamp, sigma.timestamp2, sigma.price, sigma.volume)
+            #            counter += 1
+            #print("Number of identical sell bids in NEW and CURRENT at", timeslot, ":", counter)
+            #print("")
             ### Retrieve all incoming bids
             self.open_sell_bids += sell_bid_dict[timeslot]
             self.open_buy_bids += buy_bid_dict[timeslot]
 
             ### Remove killed bids
-            self.open_sell_bids, killed_sell_bids     = self.remove_killed_bids(self.open_sell_bids)
-            self.open_buy_bids, killed_buy_bids        = self.remove_killed_bids(self.open_buy_bids)
+            self.open_sell_bids, killed_sell_bids     = self.remove_killed_bids(self.open_sell_bids, timeslot)
+            self.open_buy_bids, killed_buy_bids        = self.remove_killed_bids(self.open_buy_bids, timeslot)
             
             ### Print bid curves
             self.print_bid_curves(self.open_buy_bids, self.open_sell_bids)
@@ -432,14 +486,20 @@ class Market(object):
                 
                 open_buy_bids_prices = []
                 open_buy_bids_volumes = []
+                order_ids_of_used_bids = []
+                i = 0
                 
-                for i in range(1,6):
+                while (len(open_buy_bids_prices) <= 5):
                     try:
-                        open_buy_bids_prices.append(self.open_buy_bids[i].price)
-                        open_buy_bids_volumes.append(self.open_buy_bids[i].volume)
+                        if(self.open_buy_bids[i].order_id not in order_ids_of_used_bids):
+                            open_buy_bids_prices.append(self.open_buy_bids[i].price)
+                            open_buy_bids_volumes.append(self.open_buy_bids[i].volume)
                     except:
                         open_buy_bids_prices.append("N/A")
                         open_buy_bids_volumes.append("N/A")
+                        order_ids_of_used_bids.append("N/A")
+                    finally:
+                        i += 1
                 
             
             else:
@@ -458,15 +518,20 @@ class Market(object):
                 
                 open_sell_bids_prices = []
                 open_sell_bids_volumes = []
+                order_ids_of_used_bids = []
+                i = 0
                 
-                for i in range(1,6):
+                while (len(open_sell_bids_prices) <= 5):
                     try:
-                        open_sell_bids_prices.append(self.open_sell_bids[i].price)
-                        open_sell_bids_volumes.append(self.open_sell_bids[i].volume)
+                        if(self.open_buy_bids[i].order_id not in order_ids_of_used_bids):
+                            open_sell_bids_prices.append(self.open_sell_bids[i].price)
+                            open_sell_bids_volumes.append(self.open_sell_bids[i].volume)
                     except:
                         open_sell_bids_prices.append("N/A")
                         open_sell_bids_volumes.append("N/A")
-                        
+                        order_ids_of_used_bids.append("N/A")
+                    finally:
+                        i += 1
                 
             
             else:

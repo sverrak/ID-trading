@@ -35,8 +35,9 @@ class Data_Organizer(object):
                         self.orderbooks[(y,m,0)]     = ("ComXervOrderbooks_" + y + "_" + m + ".txt")
                         print(("ComXervOrderbooks_" + y + "_" + m + ".txt"))
                     else:
-                        self.orderbooks[(y,m,1)]     = ("ComXervOrderbooks_" + y + "_" + m + "_01-" + y + "_" + m + "_15"".txt")
-                        self.orderbooks[(y,m,2)]     = ("ComXervOrderbooks_" + y + "_" + m + "_16-" + y + "_" + m + "_"+str(self.days_of_months[int(m)])+".txt")
+                        if(y != "2016" or m != "09"):
+                            self.orderbooks[(y,m,1)]     = ("ComXervOrderbooks_" + y + "_" + m + "_01-" + y + "_" + m + "_15"".txt")
+                            self.orderbooks[(y,m,2)]     = ("ComXervOrderbooks_" + y + "_" + m + "_16-" + y + "_" + m + "_"+str(self.days_of_months[int(m)])+".txt")
             
         # Custom orderbook URL
         else:
@@ -186,8 +187,9 @@ class Data_Organizer(object):
     def organize(self):
 
         number_of_keys = len(self.orderbooks.keys())
+        print("Orderbook set: ", self.orderbooks.keys())
         # For each orderbook URL, split the orderbook and save the orders by their DP in separate files
-        for key in self.orderbooks.keys():
+        for key in list(self.orderbooks.keys())[::-1]:
             print("Currently examining orderbook", key, "/", number_of_keys)
             y = key[0]      # Year
             m = key[1]      # Month
@@ -234,6 +236,6 @@ class Data_Organizer(object):
 
 if __name__ == '__main__':
     # Create a Data_Organizer object and organize()
-    organizer = Data_Organizer(generate_orderbook_urls=False)
+    organizer = Data_Organizer(generate_orderbook_urls=True)
     organizer.organize()
 
