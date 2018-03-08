@@ -70,9 +70,10 @@ class ITP_Solver(object):
 			self.storage_bounds 					= []
 			scenarios 								= []
 			volume_options 							= []
-			self.time_of_first_gc					= 0								# Parameter used in the asynchronous gate closure cases
 			self.asynchronous_gcs					= False							# Indicates whether we are running in asynchronous gate closure mode or not. Can be set in scenario_generation_file
-
+            self.stages_per_hour                    = 6
+            self.time_of_first_gc					= 0								# Parameter used in the asynchronous gate closure cases
+			
 			# Indices
 			self.index_of_actions 					= 0								
 			self.index_of_q_bounds 					= self.index_of_actions + 1
@@ -111,7 +112,10 @@ class ITP_Solver(object):
 		# Redo datastructure instantiation
 		self.instantiate_datastructures()
 		self.setup_non_anticipativity_sets()
-
+        
+        # Test given parameters
+		self.validate_parameters()													# Validate parameters
+        
 	### ----------- Generate scenarios based on self.data in file ----------- 
 	def scenario_generation(self, parameter_file_name):
 		# Fetch self.data
@@ -220,10 +224,11 @@ class ITP_Solver(object):
 		### Instantiate variables and datastructures
 		self.allow_overflow 				= True if str(self.data[self.index_of_allow_overflow][0]).strip() == "1" else False
 		self.asynchronous_gcs 				= True if str(self.data[self.index_of_allow_overflow][1]).strip() == "1" else False
+        self.stages_per_hour                = int(self.data[self.index_of_allow_overflow][2])
 		self.min_q, self.max_q 				= float(self.total_production_lower_bound), float(self.total_production_upper_bound)
 		self.bm_multiplier 					= float(self.data[self.index_of_bm_multiplier])
 		self.transaction_cost 				= float(self.data[self.index_of_transaction_costs])
-		self.time_of_first_gc				= self.number_of_trading_stages - self.number_of_dps
+		self.time_of_first_gc				= self.number_of_trading_stages - self.stages_per_hour * self.number_of_dps
 		
 
 		### Instantiate the price and volume levels as well as the inflow and the imbalance prices (all the datastructures having dp as their first dimension.
@@ -507,7 +512,7 @@ class ITP_Solver(object):
 				
 				# For the current combination of delivery product (dp) and time (t=time_of_first_gc + dp), 
 				# we collect the corresponding NA sets
-				NA_set = self.non_anticipativity_sets[dp][self.time_of_first_gc+dp]
+				NA_set = self.non_anticipativity_sets[dp][self.time_of_first_gc+self.stages_per_hour * dp] # What if timeslot size != 60 m?
 
 				# For each of these NA_sets, we create NACs
 				for key in NA_set.keys():
