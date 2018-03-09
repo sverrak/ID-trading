@@ -25,8 +25,9 @@ class Market(object):
         self.write_transactions_to_file 			= write_transactions_to_file
         self.printing_mode               			= printing_mode
         self.visualization_mode       			  	= False
+        self.testing_mode                           = False
         self.customer_mode                 			= customer_bid_file_tag != "N/A"
-
+        
         ### ----------- System Parameters -----------
         self.print_output                   		= True
         self.default_parameters          			= False
@@ -46,6 +47,7 @@ class Market(object):
         else:
             self.share                         		= 1.0 # Share of input orderbook to be considered
             self.time_from_gc_to_d        			= 30
+            self.interzonal_gc                      = 50
             self.stages                     		= stages
             
             # Indices
@@ -157,7 +159,8 @@ class Market(object):
             bid_array_timestamp             					= bid_array[self.index_of_timestamp] + " " + bid_array[self.index_of_timestamp + 1] 
             bid_array_timestamp2                            = bid_array[self.index_of_timestamp2] + " " + bid_array[self.index_of_timestamp2 + 1]
             bid_array_is_buy                 					= bid_array[self.index_of_isBuy]
-            print(bid_array_)
+            if(str(bid_array_is_buy) != "0" and str(bid_array_is_buy) != "1"):
+                print(bid_array_is_buy, bid_array)
             bid_array_price                 					= bid_array[self.index_of_price]
             bid_array_volume                 					= bid_array[self.index_of_volume]
             bid_array_order_id                 					= bid_array[self.index_of_order_id]
@@ -191,7 +194,7 @@ class Market(object):
                 bid_array_dp                     					= dt.strptime(bid_array_dp.split(".")[0]        , '%m/%d/%Y %H:%M:%S')
                 bid_array_timestamp             					= dt.strptime(bid_array_timestamp.split(".")[0]    , '%m/%d/%Y %H:%M:%S')
             
-            if(bid_array_dp == self.delivery_product):
+            if(bid_array_dp == self.delivery_product and bid_array_zone not in ["10YFR-RTE------C", "10YAT-APG------L", "10YCH-SWISSGRIDZ"]):
                 if(bid_array_is_buy == "1"):
                     #                         Price                  Volume                Timestamp              Timestamp2               isBuy            Order ID     Placed by Customer
                     self.bidsB.append(Bid(float(bid_array_price), float(bid_array_volume), bid_array_timestamp, bid_array_timestamp2, bid_array_is_buy, bid_array_order_id, customer_bids, bid_array_zone))
@@ -259,10 +262,13 @@ class Market(object):
 
     # This method can probably be improved by taking advantage of the fact that
     # the bid arrays are sorted by price. Not necessary to loop through the whole sets
-    def create_transactions(self, open_sell_bids, open_buy_bids, time):
+    def create_transactions(self, open_sell_bids, open_buy_bids, time, interzonal_trades_allowed):
         # Sort by price
-        open_sell_bids.sort(key=lambda x: x.timestamp, reverse=False)
-        open_buy_bids.sort(key=lambda x: x.timestamp, reverse=False)
+        open_sell_bids.sort(key=lambda x: x.price, reverse=False)
+        open_buy_bids.sort(key=lambda x: x.price, reverse=True)
+        closed_sell_bids = []
+        closed_buy_bids = []
+        #print("Number of zero volume bids: ", sum([1 if int(b.volume)==0 else 0 for b in open_sell_bids]))
         
         # Assumptions/features: 
             # Assume bids only arrive in x min blocks
@@ -270,13 +276,14 @@ class Market(object):
             # Spread goes to the most recent bid
             # Only partial clearing
             # Killing within the timeslot does not affect bid clearing. Not really a problem when timeslot size -> 0
+            # Interzonal / intrazonal trades okay, but currently, no trade is allowed across country borders
         
         for s in open_sell_bids:
             # To be absolutely sure that on cleared or killed bids appear in transactions
             if(s.isOpen == True):
                 buy_bid_iterator = 0
-                while s.volume > 0 and buy_bid_iterator < len(open_buy_bids):
-                    if(open_buy_bids[buy_bid_iterator].isOpen == True and open_buy_bids[buy_bid_iterator].zone == s.zone and open_buy_bids[buy_bid_iterator].price >= s.price):
+                while s.isOpen and s.volume > 0 and buy_bid_iterator < len(open_buy_bids):
+                    if(open_buy_bids[buy_bid_iterator].isOpen == True and (interzonal_trades_allowed or open_buy_bids[buy_bid_iterator].zone == s.zone) and open_buy_bids[buy_bid_iterator].price >= s.price):
                         if(False and self.printing_mode):
                             print("Transaction created!")
                         
@@ -288,41 +295,68 @@ class Market(object):
                         
                         # Add the new transaction to the list of transactions
                         self.transactions[time].append(Transaction(s, open_buy_bids[buy_bid_iterator], transaction_price, transaction_volume, timestamp)) 
+                        s.reduce_volume(transaction_volume)
+                        
+                        if(int(s.volume) == 0):
+                            open_sell_bids.remove(s)
+                            closed_sell_bids.append(s)
+                        
+                        # Safety measure: Create a copy of the examined sell and buy bids to avoid unneccessary index errors (easy to make mistakes when removing elements from list etc)
+                        comparison_sell_bid = Bid(s.price, s.volume, s.timestamp, s.timestamp2, True, s.order_id, False, s.zone)
+                        comparison_buy_bid = Bid(open_buy_bids[buy_bid_iterator].price, open_buy_bids[buy_bid_iterator].volume, open_buy_bids[buy_bid_iterator].timestamp, open_buy_bids[buy_bid_iterator].timestamp2, True, open_buy_bids[buy_bid_iterator].order_id, False, open_buy_bids[buy_bid_iterator].zone)
                         
                         # Identify all bids with same order id
                         # Reduce their volumes and remove them if no residual volume
                         # Hypothesis: Try except is needed as we might remove a bid before trying to access it.
                         for t in open_sell_bids:
-                            try:
-                                if(t.order_id == s.order_id):
-                                    t.reduce_volume(transaction_volume)
-                                    if(t.volume == 0):
-                                        open_sell_bids.remove(t)
-                                        #closed_sell_bids.append(t)
-                            except: 
-                                continue
-    
-                        for t in open_buy_bids:
-                            #print(buy_bid_iterator, len(open_buy_bids))
-                            try:
-                                if(open_buy_bids[buy_bid_iterator].order_id == t.order_id):
-                                    t.reduce_volume(transaction_volume)
+                            if(t.order_id == comparison_sell_bid.order_id):
+                                t.reduce_volume(transaction_volume)
+                                if(int(t.volume) == 0):
+                                    open_sell_bids.remove(t)
+                                    closed_sell_bids.append(t)
                                     
-                                    if(t.volume == 0):
-                                        open_buy_bids.remove(t)
-                                        #closed_buy_bids.append(t)
-                                        # Necessary to decrease iterator?
-                                        #buy_bid_iterator -= 1
-                            except:
-                                continue
+                        for i,t in enumerate(open_buy_bids):
+                            if(comparison_buy_bid.order_id == t.order_id):
+                                t.reduce_volume(transaction_volume)
+                                if(int(t.volume) == 0):
+                                    open_buy_bids.remove(t)
+                                    closed_buy_bids.append(t)
+                                    # Necessary to decrease iterator?
+                                    if(i < buy_bid_iterator):
+                                        buy_bid_iterator -= 1
     
-                    # Increase iterator
+                    # Increase iterator to go to compare the bid to the next buy bid in the list
                     buy_bid_iterator = buy_bid_iterator + 1
-    
                     
-
+                if(int(s.volume) == 0 and s in open_sell_bids):
+                    closed_sell_bids.append(s)
+                    open_sell_bids.remove(s)
+                    
+        # Additional layer of safety: fill these datastructures with only the correct bids
+        # (No bids that should have been removed)
+        open_s = []
+        open_b = []
+        junk = []
         
-        return open_sell_bids, open_buy_bids
+        # Posttransaction processing: if some of the bids have not been removed from the open_*_bids lists, 
+        # though being present in closed_*_bids, they are not added in the open_* lists
+        for x,s in enumerate(open_sell_bids):
+            if(s in closed_sell_bids):
+                #print("Not removed properly")
+                junk.append(s)
+                open_sell_bids.remove(s)
+            else:
+                open_s.append(s)
+                
+        for x,s in enumerate(open_buy_bids):
+            if(s in closed_buy_bids):
+                junk.append(s)
+                open_buy_bids.remove(s)
+            else:
+                open_b.append(s)
+        
+        # Return the new order lists
+        return open_s, open_b
 
     # Not yet implemented.
     def print_bid_curves(self, buy_bids, sell_bids):
@@ -355,20 +389,26 @@ class Market(object):
 	# Removes the killed bids of a bid array
     def remove_killed_bids(self, bids,timestamp):
         # For each bid with zero volume, remove all other bids with identical order id
-        zero_volume_bids     = []
+        #zero_volume_bids     = []
+        #zero_volume_order_ids = []
+        
         killed_bids         = []
+        local_bids = [b for b in bids[:]]
         for b in bids:
-            if(b.volume == 0):
-                zero_volume_bids.append(b)
+            if(float(b.volume) == 0.0):
+                killed_bids.append(b)
+                local_bids.remove(b)
+                b.kill_bid(timestamp)
 
-        for k in zero_volume_bids:
-            for b in bids:
-                if(k.order_id == b.order_id):
-                    killed_bids.append(k)
-                    bids.remove(b)
-                    b.kill_bid(timestamp)
+        # Previous implementation (outdated)
+        #for k in zero_volume_bids:
+        #    for b in bids:
+        #        if(k.order_id == b.order_id):
+        #            killed_bids.append(k)
+        #            bids.remove(b)
+        #            b.kill_bid(timestamp)
 
-        return bids, killed_bids
+        return local_bids, killed_bids
 
 
     def print_transactions(self, mode):
@@ -449,11 +489,31 @@ class Market(object):
             self.print_bid_curves(self.open_buy_bids, self.open_sell_bids)
             
             ### Create transactions and update bid portfolio
-            self.open_sell_bids, self.open_buy_bids = self.create_transactions(self.open_sell_bids, self.open_buy_bids, t)
+            self.open_sell_bids, self.open_buy_bids = self.create_transactions(self.open_sell_bids, self.open_buy_bids, t, timeslot < self.trading_timeslots[-1] - datetime.timedelta(minutes=self.interzonal_gc))
 
-            ### Sort bid arrays
+            #Testing
+            self.open_sell_bids.sort(key=lambda x: x.volume, reverse=False)
             
+            if(self.testing_mode):
+                for x in self.open_buy_bids:
+                    if(x.volume == 0):
+                        print("ERROR: Zero volume bid in open_sell_bids after killing and clearing")
+                        print(x.timestamp, x.timestamp2, x.volume, x.price, x.zone, x.isBuy)
+                    elif(x.volume > 0):
+                        break
+                
+                for x in self.open_sell_bids:
+                    if(x.volume == 0):
+                        print("ERROR: Zero volume bid in open_sell_bids after killing and clearing")
+                        print(x.timestamp, x.timestamp2, x.volume, x.price, x.zone, x.isBuy)
+                    elif(x.volume > 0):
+                        break
+            
+            ### Sort bid arrays
             self.open_buy_bids.sort(key=lambda x: x.price, reverse=True)
+            
+            self.open_sell_bids.sort(key=lambda x: x.price, reverse=False)
+            
             
             
             
@@ -540,6 +600,14 @@ class Market(object):
                 avg_sell_order_maturity            = "N/A"
                 open_sell_bids_prices = ["N/A" for b in range(5)]
                 open_sell_bids_volumes = ["N/A" for b in range(5)]
+            
+            if(len(self.open_sell_bids) > 0 and len(self.open_buy_bids) > 0):
+                #if(max_open_bid_order_price >= min_open_ask_order_price and self.open_sell_bids[0]):
+                #    print("\nSell:",self.open_sell_bids[0].order_id, self.open_sell_bids[0].timestamp, self.open_sell_bids[0].volume, self.open_sell_bids[0].price, self.open_sell_bids[0].isOpen, self.open_sell_bids[0].zone)
+                #    print("Buy:",self.open_buy_bids[0].order_id, self.open_buy_bids[0].timestamp, self.open_buy_bids[0].volume, self.open_buy_bids[0].price, self.open_buy_bids[0].isOpen, self.open_buy_bids[0].zone)
+                top_10_buy_bid_prices = []
+                sell_bids_with_better_price_than_top_10_buy_bids = []
+
 
             no_killed_buy_bids                    = len(killed_buy_bids)
             no_killed_sell_bids                    = len(killed_sell_bids)

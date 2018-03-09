@@ -35,8 +35,10 @@ class Data_Organizer(object):
                         self.orderbooks[(y,m,0)]     = ("ComXervOrderbooks_" + y + "_" + m + ".txt")
                         print(("ComXervOrderbooks_" + y + "_" + m + ".txt"))
                     else:
-                        if(y != "2016" or m != "09"):
+                        if(y != "2016" or m != "09" and (y != "2017" or m != "02")):
                             self.orderbooks[(y,m,1)]     = ("ComXervOrderbooks_" + y + "_" + m + "_01-" + y + "_" + m + "_15"".txt")
+                            self.orderbooks[(y,m,2)]     = ("ComXervOrderbooks_" + y + "_" + m + "_16-" + y + "_" + m + "_"+str(self.days_of_months[int(m)])+".txt")
+                        elif((y == "2016" and m == "09") or (y == "2016" and m == "11") or (y == "2016" and m == "10")):
                             self.orderbooks[(y,m,2)]     = ("ComXervOrderbooks_" + y + "_" + m + "_16-" + y + "_" + m + "_"+str(self.days_of_months[int(m)])+".txt")
             
         # Custom orderbook URL
