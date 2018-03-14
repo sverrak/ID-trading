@@ -1,5 +1,5 @@
 import itphelper
-from ID101_ITP_Solver import ITP_Solver 
+from ID102_ITP_Solver import ITP_Solver 
 import datetime
 import time
 import numpy
@@ -20,6 +20,7 @@ class Gurobi_Runner(object):
 		
 		# Fetch and setup the parameters
 		if(generate_scenarios_arg == True):
+			print("Reset parameters...")
 			self.itp_solver.reset_parameters(dp, s, pu, tt)
 		
 		# Setup variables, constraints and objective function
@@ -128,6 +129,3 @@ if __name__ == "__main__":
 		
 		
 	print("\n\nTotal running time: " + str(time.time() - t0))
-
-
-
