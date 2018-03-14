@@ -122,7 +122,7 @@ if __name__ == "__main__":
 	elif(mode == 2): # Single run
 		gr = Gurobi_Runner()
 		# Arguments: DP,S,PU,T,GenerateScenarios,ParameterFileName
-		gr.do_one_run(10,100,1,10, True, "") # Insert parameter file name in the ""
+		gr.do_one_run(4,30,1,30, True, "") # Insert parameter file name in the ""
 		# Your code here
 		gr.result_table.append(list)
 		gr.write_results_to_file()
