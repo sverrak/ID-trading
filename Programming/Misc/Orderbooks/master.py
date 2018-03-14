@@ -85,7 +85,7 @@ class Market_Runner(object):
     
     def write_3d_matrix_to_file(self, stats):
         for y,d in enumerate(self.dates_str):
-            print("Printing file " + str(y) + "/" + str(len(self.dates_str)))
+            print("Printing file " + str(y) + "/" + str(len(self.dates_str)-1))
             book = xlsxwriter.Workbook(self.stats_file_names[y])
             
             for x,dp in enumerate(self.dps):
@@ -114,6 +114,7 @@ class Market_Runner(object):
 
 if __name__ == '__main__':
     running_mode = 2
+    data = 9
     # Strategy evaluation mode
     if(running_mode == 1):
         mr                             			= Market_Runner()
@@ -122,7 +123,10 @@ if __name__ == '__main__':
 
     # Delivery Product Statistics Mode
     if(running_mode == 2):
-        mr                             = Market_Runner(["2016-09-01", "2016-09-01"], testing_mode=False)
+        if(data == 2):
+            mr                             = Market_Runner(["2017-02-16", "2017-02-28"], testing_mode=False)
+        else:
+            mr                             = Market_Runner(["2016-09-10", "2016-09-11"], testing_mode=False)
         mr.run_multiple_markets()
         # Save the stats to a file
         mr.write_3d_matrix_to_file(mr.stats)
