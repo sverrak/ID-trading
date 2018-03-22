@@ -18,8 +18,9 @@ class Bid(object):
         self.killed_timestamp = "N/A"
 
     def compute_maturity(self, now):
-        
-        return (now - self.timestamp)
+        if(now < self.timestamp):
+            return 0
+        return (now - self.timestamp).seconds
 
     def reduce_volume(self, volume, timestamp=None):
         if(self.volume > volume):
