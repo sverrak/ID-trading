@@ -179,7 +179,7 @@ class Market_Runner(object):
 
 
 if __name__ == '__main__':
-    running_mode = 2
+    running_mode = 3
     data = 9
     # Strategy evaluation mode
     if(running_mode == 1):
@@ -208,7 +208,7 @@ if __name__ == '__main__':
             del mr
         except:
             a=0
-        
+    if(running_mode == 3):
         try:
             mr = Market_Runner(["2016-11-01", "2016-12-31"], testing_mode=False)
             

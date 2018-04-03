@@ -14,7 +14,7 @@ class Data_Organizer(object):
         super(Data_Organizer, self).__init__()
 
         # Datastructure instantiation. Used to 
-        self.years                             = ["2014","2015","2016","2017"]
+        self.years                             = ["2016"]
         self.months                         = [str(i) if i>9 else "0"+str(i) for i in range(1,13)]
         self.days_of_months                    = [0,31,28,31,30,31,30,31,31,30,31,30,31]
         self.orderbooks                     = {}
@@ -222,10 +222,14 @@ class Data_Organizer(object):
                 # Create a file for each DP in the examined file
                 print("\tCreate files.")
                 for i,day in enumerate(splitted_data.keys()):
-                    time_now = time.time()
-                    print("\tCurrent DP: ", day, ". Total progression within orderbook URL:", int(100*float(i)/len(splitted_data.keys())), "%")
-                    self.create_file("Data/",day, splitted_data[day])
-                    print("\tElapsed time:",(time.time() - time_now), "s.\n")
+                    try:
+                        time_now = time.time()
+                        print("\tCurrent DP: ", day, ". Total progression within orderbook URL:", int(100*float(i)/len(splitted_data.keys())), "%")
+                        self.create_file("Data/",day, splitted_data[day])
+                        print("\tElapsed time:",(time.time() - time_now), "s.\n")
+                    except:
+                        a = 0
+                        
                 
                 # Remove data from memory
                 del self.orderbooks[key]

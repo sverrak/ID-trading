@@ -22,13 +22,13 @@ class Gurobi_Runner(object):
         if(generate_scenarios_arg == True):
             print("Reset parameters...")
             self.itp_solver.reset_parameters(dp, s, pu, tt)
-        
+            print("Done resetting parameters!\n")
         # Setup variables, constraints and objective function
         print("Setup problem...")
         self.itp_solver.setup_variables()
         self.itp_solver.setup_constraints()
         self.itp_solver.setup_objective_function()
-
+        print("Done setting up problem!\n")
         # Solve the model
         self.itp_solver.optimize()
 
@@ -123,7 +123,7 @@ if __name__ == "__main__":
     elif(mode == 2): # Single run
         gr = Gurobi_Runner()
         # Arguments: DP,S,PU,T,GenerateScenarios,ParameterFileName
-        gr.do_one_run(3,50,2,6, True, "") # Insert parameter file name in the ""
+        gr.do_one_run(3,200,2,6, True, "") # Insert parameter file name in the ""
         # Your code here
         
         gr.result_table.append(list)
