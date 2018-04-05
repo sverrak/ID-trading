@@ -1,4 +1,4 @@
-# Status:
+# Status: OUTDATED (Name of new file: market.py)
 # Description: Bid handling and clearing is done in this file
 # Related: Bid, Transaction
 

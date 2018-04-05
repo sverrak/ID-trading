@@ -1,4 +1,4 @@
-# Status: 
+# Status: # Status: OUTDATED (Name of new file: dp_to_stats.py)
 # Description: 
 # Related components: market.py, itp.py
 
@@ -36,7 +36,7 @@ class Market_Runner(object):
         self.initiate_dps(testing_mode)
 
 
-    def date_strings_between(self, start,end):
+    def date_strings_between(self, start, end):
         start_date                                     = dt.strptime(start + " " + "00-00-00", '%Y-%m-%d %H-%M-%S')
         end_date                                     = dt.strptime(end     + " " + "00-00-00", '%Y-%m-%d %H-%M-%S')
         dates_between_str                            = []
@@ -210,7 +210,7 @@ if __name__ == '__main__':
             a=0
     if(running_mode == 3):
         try:
-            mr = Market_Runner(["2016-11-01", "2016-12-31"], testing_mode=False)
+            mr = Market_Runner(["2017-02-28", "2017-02-28"], testing_mode=False)
             
             mr.run_multiple_markets()
             # Save the stats to a file
@@ -218,6 +218,7 @@ if __name__ == '__main__':
             mr.write_3d_matrix_to_file(mr.stats)
         except:
             a = 0
+        
             
         print("Elapsed time:", time.time() - start)
         

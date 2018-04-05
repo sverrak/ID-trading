@@ -6,7 +6,9 @@ class Bid(object):
     def __init__(self, price, volume, timestamp, timestamp2, isBuy, order_id, isCustomer, zone):
         super(Bid, self).__init__()
         self.price = price
-        self.volume = volume
+        self.volume = volume                # Residual volume
+        self.original_volume = volume       # Order volume 
+        self.cleared_volume = 0.0
         self.timestamp = timestamp
         self.timestamp2 = timestamp2
         self.isOpen = True
@@ -23,14 +25,22 @@ class Bid(object):
         return (now - self.timestamp).seconds
 
     def reduce_volume(self, volume, timestamp=None):
+
         if(self.volume > volume):
+
             self.volume = self.volume - volume
+            self.cleared_volume = self.cleared_volume + volume
             return volume
+
         else:
+
+            self.cleared_volume = self.cleared_volume + self.volume
             self.volume = 0
             self.isOpen = False
+
             if(timestamp != None):
                 self.cleared_timestamp = timestamp
+
             return self.volume
 
 
