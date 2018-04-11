@@ -7,7 +7,7 @@ Created on Wed Apr  4 09:17:03 2018
 
 class TimeslotState(object):
     """docstring for MarketRunner"""
-    def __init__(self, timeslot, base_price, spread=0, buy_order_depth=0, sell_order_depth=0, best_buy_price=0, best_sell_price=0):
+    def __init__(self, timeslot, base_price, spread=0, buy_order_depth=0, sell_order_depth=0, best_buy_price=0, best_sell_price=0,low_transaction_price=0,high_transaction_price=0):
         super(TimeslotState, self).__init__()
 
         # Model parameters
@@ -18,4 +18,7 @@ class TimeslotState(object):
         self.sell_order_depth = sell_order_depth
         self.best_buy_price = best_buy_price
         self.best_sell_price = best_sell_price
+        self.high_transaction_price = high_transaction_price
+        self.low_transaction_price = low_transaction_price
+        
         

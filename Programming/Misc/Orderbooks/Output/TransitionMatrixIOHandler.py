@@ -14,10 +14,13 @@ class TransitionMatrixIOHandler(object):
         super(TransitionMatrixIOHandler, self).__init__()
         self.index_of_timeslot = 0
         self.index_of_base_price = 1
+        self.index_of_high_transaction_price = 2
+        self.index_of_low_transaction_price = 3
         self.index_of_buy_price = 29
         self.index_of_sell_price = 39
         self.index_of_buy_order_depth = 9
         self.index_of_sell_order_depth = 10
+        
         
         
         
@@ -43,6 +46,8 @@ class TransitionMatrixIOHandler(object):
                 
                 timeslot = row[self.index_of_timeslot].value
                 base_price = row[self.index_of_base_price].value
+                high_transaction_price = row[self.index_of_high_transaction_price].value
+                low_transaction_price = row[self.index_of_low_transaction_price].value
                 
                 if(return_headers == True):
                     headers[-1].append(timeslot)
@@ -50,8 +55,13 @@ class TransitionMatrixIOHandler(object):
                 # If no transaction has occured, we raise a flag (base_price = -999990.0)
                 try:
                     base_price = float(base_price)
+                    high_transaction_price = float(high_transaction_price)
+                    low_transaction_price = float(low_transaction_price)
                 except:
+                    #print("Value print", input_file, [c.value for c in row], base_price, high_transaction_price, low_transaction_price)
                     base_price = error_value
+                    high_transaction_price = error_value
+                    low_transaction_price = error_value
                 
                 if(analysis_mode == True):
                     buy_order_volume = float(row[self.index_of_buy_order_depth].value)
@@ -70,7 +80,8 @@ class TransitionMatrixIOHandler(object):
                         spread = error_value
                     
                     # Add a new TimeslotState object to the content list
-                    content[x].append(TimeslotState(timeslot, base_price, spread=spread, buy_order_depth=buy_order_volume, sell_order_depth=sell_order_volume, best_buy_price=best_buy_price, best_sell_price=best_sell_price))
+                    
+                    content[x].append(TimeslotState(timeslot, base_price, spread=spread, buy_order_depth=buy_order_volume, sell_order_depth=sell_order_volume, best_buy_price=best_buy_price, best_sell_price=best_sell_price, high_transaction_price=high_transaction_price, low_transaction_price=low_transaction_price))
                 else:
                     # Add a new TimeslotState object to the content list
                     content[x].append(TimeslotState(timeslot, base_price))

@@ -7,6 +7,7 @@ from datetime import datetime as dt
 import xlsxwriter
 import datetime
 import time
+import os
 
 class Data_Organizer(object):
     """docstring for Data_Organizer"""
@@ -15,7 +16,7 @@ class Data_Organizer(object):
 
         # Datastructure instantiation. Used to 
         self.years                             = ["2016"]
-        self.months                         = [str(i) if i>9 else "0"+str(i) for i in range(3,9)]
+        self.months                         = [str(i) if i>9 else "0"+str(i) for i in range(3,5)]
         self.days_of_months                    = [0,31,28,31,30,31,30,31,31,30,31,30,31]
         self.orderbooks                     = {}
         self.program_starting_time             = time.time()
@@ -43,7 +44,25 @@ class Data_Organizer(object):
             
         # Custom orderbook URL
         else:
-            self.orderbooks[("2016","09",0)]         = "ComXervOrderbooks_2016_09_01-2016_09_15.txt"
+            if(True):
+                self.orderbooks[("2016","08",2)]         = "ComXervOrderbooks_2016_08_16-2016_08_31.txt"
+            else:    
+                self.orderbooks[("2016","03",1)]         = "ComXervOrderbooks_2016_03_01-2016_03_15.txt"
+                self.orderbooks[("2016","04",1)]         = "ComXervOrderbooks_2016_04_01-2016_04_15.txt"
+                self.orderbooks[("2016","07",1)]         = "ComXervOrderbooks_2016_07_01-2016_07_15.txt"
+                self.orderbooks[("2016","08",1)]         = "ComXervOrderbooks_2016_08_01-2016_08_15.txt"
+                self.orderbooks[("2016","09",1)]         = "ComXervOrderbooks_2016_09_00-2016_09_15.txt"
+                self.orderbooks[("2016","10",1)]         = "ComXervOrderbooks_2016_10_01-2016_10_15.txt"
+                self.orderbooks[("2016","11",1)]         = "ComXervOrderbooks_2016_11_01-2016_11_15.txt"
+                self.orderbooks[("2016","12",1)]         = "ComXervOrderbooks_2016_12_01-2016_12_15.txt"
+                self.orderbooks[("2017","01",1)]         = "ComXervOrderbooks_2017_01_01-2017_01_15.txt"
+                self.orderbooks[("2017","02",1)]         = "ComXervOrderbooks_2017_02_01-2017_02_15.txt"
+                #self.orderbooks[("2016","05",1)]         = "ComXervOrderbooks_2016_05_01-2016_05_15.txt"
+                #self.orderbooks[("2016","05",2)]         = "ComXervOrderbooks_2016_05_16-2016_05_31.txt"
+                #self.orderbooks[("2016","06",1)]         = "ComXervOrderbooks_2016_06_01-2016_06_15.txt"
+                #self.orderbooks[("2016","06",2)]         = "ComXervOrderbooks_2016_06_16-2016_06_30.txt"
+                #self.orderbooks[("2016","07",1)]         = "ComXervOrderbooks_2016_07_01-2016_07_15.txt"
+            
 
     # Takes a start and an end day and returns a list containing all the dates between these two days
     def date_strings_between(self, start,end):
@@ -78,7 +97,7 @@ class Data_Organizer(object):
             self.data         = [[i for i in range(20)] for j in range(30)]
 
     # Splits the orders into a dictionary with dates as keys and orders of that day as values
-    def split_data(self, data, date_range):
+    def split_data(self, data, date_range,month=8):
 
         index_of_dp                 = 18
         out_data                     = {}
@@ -87,54 +106,119 @@ class Data_Organizer(object):
         dates                         = self.date_strings_between(start_date, end_date)
         
         # Create date keys in out_data dictionary
-        for d in dates:
+        for x,d in enumerate(dates):
             out_data[d]             = []
+            
+            if(x == len(dates) - 1):
+                #print(d,dt.strftime(dt.strptime(d, '%Y-%m-%d %H:%M:%S') + datetime.timedelta(hours=1),'%Y-%m-%d %H:%M:%S'))
+                additional_dp = dt.strftime(dt.strptime(d, '%Y-%m-%d %H:%M:%S') + datetime.timedelta(hours=1),'%Y-%m-%d %H:%M:%S')
+                out_data[additional_dp] = []
         
-        
-
         # Loop through the data and add the order to its correct key (date)
         # The following code is rather messy. 
         for i,line in enumerate(data):
-            
-            if(i % 200000 == 0):
-                print("\t* Progression (splitting): ", int(float(i)/float(len(data))*1000)/10, "%")
-            line_list                 = [i for i in line.split()]
-            try:
+            #if(i % 200000 == 0):
+            #    print(i, data, i/len(data))
+            if(month == 8):
                 
-                index_of_dp_ub = min(4, len(line_list[index_of_dp]))
-                index_24_ub = min(4, len(line_list[23]))
-                index_25_ub = min(4, len(line_list[24]))
-                if(index_of_dp_ub >= 4 and line_list[index_of_dp][:4] in self.years):
-                    try:
-                        date_str            = str(list(line_list)[index_of_dp][:line_list[index_of_dp].find(".")])
-                    except:
-                        print("Error A")
-                elif(index_24_ub >= 4 and line_list[23][:4] in self.years):
-                    date_str            = str(list(line_list)[23]) + " " + str(list(line_list)[24][:line_list[24].find(".")])
-                elif(index_25_ub >= 4 and line_list[24  ][:4] in self.years):
-                    date_str            = str(list(line_list)[24]) + " " + str(list(line_list)[25][:line_list[25].find(".")])
-                else:
-                    print("None of the alternatives are correct")
-            except:
-                print("Something happened dp index out of range mp")
-                pass
-                            
-            try:
-                out_data[date_str].append(line_list)
-            except:
-                index = 0
-                while(len(date_str) != 19):
-                    date_str            = str(line_list[19+index])+" "+str(line_list[20+index])[:line_list[20+index].find(".")]                    
-                    index += 1
+                if(i % 200000 == 0):
+                    print("\t* Progression (splitting): ", int(float(i)/float(len(data))*1000)/10, "%")
                 
-                index_of_colon = date_str.find(":")
-                mm = str(date_str[index_of_colon + 1: index_of_colon + 3])
-                #print(mm)
-                if(mm not in ["15", "30", "45", 15, 30, 45]):
-                    #print(line_list)
-                    if(date_str not in out_data.keys()):
-                        out_data[date_str] = []
+                
+                line_list = line.split()
+                if(len(line_list) < 9):
+                    temp = []
+                    for sub_list in line_list:
+                        for cell in sub_list.split(";"):
+                            temp.append(cell)
+                    line_list = temp[:]
+                    #line_list = [cell for cell in sub_list.split(";") for sub_list in line_list]
+                try:
+                    
+                    d = line_list[20]
+                    t = line_list[21][0:line_list[21].find(".")]
+                    date_str = d + " " + t
+                    index_of_colon = date_str.find(":")
+                    mm = str(date_str[index_of_colon + 1: index_of_colon + 3])
+                    
+                    
+                    if(date_str in out_data.keys() and mm in [00, "00"]):
+                        out_data[date_str].append(line_list)
+                    else:
+                        pass
+                    
+                except:
+                    print("Error at",i,":",line_list)
+                    
+                
+                
+                    
+                    
+            else:
+                if(i % 200000 == 0):
+                    print("\t* Progression (splitting): ", int(float(i)/float(len(data))*1000)/10, "%")
+                line_list                 = [i for i in line.split(";")]
+                try:
+                    
+                    index_of_dp_ub = min(4, len(line_list[index_of_dp]))
+                    index_24_ub = min(4, len(line_list[23]))
+                    index_25_ub = min(4, len(line_list[24]))
+                    if(index_of_dp_ub >= 4 and line_list[index_of_dp][:4] in self.years):
+                        try:
+                            date_str            = str(list(line_list)[index_of_dp][:line_list[index_of_dp].find(".")])
+                        except:
+                            print("Error A")
+                    elif(index_24_ub >= 4 and line_list[23][:4] in self.years):
+                        date_str            = str(list(line_list)[23]) + " " + str(list(line_list)[24][:line_list[24].find(".")])
+                    elif(index_25_ub >= 4 and line_list[24  ][:4] in self.years):
+                        date_str            = str(list(line_list)[24]) + " " + str(list(line_list)[25][:line_list[25].find(".")])
+                    else:
+                        print("None of the alternatives are correct")
+                except:
+                    #print("Something happened dp index out of range mp")
+                    date_str = "N/A"
+                    pass
+                                
+                try:
                     out_data[date_str].append(line_list)
+                except:
+                    try:
+                        index = 0
+                        date_str = ""
+                        #print(line_list)
+                        line_l = []
+                        for line in line_list:
+                            line2 = line.split(";")
+                            for x in line2:
+                                line_l.append(x)
+                                
+                        
+                        while(len(date_str) != 19):
+                            if(True):
+                                date_str = line_l[18][0:19]
+                        
+                            
+                            elif(len(line_l[18+index][0:line_l[18+index].find(".")]) == 19):
+                                date_str = line_l[18 + index]
+                                index += 1
+                            else:
+                                #print(index, len(line_l))
+                                #print(str(line_l[18+index])+" "+str(line_l[19+index])[:line_l[19+index].find(".")])
+                                date_str            = str(line_l[18+index])+" "+str(line_l[19+index])[:line_l[19+index].find(".")]                    
+                                index += 1
+                        
+                        index_of_colon = date_str.find(":")
+                        mm = str(date_str[index_of_colon + 1: index_of_colon + 3])
+                        #print(mm)
+                        if(mm not in ["15", "30", "45", 15, 30, 45]):
+                            #print(line_list)
+                            if(date_str not in out_data.keys()):
+                                out_data[date_str] = []
+                            out_data[date_str].append(line_list)
+                    except:
+                        print("Error")
+                        pass
+                    
            
 
         return out_data
@@ -176,24 +260,26 @@ class Data_Organizer(object):
             print("\tFile created for date ", date, ".")
         else:
             len_out_data = len(orders)
-            with open(folder + dt.strftime(dt.strptime(date, '%Y-%m-%d %H:%M:%S'), '%Y-%m-%d_%H-%M-%S') + ".txt", "w") as f:
-                if(len_out_data >= 1):
-                    string = ""
-                    for i,r in enumerate(orders):
-                        if(i % 30000 == 0):
-                            print("\t\t* Progression (organizing): ", int(float(i)/float(len(orders))*1000)/10, " %")
-                        temp_string = "\t".join(r)
-                        string = string + temp_string + "\n"
-                    f.write(string)
-                    del string
-                elif(len_out_data == 1):
-                    string = ""
-                    for r in out_data[dp]:
-                        temp_string = ""
-                        for c in r:
-                            temp_string = temp_string + c + "\t" 
-                        string = string + temp_string + "\n"
-                    f.write(string)
+            print(os.stat(folder + dt.strftime(dt.strptime(date, '%Y-%m-%d %H:%M:%S'), '%Y-%m-%d_%H-%M-%S') + ".txt").st_size)
+            if(os.stat(folder + dt.strftime(dt.strptime(date, '%Y-%m-%d %H:%M:%S'), '%Y-%m-%d_%H-%M-%S') + ".txt").st_size <= 0.1):    
+                with open(folder + dt.strftime(dt.strptime(date, '%Y-%m-%d %H:%M:%S'), '%Y-%m-%d_%H-%M-%S') + ".txt", "w") as f:
+                    if(len_out_data >= 1):
+                        string = ""
+                        for i,r in enumerate(orders):
+                            if(i % 30000 == 0):
+                                print("\t\t* Progression (organizing): ", int(float(i)/float(len(orders))*1000)/10, " %")
+                            temp_string = "\t".join(r)
+                            string = string + temp_string + "\n"
+                        f.write(string)
+                        del string
+                    elif(len_out_data == 1):
+                        string = ""
+                        for r in out_data[dp]:
+                            temp_string = ""
+                            for c in r:
+                                temp_string = temp_string + c + "\t" 
+                            string = string + temp_string + "\n"
+                        f.write(string)
 
     # Fetch and split the data
     def organize(self):
@@ -201,7 +287,7 @@ class Data_Organizer(object):
         number_of_keys = len(self.orderbooks.keys())
         print("Orderbook set: ", self.orderbooks.keys())
         # For each orderbook URL, split the orderbook and save the orders by their DP in separate files
-        for key in list(self.orderbooks.keys())[::-1]:
+        for key in list(self.orderbooks.keys()):
             print("Currently examining orderbook", key, "/", number_of_keys)
             y = key[0]      # Year
             m = key[1]      # Month
@@ -234,12 +320,13 @@ class Data_Organizer(object):
                 print("\tCreate files.")
                 for i,day in enumerate(splitted_data.keys()):
                     try:
+                        
                         time_now = time.time()
                         print("\tCurrent DP: ", day, ". Total progression within orderbook URL:", int(100*float(i)/len(splitted_data.keys())), "%")
                         self.create_file("Data/",day, splitted_data[day])
                         print("\tElapsed time:",(time.time() - time_now), "s.\n")
                     except:
-                        a = 0
+                        pass
                         
                 
                 # Remove data from memory
@@ -253,6 +340,6 @@ class Data_Organizer(object):
 
 if __name__ == '__main__':
     # Create a Data_Organizer object and organize()
-    organizer = Data_Organizer(generate_orderbook_urls=True)
+    organizer = Data_Organizer(generate_orderbook_urls=False)
     organizer.organize()
 

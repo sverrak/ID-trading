@@ -63,7 +63,6 @@ class Market_Runner(object):
 
     def run_one_market(self, dp):
         # Initiate and run market
-        
         bid_file_tag                                 = dt.strftime(dp, "%Y-%m-%d_%H-%M-%S")
         market                                         = Market(dp, bid_file_tag, "N/A", self.use_dynamic_timestep, printing_mode=False,timeslot_length=self.timestep)
         market.alternative_runner()
@@ -73,7 +72,21 @@ class Market_Runner(object):
         
         # Clean up
         del market
-        return dp
+        try:
+            bid_file_tag                                 = dt.strftime(dp, "%Y-%m-%d_%H-%M-%S")
+            market                                         = Market(dp, bid_file_tag, "N/A", self.use_dynamic_timestep, printing_mode=False,timeslot_length=self.timestep)
+            market.alternative_runner()
+            
+            # Collect the stats
+            self.stats.append(market.get_stats())
+            
+            # Clean up
+            del market
+        except:
+            print(dp, "Could not run market properly...")
+        
+        finally:
+            return dp
 
     def run_multiple_markets(self,reverse=True):
         parallell = False
@@ -93,6 +106,7 @@ class Market_Runner(object):
             if(reverse == True):
                 self.dps.reverse
             print("Currently examining:",str(self.date_range[0]))    
+            current_date = str(dt.strftime(self.dps[0], "%Y-%m-%d"))
             for dp in self.dps:
                 
                 if(int(dp.hour) == 0 and not str(dt.strftime(dp, "%Y-%m-%d")) == str(self.date_range[0])):
@@ -232,22 +246,33 @@ if __name__ == '__main__':
         
         
         iterator = 0
-        segments = [["2016-09-01", "2017-02-28"], ["2016-08-01", "2016-08-31"], ["2016-07-01", "2016-07-31"],["2016-06-01", "2016-06-30"],["2016-05-01", "2016-05-31"],["2016-04-01", "2016-04-30"],["2016-03-01", "2016-03-31"],]
-        
+        #segments = [["2016-05-17", "2016-05-17"],["2016-08-04", "2016-08-11"],["2016-07-12", "2016-07-12"],["2016-06-14", "2016-06-14"]]
+        #segments = [["2016-07-12", "2016-07-12"],["2016-06-14", "2016-06-14"]]
+        segments = [["2016-08-10", "2016-08-11"]]
+        for s in segments:
+            mr = Market_Runner(s, testing_mode=False)
+            mr.run_multiple_markets()
+    else:
         while(iterator < len(segments)):
-            
-            try:
-            
-                mr = Market_Runner(segments[iterator], testing_mode=False)                
+            if(True):
+                mr = Market_Runner(segments[::-1][iterator], testing_mode=False)                
                 mr.run_multiple_markets()
                 iterator += 1
+             
+            else:
                 
-            except:
+                try:
                 
-                print("\n**********************************************\n Segment",segments[iterator],"not available...")
-                print("Sleeping for one hour at",datetime.datetime.now())
-                time.sleep(1800)
-                print("Awake! (",datetime.datetime.now(),")\n**********************************************\n")
+                    mr = Market_Runner(segments[iterator], testing_mode=False)                
+                    mr.run_multiple_markets()
+                    iterator += 1
+                    
+                except:
+                    
+                    print("\n**********************************************\n Segment",segments[iterator],"not available...")
+                    print("Sleeping for one hour at",datetime.datetime.now())
+                    time.sleep(1800)
+                    print("Awake! (",datetime.datetime.now(),")\n**********************************************\n")
             
         
         

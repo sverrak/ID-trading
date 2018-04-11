@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Apr  6 09:59:09 2018
+
+@author: sverrak
+"""
+
 # Status:
 # Description: Bid handling and clearing is done in this file. 
 # Called from: dp_to_stats.py
@@ -79,7 +86,7 @@ class Market(object):
             self.length_of_timestep = timeslot_length
     
             #self.length_of_timestep        		= ((self.trading_end_time - self.trading_start_time) / self.stages).seconds / 60.0
-            #print((self.trading_end_time - self.trading_start_time), "/",self.stages,"=", self.length_of_timestep)
+            
             self.mini_time_inc_mode = True
             self.collect_aggregate_data = False
             self.mini_time_inc = datetime.timedelta(seconds=30)
@@ -156,14 +163,42 @@ class Market(object):
 
         if(self.printing_mode == True):
             print("Filter data...")
-
+        
+        # Error checking variables 
+        lens = [] # List of bid_array lengths discovered in the dataset
+        buy_count = 0 # Number of buy bid_arrays
+        sell_count = 0 # Number of sell bid_arrays
+        junk = 0 # Number of bid_arrays not appended to the lists of bids
         
         for xx,bid_array in enumerate(data):
             	# If the timestamps were splitted, indices must be changed
             	# To do: Is this done correctly?
+                
+            if(len(bid_array) <= 1):
+                # Some datasets have internal break-lines
+                if(xx <= len(data) - 3):
+                    continue
+                # Handling unexpected line at the end of some dataests
+                else:
+                    print("breaking at ",xx, bid_array)
+                    break
+            
+            elif(len(bid_array) == 3):
+                continue
+            
+            # Vstrip
             if(bid_array[-1] == "\n"):
                 bid_array = bid_array[:-1]
+            
+            # Error checking
+            if(self.printing_mode == True and len(bid_array) not in lens):
+                lens.append(len(bid_array))
+                print(xx, len(bid_array), bid_array)
+                
+                
+            # Setup indices based on bid array length
             if(len(bid_array) == 30):
+                
                 # Indices
                 self.index_of_timestamp  						= 10
                 self.index_of_timestamp2                    = 13
@@ -173,7 +208,9 @@ class Market(object):
                 self.index_of_order_id             				= 17
                 self.index_of_delivery_product     				= 23
                 self.index_of_zone                          = 3
+            
             elif(len(bid_array) == 31):
+                
                 # Indices
                 self.index_of_timestamp         				= 8
                 self.index_of_timestamp2                    = 11
@@ -184,46 +221,102 @@ class Market(object):
                 self.index_of_delivery_product     				= 24
                 self.index_of_zone                          = 3
             
+            elif(len(bid_array) == 22):
+                
+                # Indices
+                self.index_of_timestamp         				= 8
+                self.index_of_timestamp2                    = 10
+                self.index_of_isBuy             				= 9
+                self.index_of_price             				= 11
+                self.index_of_volume             				= 12
+                self.index_of_order_id             				= 13
+                self.index_of_delivery_product     				= 18
+                self.index_of_zone                          = 3
+            
+            elif(len(bid_array) == 28):
+                
+                # Indices
+                self.index_of_timestamp         				= 8
+                self.index_of_timestamp2                    = 11
+                self.index_of_isBuy             				= 10
+                self.index_of_price             				= 13
+                self.index_of_volume             				= 14
+                self.index_of_order_id             				= 15
+                self.index_of_delivery_product     				= 21
+                self.index_of_zone                          = 3
+                
+            elif(len(bid_array) == 29):
+                
+                # Indices
+                self.index_of_timestamp         				= 6
+                self.index_of_timestamp2                    = 9
+                self.index_of_isBuy             				= 11
+                self.index_of_price             				= 14
+                self.index_of_volume             				= 15
+                self.index_of_order_id             				= 16
+                self.index_of_delivery_product     				= 22
+                self.index_of_zone                          = 3
+            
+            
+            # Error checking
             if(bid_array[self.index_of_isBuy] not in ["0","1"]):
-                raise ValueError("Not legal bid is buy")
+                raise ValueError("Not legal bid is buy", bid_array[self.index_of_isBuy], bid_array,"length:",len(bid_array))
+            
             # Check the length of bid array
-            if(len(bid_array) != 31 and len(bid_array) != 30    ):
-                print("NBNB: Bid array does not have a supported length.")
-                print(len(bid_array))
-                print(bid_array)
-            #print(xx, bid_array)
+            if(len(bid_array) not in [22,28,29,30,31]):
+                raise ValueError("NBNB: Bid array does not have a supported length.")
+                
+            
+            # Setting the bid features
             bid_array_timestamp             					= bid_array[self.index_of_timestamp] + " " + bid_array[self.index_of_timestamp + 1] 
             bid_array_timestamp2                            = bid_array[self.index_of_timestamp2] + " " + bid_array[self.index_of_timestamp2 + 1]
             bid_array_is_buy                 					= bid_array[self.index_of_isBuy]
-            
             bid_array_price                 					= float(bid_array[self.index_of_price]) / 100.0
             bid_array_volume                 					= float(bid_array[self.index_of_volume]) / 1000.0
             bid_array_order_id                 					= bid_array[self.index_of_order_id]
             bid_array_zone                                  = bid_array[self.index_of_zone]
             
+            # Based on the bid features, add the bid_array to one of the bid lists
             if(bid_array_zone not in ["10YFR-RTE------C", "10YAT-APG------L", "10YCH-SWISSGRIDZ", "10YBE----------2", "10YNL----------L"]):
-                if(":" in bid_array[self.index_of_delivery_product + 1]):
+                # Identify and set the bid array delivery product
+                if(len(bid_array[self.index_of_delivery_product]) == 27):
+                    bid_array_dp = bid_array[self.index_of_delivery_product]
+                
+                elif(len(bid_array[self.index_of_delivery_product + 1]) == 27):
+                    bid_array_dp = bid_array[self.index_of_delivery_product + 1]
+                
+                elif(":" in bid_array[self.index_of_delivery_product + 1]):
                     bid_array_dp                     					= bid_array[self.index_of_delivery_product] + " " + bid_array[self.index_of_delivery_product + 1]
-                    #print("Got A", len(bid_array_dp), bid_array_dp)
+                    
                 elif(":" in bid_array[self.index_of_delivery_product]):
                     bid_array_dp                     					= bid_array[self.index_of_delivery_product - 1] + " " + bid_array[self.index_of_delivery_product]
-                    print("Got B", len(bid_array_dp), bid_array_dp)
+                    
                 else:
                     raise ValueError("Don't know where to find delivery product attribute")
                     
-                if(":" in bid_array[self.index_of_timestamp + 1]):
+                # Identify and set the bid array timestamp
+                if(len(bid_array[self.index_of_timestamp]) == 27):
+                    bid_array_dp = bid_array[self.index_of_timestamp]
+                
+                elif(len(bid_array[self.index_of_timestamp + 1]) == 27):
+                    bid_array_dp = bid_array[self.index_of_timestamp + 1]
+                
+                elif(":" in bid_array[self.index_of_timestamp + 1]):
                     bid_array_timestamp                     					= bid_array[self.index_of_timestamp] + " " + bid_array[self.index_of_timestamp + 1]
-                    #print("Got A", len(bid_array_dp), bid_array_dp)
+                
                 elif(":" in bid_array[self.index_of_timestamp]):
                     bid_array_timestamp = bid_array[self.index_of_timestamp - 1] + " " + bid_array[self.index_of_timestamp]
-                    print("Got B", len(bid_array_dp), bid_array_dp)
+                    print("Got B", len(bid_array_dp), bid_array_dp, bid_array)
+                
                 elif(":" in bid_array[self.index_of_timestamp + 1]):
                     bid_array_timestamp             					= bid_array[self.index_of_timestamp + 1] + " " + bid_array[self.index_of_timestamp + 2]
+                
                 else:
-                    print(bid_array)
+                    
                     raise ValueError("Don't know where to find timestamp attribute")
                     
                 try:
+                    
                     bid_array_dp                     					= dt.strptime(bid_array_dp.split(".")[0]        , '%Y-%m-%d %H:%M:%S')
                     bid_array_timestamp             					= dt.strptime(bid_array_timestamp.split(".")[0]    , '%Y-%m-%d %H:%M:%S')
                 except:
@@ -232,19 +325,20 @@ class Market(object):
                 
                 
                 if(True or not(float(bid_array_price) > 19899.0 or float(bid_array_price) < -19899.0)):
+                    #print(bid_array_is_buy, bid_array_is_buy == "0")
                     if(bid_array_is_buy == "1"):
+                        buy_count += 1
                         #                         Price                  Volume                Timestamp              Timestamp2               isBuy            Order ID     Placed by Customer
                         self.bidsB.append(Bid(float(bid_array_price), float(bid_array_volume), bid_array_timestamp, bid_array_timestamp2, bid_array_is_buy, bid_array_order_id, customer_bids, bid_array_zone))
                     elif(bid_array_is_buy == "0"):
+                        sell_count += 1
                         self.bidsS.append(Bid(float(bid_array_price), float(bid_array_volume), bid_array_timestamp, bid_array_timestamp2, bid_array_is_buy, bid_array_order_id, customer_bids, bid_array_zone))
                     else:
                         raise ValueError("Is buy: " + str(bid_array_is_buy) + str(type(bid_array_is_buy)))
-
-        if(False and self.printing_mode):
-            print("Number of buy bids: " + str(len(self.bidsB)))
-            print("Number of sell bids: " + str(len(self.bidsS)))
-            print("Total number of bids: " + str(len(self.bidsS)+(len(self.bidsB))))
-
+                else:
+                    junk += 1
+        
+        print(len(data), len(self.bidsB), len(self.bidsS), junk, buy_count, sell_count)
         if(self.printing_mode == True):
             self.print_elapsed_time(self.start_time)
         
@@ -669,29 +763,28 @@ class Market(object):
             
             # Find out which bid to update next
             if(buy_bid_iterator + 1 == len(buy_bids) and sell_bid_iterator + 1 == len(sell_bids)):
-                #print("A")
                 break
             
             elif(buy_bid_iterator + 1 == len(buy_bids)):
-                #print("B")
+                
                 sell_bid_iterator_count += 1
                 sell_bid_iterator += 1
                 buy_bid_iterator_most_recently_changed = False
             
             elif(sell_bid_iterator + 1 == len(sell_bids)):
-                #print("C")
+                
                 buy_bid_iterator_count += 1
                 buy_bid_iterator += 1
                 buy_bid_iterator_most_recently_changed = True
             
             elif(buy_bids[buy_bid_iterator + 1].timestamp < sell_bids[sell_bid_iterator + 1].timestamp):
-                #print("D")
+                
                 buy_bid_iterator_count += 1
                 buy_bid_iterator += 1
                 buy_bid_iterator_most_recently_changed = True
             
             else:
-                #print("E")
+                
                 sell_bid_iterator_count += 1
                 sell_bid_iterator += 1
                 buy_bid_iterator_most_recently_changed = False

@@ -27,7 +27,7 @@ class TimeseriesAnalyzer(object):
         self.dates_str, self.dates                     = self.date_strings_between(self.date_range[0], self.date_range[1])
         self.timeslots                                 = [str(12)]
         #self.timeslots                                 = [str(i) if i>9 else "0"+str(i) for i in range(1)]
-        self.directories = [directory + "DynamicStep/Orderbook_stats_time_range_" + date_str + ".xlsx" for date_str in self.dates_str]
+        self.directories = [directory + "ConstantStep5/Orderbook_stats_time_range_" + date_str + ".xlsx" for date_str in self.dates_str]
         self.data = []
         self.headers = []
         
@@ -125,7 +125,7 @@ class TimeseriesAnalyzer(object):
     
 if __name__ == '__main__':
     
-    date_range = ["2016-09-01", "2017-02-28"]
+    date_range = ["2016-03-01", "2017-02-28"]
     analyzer = TimeseriesAnalyzer(date_range)
     modes = ["Spread", "Price", "Sell volume", "Buy volume"]
     for mode in modes[::-1]:
