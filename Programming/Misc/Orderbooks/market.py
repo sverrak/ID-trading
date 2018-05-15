@@ -90,6 +90,7 @@ class Market(object):
             self.mini_time_inc_mode = True
             self.collect_aggregate_data = False
             self.mini_time_inc = datetime.timedelta(seconds=30)
+            
             self.stages = int((self.trading_end_time - self.trading_start_time).seconds / self.length_of_timestep/60)
             self.number_of_minis_per_timeslot = int(self.length_of_timestep / self.mini_time_inc.seconds * 60)
 
@@ -338,7 +339,7 @@ class Market(object):
                 else:
                     junk += 1
         
-        print(len(data), len(self.bidsB), len(self.bidsS), junk, buy_count, sell_count)
+        
         if(self.printing_mode == True):
             self.print_elapsed_time(self.start_time)
         
@@ -354,7 +355,7 @@ class Market(object):
             step_length = datetime.timedelta(minutes=self.length_of_timestep)
 
         while True:
-
+            
             if(time_iterator + step_length > end + datetime.timedelta(minutes=11)): # Offset RHS by 1 minute to include end case
                 break
             else:
@@ -549,7 +550,9 @@ class Market(object):
     # Major current error: only one bid at a time will make duplicate bids (identical order ids) occur one after one
     def alternative_runner(self):
         # Data structure instantiation
+        
         self.trading_timeslots     = self.setup_timeslots(self.trading_start_time, self.trading_end_time, True)  # List of timeslots
+        
         self.main_trading_timeslots     = self.setup_timeslots(self.trading_start_time, self.trading_end_time, False)  # List of timeslots
         data                     = self.read_data(self.bid_file_tag)
         

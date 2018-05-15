@@ -62,16 +62,6 @@ class Market_Runner(object):
 
 
     def run_one_market(self, dp):
-        # Initiate and run market
-        bid_file_tag                                 = dt.strftime(dp, "%Y-%m-%d_%H-%M-%S")
-        market                                         = Market(dp, bid_file_tag, "N/A", self.use_dynamic_timestep, printing_mode=False,timeslot_length=self.timestep)
-        market.alternative_runner()
-        
-        # Collect the stats
-        self.stats.append(market.get_stats())
-        
-        # Clean up
-        del market
         try:
             bid_file_tag                                 = dt.strftime(dp, "%Y-%m-%d_%H-%M-%S")
             market                                         = Market(dp, bid_file_tag, "N/A", self.use_dynamic_timestep, printing_mode=False,timeslot_length=self.timestep)
@@ -109,6 +99,7 @@ class Market_Runner(object):
             current_date = str(dt.strftime(self.dps[0], "%Y-%m-%d"))
             for dp in self.dps:
                 
+                
                 if(int(dp.hour) == 0 and not str(dt.strftime(dp, "%Y-%m-%d")) == str(self.date_range[0])):
                     current_date = str(dt.strftime(dp, "%Y-%m-%d"))
                     self.write_stats(current_dps, date_counter, current_date)
@@ -117,7 +108,7 @@ class Market_Runner(object):
                     current_dps = []
                     date_counter += 1
                     
-                print("\tCurrent dp:", dp)
+                
                 self.run_one_market(dp)
                 current_dps.append(dp)
             
@@ -162,6 +153,7 @@ class Market_Runner(object):
                 for i in range(len(self.stats[x][t])):
                     if(i == 0):
                         try:
+                            
                             sheet.write(t, i, self.stats[x][t][i], date_format)
                         except:
                             sheet.write(t, i, self.stats[x][t][i])
@@ -248,7 +240,7 @@ if __name__ == '__main__':
         iterator = 0
         #segments = [["2016-05-17", "2016-05-17"],["2016-08-04", "2016-08-11"],["2016-07-12", "2016-07-12"],["2016-06-14", "2016-06-14"]]
         #segments = [["2016-07-12", "2016-07-12"],["2016-06-14", "2016-06-14"]]
-        segments = [["2016-08-10", "2016-08-11"]]
+        segments = [["2016-08-11", "2017-02-28"]]
         for s in segments:
             mr = Market_Runner(s, testing_mode=False)
             mr.run_multiple_markets()
