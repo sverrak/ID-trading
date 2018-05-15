@@ -116,6 +116,11 @@ class ITP_Solver(object):
         # Test given parameters
 		self.validate_parameters()													# Validate parameters
         
+
+    def setup_case_parameters(self):
+    	self.inflow = [100 for x in range(self.number_of_production_units)]
+    	self.
+
 	### ----------- Generate scenarios based on self.data in file ----------- 
 	def scenario_generation(self, parameter_file_name):
 		# Fetch self.data
